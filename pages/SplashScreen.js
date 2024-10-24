@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
     },
     image: {
-        width: width * 0.9,  // Responsive width (60% of the screen width)
-        height: height * 0.5, // Responsive height (30% of the screen height)
+        width: width * 0.9,  // Responsive width (90% of the screen width)
+        height: height * 0.5, // Responsive height (50% of the screen height)
         marginBottom: 20,
     },
     text: {
