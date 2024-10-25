@@ -5,6 +5,7 @@ import Register from "./pages/Register.js";
 import Login from "./pages/Login.js";
 import Dashboard from "./pages/Dashboard.js";
 import SymptomsAnalysis from "./pages/SymptomsAnalysis.js";
+import SettingsPage from "./pages/Settings.js";
 import SplashScreen from './pages/SplashScreen';
 import Toast from 'react-native-toast-message';
 
@@ -14,31 +15,47 @@ const App = () => {
 
   return (
     <NavigationContainer>
+    {/*SplashScreen default route*/}
       <Stack.Navigator initialRouteName="SplashScreen">
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
           options={{ headerShown: false }} // Hide the header for SplashScreen
         />
+
+        {/*Login*/}
         <Stack.Screen 
           name="Login" 
           component={Login} 
           options={{ headerShown: false }} // Hide the header for Login
         />
+
+        {/*Register*/}
         <Stack.Screen 
           name="Register" 
           component={Register} 
           options={{ headerShown: false }} // Hide the header for Register
         />
+
+        {/*Dashboard*/}
         <Stack.Screen 
           name="Dashboard" 
           component={Dashboard} 
           options={{ headerShown: false }} // Hide the header for Dashboard
         />
+
+        {/*Symptoms*/}
         <Stack.Screen 
           name="SymptomsAnalysis" 
           component={SymptomsAnalysis} 
           options={{ headerShown: false }} // Hide the header for SymptomsAnalysis
+        />
+
+        {/*Settings*/}
+        <Stack.Screen
+          name="SettingsPage"
+          component={SettingsPage}
+          options={{headerShown: false}} // Hide the header for Settings
         />
       </Stack.Navigator>
 
