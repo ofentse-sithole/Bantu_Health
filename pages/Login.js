@@ -97,11 +97,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
   },
+  
   title: {
     fontSize: 24,
     marginBottom: 20,
     textAlign: "center",
   },
+
   input: {
     height: 40,
     borderColor: "#ccc",
@@ -109,11 +111,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
   },
+
   linkText: {
     textAlign: "center",
     marginTop: 20,
     color: "#888",
   },
+
   link: {
     color: "#007BFF",
     fontWeight: "bold",
