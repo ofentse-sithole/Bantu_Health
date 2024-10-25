@@ -85,7 +85,6 @@ const Dashboard = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Dashboard</Text>
 
       {loading ? (
         <Text style={styles.userInfo}>Loading...</Text>
@@ -100,29 +99,28 @@ const Dashboard = ({ navigation }) => {
       {/*Grid block */}
       <View style={styles.gridContainer}>
 
-      {/*Education*/}
-        <TouchableOpacity style={styles.gridItem}>
-          <Icon name="book" size={30} color="#007BFF" style={styles.icon} />
-          <Text style={styles.gridTitle}>Education</Text>
-        </TouchableOpacity>
-
         {/*AI*/}
         <TouchableOpacity style={styles.gridItem}>
-          <FontAwesome5 name="robot" size={30} color="#007BFF" style={styles.icon} />
-          <Text style={styles.gridTitle}>AI Chatbot</Text>
+          <FontAwesome5 name="virus" size={30} color="#007BFF" style={styles.icon} />
+          <Text style={styles.gridTitle}>Symptoms</Text>
         </TouchableOpacity>
 
-         
+        {/*Hotspot*/}
+        <TouchableOpacity style={styles.gridItem}>
+          <Icon name="hospital-o" size={30} color="#007BFF" style={styles.icon} />
+          <Text style={styles.gridTitle}>Medical Hotpots</Text>
+        </TouchableOpacity>
+
       </View>
 
 
       {/*Grid Bloc */}
       <View style={styles.gridContainer}>
-      {/*Hotspot*/}
-      <TouchableOpacity style={styles.gridItem}>
-        <Icon name="hospital-o" size={30} color="#007BFF" style={styles.icon} />
-        <Text style={styles.gridTitle}>Medical Hotpots</Text>
-      </TouchableOpacity>
+        {/*Education*/}
+        <TouchableOpacity style={styles.gridItem}>
+          <Icon name="book" size={30} color="#007BFF" style={styles.icon} />
+          <Text style={styles.gridTitle}>Education</Text>
+        </TouchableOpacity>
 
       {/*Settings*/}
       <TouchableOpacity style={styles.gridItem}>
@@ -135,70 +133,7 @@ const Dashboard = ({ navigation }) => {
       <TouchableOpacity style={styles.sosButton} onPress={handleSOS}>
         <Text style={styles.sosButtonText}>SOS Emergency</Text>
       </TouchableOpacity>
-
-      <Text style={styles.sectionTitle}>Trusted Contacts</Text>
-      <FlatList
-        data={trustedContacts}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.contactCard}
-            onPress={() => Linking.openURL(`tel:${item.phone}`)}
-          >
-            <Text style={styles.contactName}>
-              {item.name} ({item.relationship})
-            </Text>
-            <Text style={styles.contactPhone}>{item.phone}</Text>
-          </TouchableOpacity>
-        )}
-        keyExtractor={(item) => item.id}
-        ListEmptyComponent={<Text style={styles.emptyList}>No contacts added yet.</Text>}
-      />
-
-      <View style={styles.contactButtonContainer}>
-        <Button title="Add Trusted Contact" onPress={() => setModalVisible(true)} />
-      </View>
-
-      <Button title="Logout" onPress={handleLogout} />
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          style={styles.modalView}
-        >
-          <View style={styles.formContainer}>
-            <Text style={styles.modalTitle}>Add Trusted Contact</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Contact Name"
-              value={contactName}
-              onChangeText={setContactName}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Relationship"
-              value={relationship}
-              onChangeText={setRelationship}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Phone Number"
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-              keyboardType="phone-pad"
-            />
-            <View style={styles.buttonContainer}>
-              <Button title="Save Contact" onPress={addContact} />
-              <View style={{ width: 10 }} />
-              <Button title="Cancel" onPress={() => setModalVisible(false)} />
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-      </Modal>
+      
     </ScrollView>
   );
 };
