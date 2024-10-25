@@ -1,50 +1,42 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
-import { getFirestore, doc, setDoc } from "firebase/firestore"; // Firestore imports
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from "react-native";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig"; // Firebase auth config
-import Toast from 'react-native-toast-message'; // Importing Toast
+import { auth } from "../firebaseConfig";
+import Toast from 'react-native-toast-message';
 
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState(""); // New state for confirm password
-  const [loading, setLoading] = useState(false); // Loading state
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // Place the showToast function here
   const showToast = (message) => {
     Toast.show({
       text1: message,
       position: "bottom",
-      type: "success", // Change this to 'error', 'info', or 'success'
-      visibilityTime: 4000, // How long the toast is visible
-      autoHide: true, // Automatically hide after visibility time
-      topOffset: 30, // Offset from the top
+      type: "success",
+      visibilityTime: 4000,
+      autoHide: true,
+      topOffset: 30,
     });
   };
 
-  
   const handleRegister = async () => {
-    // Validation for empty fields
     if (!email || !password || !userName || !confirmPassword) {
       showToast("Please fill all fields");
       return;
     }
-    // Validation for password match
     if (password !== confirmPassword) {
       showToast("Passwords do not match");
       return;
     }
 
-    setLoading(true); // Start loading
-
+    setLoading(true);
     try {
-      // Create user in Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
-      // Save user data in Firestore (excluding password)
       const db = getFirestore();
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
@@ -53,12 +45,12 @@ const Register = ({ navigation }) => {
       });
 
       showToast("Registration successful!");
-      navigation.navigate("Login"); // Navigate to Login on success
+      navigation.navigate("Login");
     } catch (error) {
       console.error("Error saving to Firestore:", error);
       showToast(`Error: ${error.message}`);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -68,7 +60,7 @@ const Register = ({ navigation }) => {
 
       <TextInput
         style={styles.input}
-        placeholder="Username"
+        placeholder="Name"
         value={userName}
         onChangeText={setUserName}
         keyboardType="default"
@@ -94,22 +86,21 @@ const Register = ({ navigation }) => {
 
       <TextInput
         style={styles.input}
-        placeholder="Confirm Password" // New Confirm Password field
+        placeholder="Confirm Password"
         value={confirmPassword}
         secureTextEntry
         onChangeText={setConfirmPassword}
       />
 
-      <Button 
-        title={loading ? "Registering..." : "Register"} 
-        onPress={handleRegister} 
-        disabled={loading} 
+      <Button
+        title={loading ? "Registering..." : "Register"}
+        onPress={handleRegister}
+        disabled={loading}
       />
 
-      <Button 
-        title="Login" 
-        onPress={() => navigation.navigate("Login")} 
-      />
+      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+        <Text style={styles.linkText}>Already have an account? <Text style={styles.link}>Login</Text></Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -133,6 +124,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 16,
     paddingHorizontal: 8,
+  },
+  linkText: {
+    textAlign: "center",
+    marginTop: 20,
+    color: "#888",
+  },
+  link: {
+    color: "#007BFF",
+    fontWeight: "bold",
   },
 });
 

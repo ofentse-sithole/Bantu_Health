@@ -1,18 +1,23 @@
 import React, { useEffect } from 'react';
-import { View, Text, Image, StyleSheet, Platform, Dimensions } from 'react-native';
-import SplashScreen from 'react-native-splash-screen';
+import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const SplashScreenComponent = () => {
+    const navigation = useNavigation();
+
     useEffect(() => {
-        setTimeout(() => {
-            SplashScreen.hide();  // Hides the native splash screen after 3 seconds
+        const timer = setTimeout(() => {
+            // Navigate to the Login screen after 3 seconds
+            navigation.replace('Login');
         }, 3000);
-    }, []);
+
+        return () => clearTimeout(timer);  // Cleanup the timer on unmount
+    }, [navigation]);
 
     return (
         <View style={styles.container}>
             <Image
-                source={require('../assets/images/logo-removebg-preview.png')} // Place your splash image here
+                source={require('../assets/images/logo-preview.png')} // Replace with your image path
                 style={styles.image}
                 resizeMode="contain"
             />

@@ -2,10 +2,11 @@
 import React, { useEffect, useState } from "react";
 import {
   View, Text, Button, StyleSheet, TouchableOpacity, FlatList,
-  ScrollView, Alert, Modal, TextInput, Linking, KeyboardAvoidingView, Platform
-} from "react-native";
+ScrollView, Alert, Modal, TextInput, Linking, KeyboardAvoidingView, Platform } from "react-native";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import Icon from "react-native-vector-icons/FontAwesome";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const Dashboard = ({ navigation }) => {
   const auth = getAuth();
@@ -95,27 +96,42 @@ const Dashboard = ({ navigation }) => {
       )}
 
       <Text style={styles.sectionTitle}>Quick Features</Text>
+
+      {/*Grid block */}
       <View style={styles.gridContainer}>
+
+      {/*Education*/}
         <TouchableOpacity style={styles.gridItem}>
-          <Text style={styles.gridTitle}>Medical Insights</Text>
-          {healthTips.map((tip, index) => (
-            <Text key={index} style={styles.gridText}>
-              • {tip}
-            </Text>
-          ))}
+          <Icon name="book" size={30} color="#007BFF" style={styles.icon} />
+          <Text style={styles.gridTitle}>Education</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.gridItem}
-          onPress={() => Alert.alert("Coming Soon", "AI-powered symptom analysis will be available soon!")}
-        >
-          <Text style={styles.gridTitle}>Symptoms AI</Text>
-          <Text style={styles.gridText}>
-            Analyze your symptoms with AI for personalized insights.
-          </Text>
+        {/*AI*/}
+        <TouchableOpacity style={styles.gridItem}>
+          <FontAwesome5 name="robot" size={30} color="#007BFF" style={styles.icon} />
+          <Text style={styles.gridTitle}>AI Chatbot</Text>
         </TouchableOpacity>
+
+         
       </View>
 
+
+      {/*Grid Bloc */}
+      <View style={styles.gridContainer}>
+      {/*Hotspot*/}
+      <TouchableOpacity style={styles.gridItem}>
+        <Icon name="hospital-o" size={30} color="#007BFF" style={styles.icon} />
+        <Text style={styles.gridTitle}>Medical Hotpots</Text>
+      </TouchableOpacity>
+
+      {/*Settings*/}
+      <TouchableOpacity style={styles.gridItem}>
+      <Icon name="cogs" size={30} color="#007BFF" style={styles.icon} />
+        <Text style={styles.gridTitle}>Settings</Text>
+      </TouchableOpacity>
+      </View>
+
+      {/*SOS Emergency*/}
       <TouchableOpacity style={styles.sosButton} onPress={handleSOS}>
         <Text style={styles.sosButtonText}>SOS Emergency</Text>
       </TouchableOpacity>
@@ -198,27 +214,43 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: "center",
   },
+
+
   userInfo: {
     fontSize: 18,
     marginBottom: 20,
     textAlign: "center",
   },
+
+  //quick features
   sectionTitle: {
     fontSize: 24,
     marginVertical: 10,
     fontWeight: "bold",
+    textAlign: "center"
   },
+
+  gridTitle: {
+    textAlign:"center"
+  },
+
+  gridText: {
+    textAlign: "center"
+  },
+
   gridContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     marginVertical: 10,
   },
+
   gridItem: {
     backgroundColor: "#e6f7ff",
     padding: 15,
     borderRadius: 10,
     width: "45%",
   },
+
   sosButton: {
     backgroundColor: "red",
     padding: 15,
@@ -256,6 +288,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 10,
   },
+
+  icon: {
+    marginBottom: 8,
+    textAlign: "center"
+  }
 });
 
 export default Dashboard;
