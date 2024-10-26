@@ -2,78 +2,78 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import Navbar from './Navbar/Navbar.js';
 
 const Settings = () => {
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.header}>Settings and activity</Text>
+        <View style={styles.container}>
+            <ScrollView style={styles.scrollContainer}>
+                <Text style={styles.header}>Settings and activity</Text>
 
-            {/* Search Bar */}
-            <View style={styles.searchContainer}>
-                <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
-                <TextInput
-                    placeholder="Search"
-                    placeholderTextColor="#888"
-                    style={styles.searchInput}
-                />
-            </View>
-
-            {/* Your Account Section */}
-            <Text style={styles.sectionTitle}>Your account</Text>
-            <TouchableOpacity style={styles.option}>
-                <Icon name="user-cog" size={20} color="#888" style={styles.optionIcon} />
-                <View style={styles.optionTextContainer}>
-                    <Text style={styles.optionTitle}>Accounts Center</Text>
-                    <Text style={styles.optionDescription}>Password, security, personal details, ad preferences</Text>
+                {/* Search Bar */}
+                <View style={styles.searchContainer}>
+                    <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
+                    <TextInput
+                        placeholder="Search"
+                        placeholderTextColor="#888"
+                        style={styles.searchInput}
+                    />
                 </View>
-                <Icon name="chevron-right" size={15} color="#888" />
-            </TouchableOpacity>
 
-            {/* How you use [App Name] Section */}
-            <Text style={styles.sectionTitle}>How you use the app</Text>
-            {renderOption("bookmark", "Saved")}
-            {renderOption("archive", "Archive")}
-            {renderOption("history", "Your activity")}
-            {renderOption("bell", "Notifications")}
-            {renderOption("clock", "Time management")}
+                {/* Your Account Section */}
+                <Text style={styles.sectionTitle}>Your account</Text>
+                <TouchableOpacity style={styles.option}>
+                    <Icon name="user-cog" size={20} color="#000" style={styles.optionIcon} />
+                    <View style={styles.optionTextContainer}>
+                        <Text style={styles.optionTitle}>Accounts Center</Text>
+                        <Text style={styles.optionDescription}>Password, security, personal details, ad preferences</Text>
+                    </View>
+                    <Icon name="chevron-right" size={15} color="#000" />
+                </TouchableOpacity>
 
-            {/* Who can see your content Section */}
-            <Text style={styles.sectionTitle}>Who can see your content</Text>
-            {renderOption("user-lock", "Account privacy", "Private")}
+                {/* How you use the app Section */}
+                <Text style={styles.sectionTitle}>How you use the app</Text>
+                {renderOption("info-circle", "About", "About")}
+                {renderOption("file-alt", "Privacy Policy" , "PrivacyPolicy")}
+                {renderOption("file-contract", "Terms of Use", "TermsOfUse")}
+            </ScrollView>
 
-            {/* Additional sections as needed */}
-        </ScrollView>
+            {/* Navbar fixed at the bottom */}
+            <Navbar style={styles.navbar} />
+        </View>
     );
 };
 
 // Helper function to render each option
-const renderOption = (iconName, title, rightText) => (
+const renderOption = (iconName, title) => (
     <TouchableOpacity style={styles.option}>
-        <Icon name={iconName} size={20} color="#888" style={styles.optionIcon} />
+        <Icon name={iconName} size={20} color="#000" style={styles.optionIcon} />
         <View style={styles.optionTextContainer}>
             <Text style={styles.optionTitle}>{title}</Text>
-            {rightText && <Text style={styles.rightText}>{rightText}</Text>}
         </View>
-        <Icon name="chevron-right" size={15} color="#888" />
+        <Icon name="chevron-right" size={15} color="#000" />
     </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000', // Dark background for night mode
+        backgroundColor: '#fff',
+    },
+    scrollContainer: {
         paddingHorizontal: 16,
+        marginTop: 35,
     },
     header: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#fff',
+        color: '#000',
         paddingVertical: 16,
     },
     searchContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#222',
+        backgroundColor: '#f0f0f0',
         borderRadius: 8,
         paddingHorizontal: 10,
         marginBottom: 20,
@@ -83,13 +83,13 @@ const styles = StyleSheet.create({
     },
     searchInput: {
         flex: 1,
-        color: '#fff',
+        color: '#000',
         paddingVertical: 8,
     },
     sectionTitle: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#888',
+        color: '#000',
         marginVertical: 10,
     },
     option: {
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 15,
         borderBottomWidth: 1,
-        borderBottomColor: '#333',
+        borderBottomColor: '#ddd',
     },
     optionIcon: {
         marginRight: 15,
@@ -107,15 +107,17 @@ const styles = StyleSheet.create({
     },
     optionTitle: {
         fontSize: 16,
-        color: '#fff',
+        color: '#000',
     },
     optionDescription: {
         fontSize: 12,
-        color: '#888',
+        color: '#000',
     },
-    rightText: {
-        fontSize: 12,
-        color: '#888',
+    navbar: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
     },
 });
 

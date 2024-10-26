@@ -10,6 +10,11 @@ import Settings from "./pages/Settings.js";
 import SplashScreen from './pages/SplashScreen';
 import Toast from 'react-native-toast-message';
 
+//Settings pages
+import About from './pages/Settings/About.js'
+import PrivacyPolicy from './pages/Settings/PrivacyPolicy.js'
+import TermsOfUse from './pages/Settings/TermsOfUse.js'
+
 const App = () => {
   
   const Stack = createStackNavigator();
@@ -64,6 +69,27 @@ const App = () => {
           name="Settings"
           component={Settings}
           options={{headerShown: false}} // Hide the header for Settings
+        />
+
+        {/*About*/}
+        <Stack.Screen
+          name="About"
+          component={About}
+          options={{ headerShown: false }} // Hide the header for Settings
+        />
+
+        {/*PrivacyPolicy*/}
+        <Stack.Screen
+          name="PrivacyPolicy"
+          component={PrivacyPolicy}
+          options={{ headerShown: false }} // Hide the header for Settings
+        />
+
+        {/*TermsOfUse*/}
+        <Stack.Screen
+          name="TermsOfUse"
+          component={TermsOfUse}
+          options={{ headerShown: false }} // Hide the header for Settings
         />
       </Stack.Navigator>
 

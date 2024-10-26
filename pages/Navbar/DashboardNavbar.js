@@ -1,6 +1,6 @@
 // Navbar.js
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 
@@ -32,34 +32,10 @@ const Tabs = () => {
 
     return (
         <View style={[styles.navbarContainer, styles.shadow]}>
-            {/* Home */}
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate("Dashboard")}>
-                <Icon name="home" size={24} color="#333" />
-                <Text style={styles.tabText}>Home</Text>
-            </TouchableOpacity>
-
-            {/* Clinic */}
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate("ClinicFinder")}>
-                <Icon name="map-marker" size={24} color="#333" />
-                <Text style={styles.tabText}>Clinic</Text>
-            </TouchableOpacity>
-
             {/* Ambulance (Central Button) */}
             <CustomTabButton onPress={() => navigation.navigate("Ambulance")}>
                 <Icon name="ambulance" size={28} color="#fff" />
             </CustomTabButton>
-
-            {/* Alerts */}
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate("Alerts")}>
-                <Icon name="bell" size={24} color="#333" />
-                <Text style={styles.tabText}>Alerts</Text>
-            </TouchableOpacity>
-
-            {/* Settings */}
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate("Settings")}>
-                <Icon name="cogs" size={24} color="#333" />
-                <Text style={styles.tabText}>Settings</Text>
-            </TouchableOpacity>
         </View>
     );
 };
@@ -67,7 +43,7 @@ const Tabs = () => {
 const styles = StyleSheet.create({
     navbarContainer: {
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "center",  // Center the ambulance button in the navbar
         alignItems: "center",
         height: 90,
         backgroundColor: "#fff",
@@ -76,16 +52,6 @@ const styles = StyleSheet.create({
         bottom: 25,
         left: 20,
         right: 20,
-    },
-    tab: {
-        alignItems: "center",
-        justifyContent: "center",
-        paddingHorizontal: 10,
-    },
-    tabText: {
-        color: "#333",
-        fontSize: 12,
-        marginTop: 5,
     },
     shadow: {
         shadowColor: '#007BFF',
