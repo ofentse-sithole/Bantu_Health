@@ -5,7 +5,8 @@ import Register from "./pages/Register.js";
 import Login from "./pages/Login.js";
 import Dashboard from "./pages/Dashboard.js";
 import SymptomsAnalysis from "./pages/SymptomsAnalysis.js";
-import SettingsPage from "./pages/Settings.js";
+import ClinicFinder from "./pages/ClinicFinder.js";
+import Settings from "./pages/Settings.js";
 import SplashScreen from './pages/SplashScreen';
 import Toast from 'react-native-toast-message';
 
@@ -51,10 +52,17 @@ const App = () => {
           options={{ headerShown: false }} // Hide the header for SymptomsAnalysis
         />
 
+        {/*Clinic Finder*/}
+        <Stack.Screen
+          name="ClinicFinder"
+          component={ClinicFinder}
+          options={{headerShown: false}}
+        />
+
         {/*Settings*/}
         <Stack.Screen
-          name="SettingsPage"
-          component={SettingsPage}
+          name="Settings"
+          component={Settings}
           options={{headerShown: false}} // Hide the header for Settings
         />
       </Stack.Navigator>

@@ -19,6 +19,8 @@ const Dashboard = ({ navigation }) => {
   const [relationship, setRelationship] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
+
+
   const healthTips = [
     "Drink water regularly to stay hydrated.",
     "Include fruits and vegetables in your diet.",
@@ -123,7 +125,8 @@ const Dashboard = ({ navigation }) => {
         </TouchableOpacity>
 
       {/*Settings*/}
-      <TouchableOpacity style={styles.gridItem}>
+      <TouchableOpacity style={styles.gridItem}
+          onPress={() => navigation.navigate("Settings")}>
       <Icon name="cogs" size={30} color="#007BFF" style={styles.icon} />
         <Text style={styles.gridTitle}>Settings</Text>
       </TouchableOpacity>
@@ -143,6 +146,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: 20,
     backgroundColor: "#fff",
+    marginTop: 65,
   },
   title: {
     fontSize: 32,

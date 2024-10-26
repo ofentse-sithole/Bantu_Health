@@ -1,10 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
 
-const SymptomsAnalysis = () => {
+const ClinicFinder = () => {
+
+
     return (
+        
     <Navbar />
-    )
+    );
 };
 
-export default SymptomsAnalysis;
+export default ClinicFinder;
