@@ -39,7 +39,7 @@ const Tabs = () => {
             </TouchableOpacity>
 
             {/* Clinic */}
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate("Clinic")}>
+            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate("ClinicFinder")}>
                 <Icon name="map-marker" size={24} color="#007BFF" />
                 <Text style={styles.tabText}>Clinic</Text>
             </TouchableOpacity>
