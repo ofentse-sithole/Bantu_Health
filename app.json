@@ -9,6 +9,9 @@
     "ios": {
       "supportsTablet": true
     },
+    "androidNavigationBar": {
+      "visible": "immersive"
+    },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
