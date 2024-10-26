@@ -11,6 +11,7 @@ Bantu Health is a revolutionary health app that empowers users by providing inst
 5. App Structure
 6. File Structure
 7. Main Features
+8. Customisation
 
 1. Project Overview <a name="project-overview"></a>
 Bantu_Health is a mobile application designed to provide accessible and useful healthcare resources to users. Built with the user’s health in mind, the app offers several key functionalities:
@@ -143,7 +144,7 @@ Navigate to About, Privacy Policy, Terms of Use, and Account pages from the Sett
 
 
 
-6. Customization <a name="customization"></a>
+8. Customization <a name="customization"></a>
 * Logo and Splash Screen: Update images in assets/images/ for branding.
 * Firebase Configuration: Ensure firebaseConfig.js is configured with your Firebase project details.
 * Navbar: Modify DashboardNavbar.js and Navbar.js in pages/Navbar/ to customize the navigation setup.
