@@ -69,7 +69,7 @@ const MapComponent = ({ onLocationSelect }) => {
         region={currentLocation || initialRegion}
         showsUserLocation
         showsMyLocationButton
-        apiKey="AIzaSyDLoG0-Xvgtc9_EUCpRXrx2VJ3c1NPjR3w" // Replace with your Google Maps API key
+        apiKey="" // Replace with your Google Maps API key
       >
         {medicalHotspots.map((hotspot) => (
           <Marker
