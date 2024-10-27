@@ -9,6 +9,8 @@ import ClinicFinder from "./pages/ClinicFinder.js";
 import Settings from "./pages/Settings.js";
 import SplashScreen from './pages/SplashScreen';
 import Toast from 'react-native-toast-message';
+import VideoConsultationScreen from './pages/VideoConsultation/VideoConsultationScreen';
+import 'react-native-get-random-values';
 
 //Settings pages
 import About from './pages/Settings/About.js'
@@ -48,6 +50,13 @@ const App = () => {
           name="Dashboard" 
           component={Dashboard} 
           options={{ headerShown: false }} // Hide the header for Dashboard
+        />
+
+        {/*VideoConsultation*/}
+        <Stack.Screen
+          name="VideoConsultationScreen"
+          component={VideoConsultationScreen}
+          options={{ headerShown: false }} // Hide the header for VideoConsultation
         />
 
         {/*Symptoms*/}

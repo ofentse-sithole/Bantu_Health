@@ -78,19 +78,20 @@ const Dashboard = ({ navigation }) => {
         </View>
 
         <View style={styles.gridContainer}>
-          <TouchableOpacity 
-            style={styles.gridItemEmergency}
-            onPress={() => Linking.openURL("tel:112")}
-          >
-            <FontAwesome5 name="phone" size={30} color="red" style={styles.icon} />
-            <Text style={styles.gridTitle}>Call</Text>
-          </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.gridItem}
+          onPress={() => navigation.navigate('VideoConsultationScreen')}
+        >
+        <FontAwesome5 name="video" size={30} color="#007BFF" style={styles.icon} />
+        <Text style={styles.gridTitle}>Video Consultation</Text>
+        </TouchableOpacity>
         </View>
       </ScrollView>
       <DashboardNavbar />
     </SafeAreaView>
   );
 };
+
 
 const styles = StyleSheet.create({
   safeArea: {
