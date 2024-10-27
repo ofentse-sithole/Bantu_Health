@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, SafeAreaView, ActivityIndicator } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Navbar from './Navbar/Navbar.js';
+import Navbar from './pages/Navbar/Navbar.js';
 
 const SymptomsAnalysis = () => {
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);

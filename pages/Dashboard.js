@@ -12,7 +12,7 @@ import { getAuth } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import Icon from "react-native-vector-icons/FontAwesome";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import DashboardNavbar from '../pages/components/Navbar/DashboardNavbar';
+import DashboardNavbar from './pages/Navbar/DashboardNavbar';
 
 const Dashboard = ({ navigation }) => {
   const auth = getAuth();
