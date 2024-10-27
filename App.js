@@ -1,15 +1,15 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
+import Register from "./pages/Authentication/Register";
+import Login from "./pages/Authentication/Login";
 import Dashboard from "./pages/Dashboard";
 import SymptomsAnalysis from "./pages/SymptomsAnalysis";
 import ClinicFinder from "./pages/ClinicFinder";
 import Settings from "./pages/Settings";
 import SplashScreen from "./pages/SplashScreen";
 import Toast from "react-native-toast-message";
-import MapComponent from "./pages/MapComponent";
+import MapComponent from "./pages/Maps/MapComponent";
 import VideoConsultationScreen from "./pages/VideoConsultation/VideoConsultationScreen";
 import Ambulance from './pages/Ambulance.js';
 
