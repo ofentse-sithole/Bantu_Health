@@ -7,6 +7,7 @@ const SymptomsAnalysis = () => {
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
   const [additionalInfo, setAdditionalInfo] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
   const [result, setResult] = useState(null);
   const [emptyInputMessage, setEmptyInputMessage] = useState(false);
 
@@ -68,16 +69,14 @@ const SymptomsAnalysis = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
         <View style={styles.header}>
-          <MaterialCommunityIcons name="medical-bag" size={32} color="#2ecc71" />
-          <Text style={styles.title}>HealthAI</Text>
+          <MaterialCommunityIcons name="medical-bag" size={32} color="#007AFF" />
+          <Text style={styles.title}>BantuHealthAI</Text>
         </View>
-        <View style={styles.poweredByContainer}>
-            <Text style={styles.poweredByText}>Powered by</Text>
-            <MaterialCommunityIcons name="gemini" size={32} color="#2ecc71" />
-        </View>
+      <ScrollView style={styles.scrollView} keyboardShouldPersistTaps="handled">
+       
 
+        <Text style={styles.sectionTitle}>Select Your Symptoms</Text>
         <View style={styles.symptomsContainer}>
           {symptoms.map((symptom) => (
             <TouchableOpacity
@@ -85,51 +84,58 @@ const SymptomsAnalysis = () => {
               style={[
                 styles.symptomButton,
                 selectedSymptoms.includes(symptom) && styles.selectedSymptom,
+                styles.elevation
               ]}
               onPress={() => toggleSymptom(symptom)}
             >
-              <Text
-                style={[
-                  styles.symptomText,
-                  selectedSymptoms.includes(symptom) && styles.selectedSymptomText,
-                ]}
-              >
+              <Text style={[
+                styles.symptomText,
+                selectedSymptoms.includes(symptom) && styles.selectedSymptomText,
+              ]}>
                 {symptom}
               </Text>
             </TouchableOpacity>
           ))}
         </View>
 
+        <Text style={styles.sectionTitle}>Additional Information</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, styles.elevation]}
           multiline
           numberOfLines={4}
-          placeholder="Describe any additional symptoms or concerns..."
+          placeholder="Describe your symptoms in detail..."
+          placeholderTextColor="#666"
           value={additionalInfo}
           onChangeText={setAdditionalInfo}
+          onFocus={() => setIsInputFocused(true)}
+          onBlur={() => setIsInputFocused(false)}
         />
 
         {emptyInputMessage && (
-          <Text style={styles.errorMessage}>Please enter additional information.</Text>
+          <Text style={styles.errorMessage}>Please provide additional information about your symptoms.</Text>
         )}
 
         <TouchableOpacity
-          style={styles.analyzeButton}
+          style={[styles.analyzeButton, styles.elevation]}
           onPress={analyzeSymptoms}
           disabled={loading}
         >
           {loading ? (
-            <ActivityIndicator color="#fff" />
+            <ActivityIndicator color="#fff" size="small" />
           ) : (
-            <Text style={styles.analyzeButtonText}>Analyze with Gemini AI</Text>
+            <>
+              <MaterialCommunityIcons name="brain" size={24} color="#fff" style={styles.buttonIcon} />
+              <Text style={styles.analyzeButtonText}>Analyze Symptoms</Text>
+            </>
           )}
         </TouchableOpacity>
 
-        {result ? (
-          <View style={styles.resultContainer}>
+        {result && (
+          <View style={[styles.resultContainer, styles.elevation]}>
+            <Text style={styles.resultTitle}>Analysis Results</Text>
             <Text style={styles.resultText}>{result}</Text>
           </View>
-        ) : null}
+        )}
       </ScrollView>
       <Navbar />
     </SafeAreaView>
@@ -139,83 +145,113 @@ const SymptomsAnalysis = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F8F9FA',
+    paddingBottom: 10,
   },
   scrollView: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
+    marginBottom: 60
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 20,
+    justifyContent: 'center', // Add this line
+    marginVertical: 24,
+    width: '100%',
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginLeft: 10,
+    fontSize: 28,
+    fontWeight: '700',
+    marginLeft: 12,
+    color: '#1A1A1A',
   },
-  poweredByContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  poweredByText: {
-    fontSize: 14,
-    color: '#888',
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 16,
+    color: '#1A1A1A',
   },
   symptomsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    marginBottom: 24,
   },
   symptomButton: {
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: '#f0f0f0',
-    marginVertical: 5,
+    padding: 12,
+    borderRadius: 12,
+    backgroundColor: '#fff',
+    marginVertical: 6,
     width: '48%',
   },
   selectedSymptom: {
-    backgroundColor: '#2ecc71',
+    backgroundColor: '#007AFF',
   },
   symptomText: {
     textAlign: 'center',
-    color: '#000',
+    color: '#1A1A1A',
+    fontWeight: '500',
   },
   selectedSymptomText: {
     color: '#fff',
   },
   input: {
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 10,
-    textAlignVertical: 'top',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 24,
+    minHeight: 120,
+    fontSize: 16,
+    color: '#1A1A1A',
   },
   errorMessage: {
-    color: 'red',
-    marginBottom: 10,
+    color: '#DC3545',
+    marginBottom: 16,
+    fontSize: 14,
   },
   analyzeButton: {
-    backgroundColor: '#2ecc71',
-    padding: 15,
-    borderRadius: 5,
+    backgroundColor: '#007AFF',
+    padding: 16,
+    borderRadius: 12,
+    flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10,
+    justifyContent: 'center',
+    marginBottom: 24,
+  },
+  buttonIcon: {
+    marginRight: 8,
   },
   analyzeButtonText: {
     color: '#fff',
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: '600',
   },
   resultContainer: {
-    marginVertical: 20,
-    padding: 15,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 5,
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    marginBottom: 24,
+  },
+  resultTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginBottom: 12,
+    color: '#1A1A1A',
   },
   resultText: {
     fontSize: 16,
-    color: '#000',
+    lineHeight: 24,
+    color: '#1A1A1A',
+  },
+  elevation: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
   },
 });
 

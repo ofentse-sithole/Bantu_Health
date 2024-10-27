@@ -58,7 +58,7 @@ const Dashboard = ({ navigation }) => {
       <View style={styles.gridContainer}>
 
         {/*AI*/}
-        <TouchableOpacity style={styles.gridItem}>
+        <TouchableOpacity style={styles.gridItem} onPress={() => navigation.navigate("SymptomsAnalysis")}>
           <FontAwesome5 name="virus" size={30} color="#007BFF" style={styles.icon} />
           <Text style={styles.gridTitle}>Symptoms</Text>
         </TouchableOpacity>
