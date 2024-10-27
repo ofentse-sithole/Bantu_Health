@@ -9,7 +9,7 @@ import ClinicFinder from "./pages/ClinicFinder";
 import Settings from "./pages/Settings";
 import SplashScreen from "./pages/SplashScreen";
 import Toast from "react-native-toast-message";
-import MapComponent from "./pages/Maps/MapComponent";
+import MapComponent from "./components/MapComponent";
 import VideoConsultationScreen from "./pages/VideoConsultation/VideoConsultationScreen";
 import Ambulance from './pages/Ambulance.js';
 
