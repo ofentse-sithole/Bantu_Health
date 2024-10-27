@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
 import Navbar from './Navbar/Navbar.js';
 
 const Settings = () => {
@@ -22,6 +23,45 @@ const Settings = () => {
       <ScrollView style={styles.scrollContainer}>
         <Text style={styles.header}>Settings and activity</Text>
 
+    const navigation = useNavigation(); // Hook for navigation
+
+    return (
+        <View style={styles.container}>
+            <ScrollView style={styles.scrollContainer}>
+                <Text style={styles.header}>Settings and activity</Text>
+
+                {/* Search Bar */}
+                <View style={styles.searchContainer}>
+                    <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
+                    <TextInput
+                        placeholder="Search"
+                        placeholderTextColor="#888"
+                        style={styles.searchInput}
+                    />
+                </View>
+
+                {/* Your Account Section */}
+                <Text style={styles.sectionTitle}>Your account</Text>
+                <TouchableOpacity
+                    style={styles.option}
+                    onPress={() => navigation.navigate('AccountsCenter')}
+                >
+                    <Icon name="user-cog" size={20} color="#000" style={styles.optionIcon} />
+                    <View style={styles.optionTextContainer}>
+                        <Text style={styles.optionTitle}>Accounts Center</Text>
+                        <Text style={styles.optionDescription}>Password, security, personal details, ad preferences</Text>
+                    </View>
+                    <Icon name="chevron-right" size={15} color="#000" />
+                </TouchableOpacity>
+
+                {/* How you use the app Section */}
+                <Text style={styles.sectionTitle}>How you use the app</Text>
+                {renderOption("info-circle", "About", "About", navigation)}
+                {renderOption("file-alt", "Privacy Policy", "PrivacyPolicy", navigation)}
+                {renderOption("file-contract", "Terms of Use", "TermsOfUse", navigation)}
+            </ScrollView>
+
+
         <View style={styles.searchContainer}>
           <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
           <TextInput
@@ -30,6 +70,7 @@ const Settings = () => {
             style={styles.searchInput}
           />
         </View>
+
 
         <Text style={styles.sectionTitle}>Your account</Text>
         <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("Account")}>
@@ -53,6 +94,17 @@ const Settings = () => {
     </View>
   );
 };
+
+// Helper function to render each option with navigation
+const renderOption = (iconName, title, routeName, navigation) => (
+    <TouchableOpacity style={styles.option} onPress={() => navigation.navigate(routeName)}>
+        <Icon name={iconName} size={20} color="#000" style={styles.optionIcon} />
+        <View style={styles.optionTextContainer}>
+            <Text style={styles.optionTitle}>{title}</Text>
+        </View>
+        <Icon name="chevron-right" size={15} color="#000" />
+    </TouchableOpacity>
+);
 
 const styles = StyleSheet.create({
   container: {

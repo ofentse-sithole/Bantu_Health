@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import * as Location from 'expo-location';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import * as Location from 'expo-location';
+
 
 const MapComponent = ({ onLocationSelect }) => {
   const [currentLocation, setCurrentLocation] = useState(null);
