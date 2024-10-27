@@ -73,9 +73,9 @@ const SymptomsAnalysis = () => {
           <MaterialCommunityIcons name="medical-bag" size={32} color="#2ecc71" />
           <Text style={styles.title}>HealthAI</Text>
         </View>
-
         <View style={styles.poweredByContainer}>
-          <Text style={styles.poweredByText}>Powered by Pixel Elites</Text>
+            <Text style={styles.poweredByText}>Powered by</Text>
+            <MaterialCommunityIcons name="gemini" size={32} color="#2ecc71" />
         </View>
 
         <View style={styles.symptomsContainer}>
