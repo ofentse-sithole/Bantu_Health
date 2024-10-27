@@ -1,19 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Animated, Easing, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Animated, Easing, SafeAreaView, TouchableOpacity, Platform, Linking } from 'react-native';
 import * as Location from 'expo-location';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
+import { getAuth } from 'firebase/auth';
+import { getFirestore, collection, addDoc, doc, setDoc } from 'firebase/firestore';
 
 const Ambulance = () => {
+  const navigation = useNavigation();
   const [countdown, setCountdown] = useState(5);
   const [status, setStatus] = useState('EMERGENCY ACTIVATED');
   const [location, setLocation] = useState(null);
+  const [showArrivalButton, setShowArrivalButton] = useState(false);
   const pulseAnim = new Animated.Value(1);
 
   useEffect(() => {
     startPulseAnimation();
     handleCountdown();
     getLocation();
+    saveEmergencyData();
   }, []);
+
+  // Add this function to save emergency data
+  const saveEmergencyData = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    
+    if (user && location) {
+      const db = getFirestore();
+      const emergencyRef = collection(doc(db, 'users', user.uid), 'emergencies');
+      
+      const emergencyData = {
+        createdAt: new Date(),
+        location: {
+          coordinates: {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+          },
+          exactCoords: `${location.coords.latitude}°S, ${location.coords.longitude}°E`,
+          address: location.address,
+        },
+        status: status,
+        completed: false
+      };
+  
+      try {
+        await addDoc(emergencyRef, emergencyData);
+        console.log('Emergency data saved successfully with coordinates');
+      } catch (error) {
+        console.error('Error saving emergency data:', error);
+      }
+    }
+  };
+
+
 
   const startPulseAnimation = () => {
     Animated.loop(
@@ -32,6 +72,10 @@ const Ambulance = () => {
         }),
       ])
     ).start();
+  };
+
+  const handleEmergencyCall = () => {
+    Linking.openURL('tel:112');
   };
 
   const handleCountdown = () => {
@@ -54,16 +98,58 @@ const Ambulance = () => {
         setStatus('EMERGENCY RESPONSE DISPATCHED');
         setTimeout(() => {
           setStatus('HELP IS ON THE WAY');
+          setShowArrivalButton(true);
         }, 3000);
       }, 3000);
     }, 1000);
   };
 
+  const handleArrivalConfirmation = async () => {
+    setStatus('EMERGENCY RESPONSE COMPLETED');
+    setShowArrivalButton(false);
+    pulseAnim.stopAnimation();
+    
+    // Update the emergency record as completed
+    const auth = getAuth();
+    const user = auth.currentUser;
+    
+    if (user) {
+      const db = getFirestore();
+      const emergencyRef = collection(doc(db, 'users', user.uid), 'emergencies');
+      
+      const emergencyData = {
+        completedAt: new Date(),
+        status: 'COMPLETED'
+      };
+  
+      try {
+        await addDoc(emergencyRef, emergencyData);
+      } catch (error) {
+        console.error('Error updating emergency status:', error);
+      }
+    }
+  
+    setTimeout(() => {
+      navigation.navigate('Dashboard');
+    }, 2000);
+  };
+
   const getLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status === 'granted') {
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
+      let location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.High,
+      });
+      
+      let address = await Location.reverseGeocodeAsync({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+      
+      setLocation({
+        coords: location.coords,
+        address: address[0]
+      });
     }
   };
 
@@ -74,9 +160,12 @@ const Ambulance = () => {
       </View>
 
       <View style={styles.mainContent}>
-        <Animated.View style={[styles.sosCircle, { transform: [{ scale: pulseAnim }] }]}>
-          <MaterialCommunityIcons name="ambulance" size={80} color="#fff" />
-        </Animated.View>
+        <TouchableOpacity onPress={handleEmergencyCall}>
+          <Animated.View style={[styles.sosCircle, { transform: [{ scale: pulseAnim }] }]}>
+            <MaterialCommunityIcons name="ambulance" size={80} color="#fff" />
+            <Text style={styles.callText}>TAP TO CALL 112</Text>
+          </Animated.View>
+        </TouchableOpacity>
 
         <Text style={styles.countdown}>
           {countdown > 0 ? countdown : ''}
@@ -91,7 +180,23 @@ const Ambulance = () => {
             <Text style={styles.coordinates}>
               {location.coords.latitude.toFixed(4)}°S, {location.coords.longitude.toFixed(4)}°E
             </Text>
+            {location.address && (
+              <Text style={styles.addressText}>
+                {location.address.street}, {location.address.city}
+                {'\n'}
+                {location.address.region}, {location.address.country}
+              </Text>
+            )}
           </View>
+        )}
+
+        {showArrivalButton && (
+          <TouchableOpacity 
+            style={styles.arrivalButton}
+            onPress={handleArrivalConfirmation}
+          >
+            <Text style={styles.arrivalButtonText}>Confirm Arrival</Text>
+          </TouchableOpacity>
         )}
       </View>
 
@@ -106,10 +211,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1A1A1A',
+    paddingTop: Platform.OS === 'ios' ? 50 : 30,
   },
   header: {
     padding: 20,
     alignItems: 'center',
+    marginTop: 20,
   },
   headerText: {
     color: '#FFD700',
@@ -131,6 +238,12 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     borderWidth: 3,
     borderColor: '#FFD700',
+  },
+  callText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: 10,
   },
   countdown: {
     fontSize: 56,
@@ -165,6 +278,27 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontFamily: 'monospace',
+  },
+  addressText: {
+    color: '#fff',
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 10,
+    fontFamily: 'monospace',
+  },
+  arrivalButton: {
+    backgroundColor: '#FFD700',
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 20,
+    width: '80%',
+    elevation: 5,
+  },
+  arrivalButtonText: {
+    color: '#1A1A1A',
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   footer: {
     padding: 20,
