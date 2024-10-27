@@ -1,167 +1,120 @@
 import React, { useEffect, useState } from "react";
 import {
-  Platform,
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-  ScrollView,
-  Alert,
-  Linking,
+  View, 
+  Text, 
+  StyleSheet, 
+  TouchableOpacity, 
+  ScrollView, 
+  Linking, 
+  SafeAreaView 
 } from "react-native";
 import { getAuth } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 import Icon from "react-native-vector-icons/FontAwesome";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
-
-// Importing your views from the pages directory
-import DashboardNavbar from "./Navbar/DashboardNavbar";
-import MapComponent from "./MapComponent"; // Now treated as a view
-import MedicalHotspots from "./MedicalHotspots"; // Also treated as a view
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import DashboardNavbar from '../pages/Navbar/DashboardNavbar';
 
 const Dashboard = ({ navigation }) => {
   const auth = getAuth();
   const user = auth.currentUser;
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(true);
-  const [trustedContacts, setTrustedContacts] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [contactName, setContactName] = useState("");
-  const [relationship, setRelationship] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [medicalHotspots, setMedicalHotspots] = useState([]); // Add state for hotspots
 
   useEffect(() => {
     const fetchUserData = async () => {
       if (user) {
         const db = getFirestore();
         const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setUserName(userData.userName);
-          setTrustedContacts(userData.trustedContacts || []);
-
-          // Fetch medical hotspots
-          const hotspotsSnapshot = await getDocs(collection(db, 'medicalHotspots'));
-          const hotspots = [];
-          hotspotsSnapshot.forEach((doc) => {
-            hotspots.push({ id: doc.id, ...doc.data() });
-          });
-          setMedicalHotspots(hotspots); // Set the fetched hotspots
-        } else {
-          console.log("No user data found!");
-        }
       }
       setLoading(false);
     };
+
     fetchUserData();
   }, [user]);
 
   const handleLogout = () => {
-    auth
-      .signOut()
+    auth.signOut()
       .then(() => navigation.navigate("Login"))
       .catch((error) => console.error("Error logging out:", error));
   };
 
-  const addContact = async () => {
-    if (!contactName || !relationship || !phoneNumber) {
-      Alert.alert("Error", "Please fill all fields!");
-      return;
-    }
-
-    const newContact = {
-      id: Date.now().toString(),
-      name: contactName,
-      relationship,
-      phone: phoneNumber,
-    };
-
-    const db = getFirestore();
-    await setDoc(
-      doc(db, "users", user.uid),
-      { trustedContacts: [...trustedContacts, newContact] },
-      { merge: true }
-    );
-
-    setTrustedContacts([...trustedContacts, newContact]);
-    setModalVisible(false);
-    setContactName("");
-    setRelationship("");
-    setPhoneNumber("");
+  const handleSOS = async () => {
+    const phoneNumber = "tel:112";
+    Linking.openURL(phoneNumber);
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <DashboardNavbar />
-
-      {loading ? (
-        <Text style={styles.userInfo}>Loading...</Text>
-      ) : user ? (
-        <Text style={styles.userInfo}>Welcome, {userName || "User"}</Text>
-      ) : (
-        <Text style={styles.userInfo}>No user is logged in.</Text>
-      )}
+    <SafeAreaView style={styles.safeArea}>
+      <ScrollView contentContainerStyle={styles.container}>
+        {loading ? (
+          <Text style={styles.userInfo}>Loading...</Text>
+        ) : user ? (
+          <Text style={styles.userInfo}>Welcome, {userName || "User"}</Text>
+        ) : (
+          <Text style={styles.userInfo}>No user is logged in.</Text>
+        )}
 
         <Text style={styles.sectionTitle}>Quick Features</Text>
 
-      <View style={styles.gridContainer}>
-        {/* MedicalHotspots */}
-        <TouchableOpacity style={styles.gridItem}>
-          {medicalHotspots.length > 0 ? (
-            <MedicalHotspots location={medicalHotspots[0]} />
-          ) : (
-            <Text>No medical hotspots available</Text>
-          )}
-        </TouchableOpacity>
+        <View style={styles.gridContainer}>
+          <TouchableOpacity 
+            style={styles.gridItem} 
+            onPress={() => navigation.navigate("SymptomsAnalysis")}
+          >
+            <FontAwesome5 name="virus" size={30} color="#007BFF" style={styles.icon} />
+            <Text style={styles.gridTitle}>Symptoms</Text>
+          </TouchableOpacity>
 
-        {/* Education View */}
-        <TouchableOpacity style={styles.gridItem}>
-          <Icon name="book" size={30} color="#007BFF" style={styles.icon} />
-          <Text style={styles.gridTitle}>Education</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity style={styles.gridItem}>
+            <Icon name="hospital-o" size={30} color="#007BFF" style={styles.icon} />
+            <Text style={styles.gridTitle}>Medical Hotpots</Text>
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.gridContainer}>
-        {/* Settings View */}
-        <TouchableOpacity
-          style={styles.gridItem}
-          onPress={() => navigation.navigate("Settings")}
-        >
-          <Icon name="cogs" size={30} color="#007BFF" style={styles.icon} />
-          <Text style={styles.gridTitle}>Settings</Text>
-        </TouchableOpacity>
+        <View style={styles.gridContainer}>
+          <TouchableOpacity style={styles.gridItem}>
+            <Icon name="book" size={30} color="#007BFF" style={styles.icon} />
+            <Text style={styles.gridTitle}>Education</Text>
+          </TouchableOpacity>
 
-        {/* Emergency Call View */}
-        <TouchableOpacity 
-          style={styles.consultationButton} 
-          onPress={() => navigation.navigate('VideoConsultationScreen')}
-        >
-          <Text style={styles.buttonText}>Book Video Consultation</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity 
+            style={styles.gridItem}
+            onPress={() => navigation.navigate("Settings")}
+          >
+            <Icon name="cogs" size={30} color="#007BFF" style={styles.icon} />
+            <Text style={styles.gridTitle}>Settings</Text>
+          </TouchableOpacity>
+        </View>
 
-      {/* Placeholder for Map Component */}
-      <View style={styles.mapPlaceholder}>
-        <MapComponent />
-      </View>
-    </ScrollView>
+        <View style={styles.gridContainer}>
+          <TouchableOpacity 
+            style={styles.gridItemEmergency}
+            onPress={() => navigation.navigate('VideoConsultationScreen')}
+          >
+            <Icon name="video-camera" size={30} color="#007BFF" style={styles.icon} />
+            <Text style={styles.buttonText}>Book Video Consultation</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+      <DashboardNavbar />
+    </SafeAreaView>
   );
 };
-
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingTop: Platform.OS === 'android' ? 25 : 0,
   },
   container: {
     flexGrow: 1,
     padding: 20,
     backgroundColor: "#fff",
-    marginTop: 35,
+  },
+  title: {
+    fontSize: 32,
+    marginBottom: 10,
+    textAlign: "center",
   },
   userInfo: {
     fontSize: 18,
@@ -172,42 +125,56 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginVertical: 10,
     fontWeight: "bold",
+    textAlign: "center"
+  },
+  gridTitle: {
     textAlign: "center",
+    fontSize: 16,
+    marginTop: 8,
+    color: "#333",
+  },
+  gridText: {
+    textAlign: "center"
   },
   gridContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     marginVertical: 10,
   },
-  gridItem: {
-    backgroundColor: "#e6f7ff",
-    padding: 15,
-    borderRadius: 10,
-    width: "45%",
-  },
   gridItemEmergency: {
-    backgroundColor: "pink",
-    padding: 15,
-    borderRadius: 10,
-    width: "45%",
+    backgroundColor: "#FFE4E1",
+    padding: 20,
+    borderRadius: 15,
+    width: "90%",
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
-  gridTitle: {
+  gridItem: {
+    backgroundColor: "#F0F8FF",
+    padding: 20,
+    borderRadius: 15,
+    width: "45%",
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  buttonText: {
+    color: "#333",
+    fontSize: 16,
+    fontWeight: "600",
     textAlign: "center",
+    marginTop: 8,
   },
   icon: {
     marginBottom: 8,
     textAlign: "center",
-  },
-  mapPlaceholder: {
-    marginTop: 20,
-    padding: 10,
-    borderColor: "#007BFF",
-    borderWidth: 2,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    height: 300, // Set a fixed height for the map
-  },
+    alignSelf: "center",
+  }
 });
 
 export default Dashboard;
