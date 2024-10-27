@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { auth } from "../../firebaseConfig";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import Toast from 'react-native-toast-message';
 import * as Google from 'expo-auth-session/providers/google';
@@ -60,7 +60,7 @@ const Login = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <MaterialCommunityIcons name="medical-bag" size={50} color="#2ecc71" />
+        <MaterialCommunityIcons name="medical-bag" size={50} color="#007BFF" />
         <Text style={styles.title}>Welcome Back</Text>
         <Text style={styles.subtitle}>Sign in to continue</Text>
       </View>
@@ -172,12 +172,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   forgotPassword: {
-    color: '#2ecc71',
+    color: '#007BFF',
     textAlign: 'right',
     marginBottom: 20,
   },
   loginButton: {
-    backgroundColor: '#2ecc71',
+    backgroundColor: '#007BFF',
     padding: 15,
     borderRadius: 10,
     alignItems: 'center',
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   registerLink: {
-    color: '#2ecc71',
+    color: '#007BFF',
     fontWeight: 'bold',
   },
 });

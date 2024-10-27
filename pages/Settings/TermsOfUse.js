@@ -1,10 +1,15 @@
 // pages/TermsOfUse.js
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
 const TermsOfUse = () => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
+            {/* Back Button */}
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                <Icon name="arrow-left" size={20} color="#333" />
+            </TouchableOpacity>
+
             <View style={styles.card}>
                 <Text style={styles.title}>Terms of Use</Text>
                 <Text style={styles.date}>Effective Date: 24 October 2024</Text>
@@ -98,6 +103,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 8,
         elevation: 3,
+    }, backButton: {
+        position: 'absolute',
+        top: 35,
+        left: 25,
+        padding: 10,
+        zIndex: 1,
     },
     title: {
         fontSize: 28,

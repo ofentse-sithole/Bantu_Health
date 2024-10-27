@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
@@ -8,6 +8,8 @@ import Toast from 'react-native-toast-message';
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [cellphone, setCellphone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -41,6 +43,8 @@ const Register = ({ navigation }) => {
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
         userName: userName,
+        surname: surname,
+        cellphone: cellphone,
         createdAt: new Date().toISOString(),
       });
 
@@ -56,7 +60,7 @@ const Register = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Register</Text>
+      <Text style={styles.title}>Create an Account</Text>
 
       <TextInput
         style={styles.input}
@@ -64,6 +68,24 @@ const Register = ({ navigation }) => {
         value={userName}
         onChangeText={setUserName}
         keyboardType="default"
+        autoCapitalize="words"
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Surname"
+        value={surname}
+        onChangeText={setSurname}
+        keyboardType="default"
+        autoCapitalize="words"
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Phone Number"
+        value={cellphone}
+        onChangeText={setCellphone}
+        keyboardType="phone-pad"
         autoCapitalize="none"
       />
 
@@ -92,14 +114,22 @@ const Register = ({ navigation }) => {
         onChangeText={setConfirmPassword}
       />
 
-      <Button
-        title={loading ? "Registering..." : "Register"}
+      <TouchableOpacity
+        style={styles.button}
         onPress={handleRegister}
         disabled={loading}
-      />
+      >
+        {loading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={styles.buttonText}>Register</Text>
+        )}
+      </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-        <Text style={styles.linkText}>Already have an account? <Text style={styles.link}>Login</Text></Text>
+        <Text style={styles.linkText}>
+          Already have an account? <Text style={styles.link}>Login</Text>
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -111,24 +141,41 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 16,
+    backgroundColor: "#f5f5f5",
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "bold",
     marginBottom: 24,
     textAlign: "center",
+    color: "#333",
   },
   input: {
-    height: 40,
+    height: 50,
     borderColor: "#ccc",
     borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 12,
     marginBottom: 16,
-    paddingHorizontal: 8,
+    backgroundColor: "#fff",
+  },
+  button: {
+    height: 50,
+    backgroundColor: "#007BFF",
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 16,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   linkText: {
     textAlign: "center",
-    marginTop: 20,
     color: "#888",
+    marginTop: 20,
   },
   link: {
     color: "#007BFF",

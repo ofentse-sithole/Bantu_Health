@@ -12,6 +12,7 @@ import Toast from "react-native-toast-message";
 import MapComponent from "./pages/Maps/MapComponent";
 import VideoConsultationScreen from "./pages/VideoConsultation/VideoConsultationScreen";
 import Ambulance from './pages/Ambulance.js';
+import ForgotPassword from './pages/Authentication/ForgotPassword.js';
 
 // Settings sub-pages
 import Account from "./pages/Settings/Account";
@@ -96,6 +97,11 @@ const App = () => {
         <Stack.Screen
           name="Ambulance"
           component={Ambulance}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
           options={{ headerShown: false }}
         />
         

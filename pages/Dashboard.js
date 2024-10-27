@@ -65,7 +65,8 @@ const Dashboard = ({ navigation }) => {
             <Text style={styles.gridTitle}>Symptoms</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.gridItem}>
+          <TouchableOpacity style={styles.gridItem}
+            onPress={() => navigation.navigate("ClinicFinder")}>
             <Icon name="hospital-o" size={30} color="#007BFF" style={styles.icon} />
             <Text style={styles.gridTitle}>Medical Hotpots</Text>
           </TouchableOpacity>
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   gridItemEmergency: {
-    backgroundColor: "#FFE4E1",
+    backgroundColor: "#F0F8FF",
     padding: 20,
     borderRadius: 15,
     width: "90%",
