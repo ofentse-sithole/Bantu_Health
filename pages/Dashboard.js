@@ -1,13 +1,24 @@
 // pages/Dashboard.js
 import React, { useEffect, useState } from "react";
 import {
-  View, Text, Button, StyleSheet, TouchableOpacity, FlatList,
-ScrollView, Alert, Modal, TextInput, Linking, KeyboardAvoidingView, Platform } from "react-native";
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
+  Linking,
+} from "react-native";
 import { getAuth } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, collection, getDocs } from "firebase/firestore";
 import Icon from "react-native-vector-icons/FontAwesome";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import DashboardNavbar from '../pages/Navbar/DashboardNavbar'
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+
+// Importing your views from the pages directory
+import DashboardNavbar from "./Navbar/DashboardNavbar";
+import MapComponent from "./MapComponent"; // Now treated as a view
+import MedicalHotspots from "./MedicalHotspots"; // Also treated as a view
 
 const Dashboard = ({ navigation }) => {
   const auth = getAuth();
@@ -19,16 +30,7 @@ const Dashboard = ({ navigation }) => {
   const [contactName, setContactName] = useState("");
   const [relationship, setRelationship] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-
-
-
-  const healthTips = [
-    "Drink water regularly to stay hydrated.",
-    "Include fruits and vegetables in your diet.",
-    "Exercise for at least 30 minutes a day.",
-    "Get enough sleep to boost your immune system.",
-    "Avoid processed foods and reduce sugar intake.",
-  ];
+  const [medicalHotspots, setMedicalHotspots] = useState([]); // Add state for hotspots
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -40,6 +42,14 @@ const Dashboard = ({ navigation }) => {
           const userData = userDoc.data();
           setUserName(userData.userName);
           setTrustedContacts(userData.trustedContacts || []);
+
+          // Fetch medical hotspots
+          const hotspotsSnapshot = await getDocs(collection(db, 'medicalHotspots'));
+          const hotspots = [];
+          hotspotsSnapshot.forEach((doc) => {
+            hotspots.push({ id: doc.id, ...doc.data() });
+          });
+          setMedicalHotspots(hotspots); // Set the fetched hotspots
         } else {
           console.log("No user data found!");
         }
@@ -51,14 +61,10 @@ const Dashboard = ({ navigation }) => {
   }, [user]);
 
   const handleLogout = () => {
-    auth.signOut()
+    auth
+      .signOut()
       .then(() => navigation.navigate("Login"))
       .catch((error) => console.error("Error logging out:", error));
-  };
-
-  const handleSOS = async () => {
-    const phoneNumber = "tel:112"; // Adjust the emergency number if needed
-    Linking.openURL(phoneNumber);
   };
 
   const addContact = async () => {
@@ -70,14 +76,16 @@ const Dashboard = ({ navigation }) => {
     const newContact = {
       id: Date.now().toString(),
       name: contactName,
-      relationship: relationship,
+      relationship,
       phone: phoneNumber,
     };
 
     const db = getFirestore();
-    await setDoc(doc(db, "users", user.uid), {
-      trustedContacts: [...trustedContacts, newContact],
-    }, { merge: true });
+    await setDoc(
+      doc(db, "users", user.uid),
+      { trustedContacts: [...trustedContacts, newContact] },
+      { merge: true }
+    );
 
     setTrustedContacts([...trustedContacts, newContact]);
     setModalVisible(false);
@@ -88,6 +96,7 @@ const Dashboard = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <DashboardNavbar />
 
       {loading ? (
         <Text style={styles.userInfo}>Loading...</Text>
@@ -99,56 +108,48 @@ const Dashboard = ({ navigation }) => {
 
       <Text style={styles.sectionTitle}>Quick Features</Text>
 
-      {/*Grid block */}
       <View style={styles.gridContainer}>
-
-        {/*AI*/}
+        {/* MedicalHotspots */}
         <TouchableOpacity style={styles.gridItem}>
-          <FontAwesome5 name="virus" size={30} color="#007BFF" style={styles.icon} />
-          <Text style={styles.gridTitle}>Symptoms</Text>
+          {medicalHotspots.length > 0 ? (
+            <MedicalHotspots location={medicalHotspots[0]} />
+          ) : (
+            <Text>No medical hotspots available</Text>
+          )}
         </TouchableOpacity>
 
-        {/*Hotspot*/}
-        <TouchableOpacity style={styles.gridItem}>
-          <Icon name="hospital-o" size={30} color="#007BFF" style={styles.icon} />
-          <Text style={styles.gridTitle}>Medical Hotpots</Text>
-        </TouchableOpacity>
-
-      </View>
-
-
-      {/*Grid Bloc */}
-      <View style={styles.gridContainer}>
-        {/*Education*/}
+        {/* Education View */}
         <TouchableOpacity style={styles.gridItem}>
           <Icon name="book" size={30} color="#007BFF" style={styles.icon} />
           <Text style={styles.gridTitle}>Education</Text>
         </TouchableOpacity>
-
-      {/*Settings*/}
-      <TouchableOpacity style={styles.gridItem}
-          onPress={() => navigation.navigate("Settings")}>
-      <Icon name="cogs" size={30} color="#007BFF" style={styles.icon} />
-        <Text style={styles.gridTitle}>Settings</Text>
-      </TouchableOpacity>
-
-       
       </View>
 
-      {/*Grid Bloc */}
       <View style={styles.gridContainer}>
-      {/*Call*/}
-        <TouchableOpacity style={styles.gridItemEmergency}
-          onPress={() => Linking.openURL("tel:112")}>
-          <FontAwesome5 name="phone" size={30} color="red" style={styles.icon} />
-        <Text style={styles.gridTitle}>Call</Text>
-      </TouchableOpacity>
-      </View>
-      
-      <DashboardNavbar />
-    </ScrollView>
+        {/* Settings View */}
+        <TouchableOpacity
+          style={styles.gridItem}
+          onPress={() => navigation.navigate("Settings")}
+        >
+          <Icon name="cogs" size={30} color="#007BFF" style={styles.icon} />
+          <Text style={styles.gridTitle}>Settings</Text>
+        </TouchableOpacity>
 
-    
+        {/* Emergency Call View */}
+        <TouchableOpacity
+          style={styles.gridItemEmergency}
+          onPress={() => Linking.openURL("tel:112")}
+        >
+          <FontAwesome5 name="phone" size={30} color="red" style={styles.icon} />
+          <Text style={styles.gridTitle}>Call</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Placeholder for Map Component */}
+      <View style={styles.mapPlaceholder}>
+        <MapComponent />
+      </View>
+    </ScrollView>
   );
 };
 
@@ -159,97 +160,51 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     marginTop: 35,
   },
-  title: {
-    fontSize: 32,
-    marginBottom: 10,
-    textAlign: "center",
-  },
-
-
   userInfo: {
     fontSize: 18,
     marginBottom: 20,
     textAlign: "center",
   },
-
-  //quick features
   sectionTitle: {
     fontSize: 24,
     marginVertical: 10,
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
   },
-
-  gridTitle: {
-    textAlign:"center"
-  },
-
-  gridText: {
-    textAlign: "center"
-  },
-
   gridContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     marginVertical: 10,
   },
-
-  gridItemEmergency: {
-    backgroundColor: "pink",
-    padding: 15,
-    borderRadius: 10,
-    width: "45%",
-  },
-
   gridItem: {
     backgroundColor: "#e6f7ff",
     padding: 15,
     borderRadius: 10,
     width: "45%",
   },
-
-  sosButton: {
-    backgroundColor: "red",
+  gridItemEmergency: {
+    backgroundColor: "pink",
     padding: 15,
     borderRadius: 10,
-    marginTop: 20,
-    alignItems: "center",
+    width: "45%",
   },
-  sosButtonText: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
+  gridTitle: {
+    textAlign: "center",
   },
-  contactCard: {
-    backgroundColor: "#e6f7ff",
-    marginVertical: 5,
-    padding: 15,
-    borderRadius: 10,
-  },
-  contactButtonContainer: {
-    marginVertical: 15,
-  },
-  modalView: {
-    flex: 1,
-    justifyContent: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-    padding: 20,
-  },
-  formContainer: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 10,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 10,
-  },
-
   icon: {
     marginBottom: 8,
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
+  mapPlaceholder: {
+    marginTop: 20,
+    padding: 10,
+    borderColor: "#007BFF",
+    borderWidth: 2,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    height: 300, // Set a fixed height for the map
+  },
 });
 
 export default Dashboard;

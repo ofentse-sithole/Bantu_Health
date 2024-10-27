@@ -1,99 +1,92 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Register from "./pages/Register.js";
-import Login from "./pages/Login.js";
-import Dashboard from "./pages/Dashboard.js";
-import SymptomsAnalysis from "./pages/SymptomsAnalysis.js";
-import ClinicFinder from "./pages/ClinicFinder.js";
-import Settings from "./pages/Settings.js";
-import SplashScreen from './pages/SplashScreen';
-import Toast from 'react-native-toast-message';
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import SymptomsAnalysis from "./pages/SymptomsAnalysis";
+import ClinicFinder from "./pages/ClinicFinder";
+import Settings from "./pages/Settings";
+import SplashScreen from "./pages/SplashScreen";
+import Toast from "react-native-toast-message";
+import MapComponent from "./pages/MapComponent"; // Adjusted import path
+import MedicalHotspots from "./pages/MedicalHotspots"; // Adjusted import path
 
-//Settings pages
-import About from './pages/Settings/About.js'
-import PrivacyPolicy from './pages/Settings/PrivacyPolicy.js'
-import TermsOfUse from './pages/Settings/TermsOfUse.js'
+// Settings sub-pages
+import About from "./pages/Settings/About";
+import PrivacyPolicy from "./pages/Settings/PrivacyPolicy";
+import TermsOfUse from "./pages/Settings/TermsOfUse";
+
+const Stack = createStackNavigator();
 
 const App = () => {
-  
-  const Stack = createStackNavigator();
-
   return (
     <NavigationContainer>
-    {/*SplashScreen default route*/}
+      {/* SplashScreen as the initial route */}
       <Stack.Navigator initialRouteName="SplashScreen">
         <Stack.Screen
           name="SplashScreen"
           component={SplashScreen}
-          options={{ headerShown: false }} // Hide the header for SplashScreen
+          options={{ headerShown: false }}
         />
-
-        {/*Login*/}
-        <Stack.Screen 
-          name="Login" 
-          component={Login} 
-          options={{ headerShown: false }} // Hide the header for Login
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
         />
-
-        {/*Register*/}
-        <Stack.Screen 
-          name="Register" 
-          component={Register} 
-          options={{ headerShown: false }} // Hide the header for Register
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{ headerShown: false }}
         />
-
-        {/*Dashboard*/}
-        <Stack.Screen 
-          name="Dashboard" 
-          component={Dashboard} 
-          options={{ headerShown: false }} // Hide the header for Dashboard
+        <Stack.Screen
+          name="Dashboard"
+          component={Dashboard}
+          options={{ headerShown: false }}
         />
-
-        {/*Symptoms*/}
-        <Stack.Screen 
-          name="SymptomsAnalysis" 
-          component={SymptomsAnalysis} 
-          options={{ headerShown: false }} // Hide the header for SymptomsAnalysis
+        <Stack.Screen
+          name="SymptomsAnalysis"
+          component={SymptomsAnalysis}
+          options={{ headerShown: false }}
         />
-
-        {/*Clinic Finder*/}
         <Stack.Screen
           name="ClinicFinder"
           component={ClinicFinder}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
-
-        {/*Settings*/}
         <Stack.Screen
           name="Settings"
           component={Settings}
-          options={{headerShown: false}} // Hide the header for Settings
+          options={{ headerShown: false }}
         />
-
-        {/*About*/}
         <Stack.Screen
           name="About"
           component={About}
-          options={{ headerShown: false }} // Hide the header for Settings
+          options={{ headerShown: false }}
         />
-
-        {/*PrivacyPolicy*/}
         <Stack.Screen
           name="PrivacyPolicy"
           component={PrivacyPolicy}
-          options={{ headerShown: false }} // Hide the header for Settings
+          options={{ headerShown: false }}
         />
-
-        {/*TermsOfUse*/}
         <Stack.Screen
           name="TermsOfUse"
           component={TermsOfUse}
-          options={{ headerShown: false }} // Hide the header for Settings
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MapComponent"
+          component={MapComponent} // Fixed component reference
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="MedicalHotspots"
+          component={MedicalHotspots} // Fixed component reference
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
 
-      {/* Toast component should be placed here */}
+      {/* Toast should be placed here */}
       <Toast />
     </NavigationContainer>
   );
