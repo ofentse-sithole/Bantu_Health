@@ -9,8 +9,9 @@ import ClinicFinder from "./pages/ClinicFinder";
 import Settings from "./pages/Settings";
 import SplashScreen from "./pages/SplashScreen";
 import Toast from "react-native-toast-message";
-import MapComponent from "./pages/MapComponent"; // Adjusted import path
-import VideoConsultationScreen from "./pages/VideoConsultation/VideoConsultationScreen"; // Adjusted import path
+import MapComponent from "./pages/MapComponent";
+import VideoConsultationScreen from "./pages/VideoConsultation/VideoConsultationScreen";
+import Ambulance from './pages/Ambulance.js';
 
 // Settings sub-pages
 import Account from "./pages/Settings/Account";
@@ -90,6 +91,11 @@ const App = () => {
         <Stack.Screen
           name="MapComponent"
           component={MapComponent} // Fixed component reference
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Ambulance"
+          component={Ambulance}
           options={{ headerShown: false }}
         />
         
