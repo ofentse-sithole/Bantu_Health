@@ -1,15 +1,8 @@
 import React, { useState } from "react";
-<<<<<<< HEAD:pages/Login.js
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
-=======
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from "react-native";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
->>>>>>> f522b273157f793090791feec65f6c0911bf9f55:pages/Authentication/Login.js
 import Toast from 'react-native-toast-message';
 import * as Google from 'expo-auth-session/providers/google';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
