@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { auth, db } from '../firebase';
+import { auth, db } from '../../firebaseConfig';
 
 const AccountScreen = () => {
     const [user, setUser] = useState(null);

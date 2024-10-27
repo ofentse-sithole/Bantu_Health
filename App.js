@@ -9,11 +9,12 @@ import ClinicFinder from "./pages/ClinicFinder";
 import Settings from "./pages/Settings";
 import SplashScreen from "./pages/SplashScreen";
 import Toast from "react-native-toast-message";
-import MapComponent from "./pages/MapComponent"; // Adjusted import path
-import MedicalHotspots from "./pages/MedicalHotspots"; // Adjusted import path
-import VideoConsultationScreen from "./pages/VideoConsultation/VideoConsultationScreen"; // Adjusted import path
+import MapComponent from "./pages/MapComponent";
+import VideoConsultationScreen from "./pages/VideoConsultation/VideoConsultationScreen";
+import Ambulance from './pages/Ambulance.js';
 
 // Settings sub-pages
+import Account from "./pages/Settings/Account";
 import About from "./pages/Settings/About";
 import PrivacyPolicy from "./pages/Settings/PrivacyPolicy";
 import TermsOfUse from "./pages/Settings/TermsOfUse";
@@ -66,6 +67,12 @@ const App = () => {
           component={Settings}
           options={{ headerShown: false }}
         />
+        {/* Settings sub-pages */}
+        <Stack.Screen
+          name="Account"
+          component={Account}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="About"
           component={About}
@@ -87,10 +94,11 @@ const App = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="MedicalHotspots"
-          component={MedicalHotspots} // Fixed component reference
+          name="Ambulance"
+          component={Ambulance}
           options={{ headerShown: false }}
         />
+        
       </Stack.Navigator>
 
       {/* Toast should be placed here */}
