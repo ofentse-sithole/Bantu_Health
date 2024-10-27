@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Animated, Easing } from 'react-native';
+import { View, Text, StyleSheet, Animated, Easing, SafeAreaView } from 'react-native';
 import * as Location from 'expo-location';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Ambulance = () => {
   const [countdown, setCountdown] = useState(5);
-  const [status, setStatus] = useState('SOS ACTIVATED');
+  const [status, setStatus] = useState('EMERGENCY ACTIVATED');
   const [location, setLocation] = useState(null);
   const pulseAnim = new Animated.Value(1);
 
@@ -49,11 +49,11 @@ const Ambulance = () => {
 
   const updateStatus = () => {
     setTimeout(() => {
-      setStatus('LOCATING NEAREST AMBULANCE');
+      setStatus('FINDING NEAREST EMERGENCY UNIT');
       setTimeout(() => {
-        setStatus('AMBULANCE DISPATCHED');
+        setStatus('EMERGENCY RESPONSE DISPATCHED');
         setTimeout(() => {
-          setStatus('AMBULANCE EN ROUTE');
+          setStatus('HELP IS ON THE WAY');
         }, 3000);
       }, 3000);
     }, 1000);
@@ -68,76 +68,112 @@ const Ambulance = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Animated.View style={[styles.sosCircle, { transform: [{ scale: pulseAnim }] }]}>
-        <MaterialCommunityIcons name="ambulance" size={64} color="#fff" />
-      </Animated.View>
-      
-      <Text style={styles.countdown}>
-        {countdown > 0 ? countdown : ''}
-      </Text>
-      
-      <Text style={styles.status}>{status}</Text>
-      
-      {location && (
-        <View style={styles.locationContainer}>
-          <Text style={styles.locationText}>Your Location:</Text>
-          <Text style={styles.coordinates}>
-            Lat: {location.coords.latitude.toFixed(4)}
-          </Text>
-          <Text style={styles.coordinates}>
-            Long: {location.coords.longitude.toFixed(4)}
-          </Text>
-        </View>
-      )}
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Emergency Response</Text>
+      </View>
+
+      <View style={styles.mainContent}>
+        <Animated.View style={[styles.sosCircle, { transform: [{ scale: pulseAnim }] }]}>
+          <MaterialCommunityIcons name="ambulance" size={80} color="#fff" />
+        </Animated.View>
+
+        <Text style={styles.countdown}>
+          {countdown > 0 ? countdown : ''}
+        </Text>
+
+        <Text style={styles.status}>{status}</Text>
+
+        {location && (
+          <View style={styles.locationContainer}>
+            <MaterialCommunityIcons name="map-marker" size={24} color="#FFD700" />
+            <Text style={styles.locationText}>Current Location</Text>
+            <Text style={styles.coordinates}>
+              {location.coords.latitude.toFixed(4)}°S, {location.coords.longitude.toFixed(4)}°E
+            </Text>
+          </View>
+        )}
+      </View>
+
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>Stay Calm • Help is Coming</Text>
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#1A1A1A',
+  },
+  header: {
+    padding: 20,
+    alignItems: 'center',
+  },
+  headerText: {
+    color: '#FFD700',
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  mainContent: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#000',
   },
   sosCircle: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    backgroundColor: '#e32f45',
+    width: 220,
+    height: 220,
+    borderRadius: 110,
+    backgroundColor: '#E32F45',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 40,
+    borderWidth: 3,
+    borderColor: '#FFD700',
   },
   countdown: {
-    fontSize: 48,
+    fontSize: 56,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#FFD700',
     marginBottom: 20,
   },
   status: {
     fontSize: 24,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 20,
+    marginBottom: 30,
     textAlign: 'center',
+    paddingHorizontal: 20,
   },
   locationContainer: {
-    backgroundColor: 'rgba(255,255,255,0.1)',
+    backgroundColor: 'rgba(255, 215, 0, 0.1)',
     padding: 20,
-    borderRadius: 10,
+    borderRadius: 15,
     alignItems: 'center',
+    width: '80%',
+    borderWidth: 1,
+    borderColor: '#FFD700',
   },
   locationText: {
-    color: '#fff',
+    color: '#FFD700',
     fontSize: 18,
-    marginBottom: 10,
+    fontWeight: 'bold',
+    marginVertical: 10,
   },
   coordinates: {
     color: '#fff',
     fontSize: 16,
-    marginBottom: 5,
+    fontFamily: 'monospace',
+  },
+  footer: {
+    padding: 20,
+    alignItems: 'center',
+  },
+  footerText: {
+    color: '#FFD700',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });
 
