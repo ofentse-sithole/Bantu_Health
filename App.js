@@ -11,6 +11,7 @@ import SplashScreen from "./pages/SplashScreen";
 import Toast from "react-native-toast-message";
 import MapComponent from "./pages/MapComponent"; // Adjusted import path
 import MedicalHotspots from "./pages/MedicalHotspots"; // Adjusted import path
+import VideoConsultationScreen from "./pages/VideoConsultation/VideoConsultationScreen"; // Adjusted import path
 
 // Settings sub-pages
 import About from "./pages/Settings/About";
@@ -42,6 +43,12 @@ const App = () => {
         <Stack.Screen
           name="Dashboard"
           component={Dashboard}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="VideoConsultationScreen"
+          component={VideoConsultationScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

@@ -1,4 +1,3 @@
-// pages/Dashboard.js
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -37,7 +36,6 @@ const Dashboard = ({ navigation }) => {
       if (user) {
         const db = getFirestore();
         const userDoc = await getDoc(doc(db, "users", user.uid));
-
         if (userDoc.exists()) {
           const userData = userDoc.data();
           setUserName(userData.userName);
@@ -56,7 +54,6 @@ const Dashboard = ({ navigation }) => {
       }
       setLoading(false);
     };
-
     fetchUserData();
   }, [user]);
 
@@ -106,7 +103,7 @@ const Dashboard = ({ navigation }) => {
         <Text style={styles.userInfo}>No user is logged in.</Text>
       )}
 
-      <Text style={styles.sectionTitle}>Quick Features</Text>
+        <Text style={styles.sectionTitle}>Quick Features</Text>
 
       <View style={styles.gridContainer}>
         {/* MedicalHotspots */}
@@ -136,12 +133,11 @@ const Dashboard = ({ navigation }) => {
         </TouchableOpacity>
 
         {/* Emergency Call View */}
-        <TouchableOpacity
-          style={styles.gridItemEmergency}
-          onPress={() => Linking.openURL("tel:112")}
+        <TouchableOpacity 
+          style={styles.consultationButton} 
+          onPress={() => navigation.navigate('VideoConsultationScreen')}
         >
-          <FontAwesome5 name="phone" size={30} color="red" style={styles.icon} />
-          <Text style={styles.gridTitle}>Call</Text>
+          <Text style={styles.buttonText}>Book Video Consultation</Text>
         </TouchableOpacity>
       </View>
 
@@ -153,7 +149,13 @@ const Dashboard = ({ navigation }) => {
   );
 };
 
+
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingTop: Platform.OS === 'android' ? 25 : 0,
+  },
   container: {
     flexGrow: 1,
     padding: 20,
