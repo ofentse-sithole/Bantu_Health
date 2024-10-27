@@ -12,7 +12,8 @@ import { getAuth } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import Icon from "react-native-vector-icons/FontAwesome";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import DashboardNavbar from './pages/Navbar/DashboardNavbar';
+import DashboardNavbar from '../components/Navbar/DashboardNavbar';
+
 
 const Dashboard = ({ navigation }) => {
   const auth = getAuth();
@@ -65,7 +66,7 @@ const Dashboard = ({ navigation }) => {
             <Text style={styles.gridTitle}>Symptoms</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.gridItem}>
+          <TouchableOpacity style={styles.gridItem} onPress={() => navigation.navigate("ClinicFinder")}>
             <Icon name="hospital-o" size={30} color="#007BFF" style={styles.icon} />
             <Text style={styles.gridTitle}>Medical Hotpots</Text>
           </TouchableOpacity>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { auth } from "../../firebaseConfig";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import Toast from 'react-native-toast-message';
 import * as Google from 'expo-auth-session/providers/google';
