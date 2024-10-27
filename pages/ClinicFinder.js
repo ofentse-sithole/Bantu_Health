@@ -1,20 +1,24 @@
+// ClinicFinder.js
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import MapComponent from './pages/Maps/MapComponent'; // Your MapComponent
-import Tabs from '../components/Navbar/Navbar'; // Your Tabs component
+
+// Importing components
+import Navbar from "./Navbar/Navbar";
+import MapComponent from "./MapComponent";
 
 const ClinicFinder = () => {
     return (
         <View style={styles.container}>
             <MapComponent />
-            <Tabs />
+            <Navbar />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1, // Full screen layout
+        flex: 1,
+        backgroundColor: "#fff",
     },
 });
 
