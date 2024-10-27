@@ -1,24 +1,43 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from "react-native";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ActivityIndicator } from "react-native";
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { auth } from "../firebaseConfig";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 import Toast from 'react-native-toast-message';
+import * as Google from 'expo-auth-session/providers/google';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const showToast = (message) => {
-    Toast.show({
-      text1: message,
-      position: "bottom",
-      type: "info",
-      visibilityTime: 4000,
-      autoHide: true,
-      bottomOffset: 30,
-    });
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId: 'YOUR_GOOGLE_CLIENT_ID',
+  });
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await promptAsync();
+      if (result.type === 'success') {
+        const credential = GoogleAuthProvider.credential(result.params.id_token);
+        const userCredential = await signInWithCredential(auth, credential);
+        
+        const db = getFirestore();
+        const userRef = doc(db, "users", userCredential.user.uid);
+        
+        await setDoc(userRef, {
+          email: userCredential.user.email,
+          name: userCredential.user.displayName,
+          photoURL: userCredential.user.photoURL,
+          healthCredits: 5,
+        }, { merge: true });
+
+        navigation.navigate("Dashboard");
+      }
+    } catch (error) {
+      showToast("Google sign-in failed");
+    }
   };
 
   const handleLogin = async () => {
@@ -28,25 +47,11 @@ const Login = ({ navigation }) => {
     }
 
     setLoading(true);
-
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      const db = getFirestore();
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        console.log("User data:", userData);
-
-        showToast("Login successful!");
-        navigation.navigate("Dashboard");
-      } else {
-        showToast("No user data found!");
-      }
+      navigation.navigate("Dashboard");
     } catch (error) {
-      console.error("Error logging in:", error);
-      showToast("Login failed! Please create an account.");
+      showToast("Login failed! Please check your credentials.");
     } finally {
       setLoading(false);
     }
@@ -54,73 +59,171 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <View style={styles.header}>
+        <MaterialCommunityIcons name="medical-bag" size={50} color="#2ecc71" />
+        <Text style={styles.title}>Welcome Back</Text>
+        <Text style={styles.subtitle}>Sign in to continue</Text>
+      </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
+      <View style={styles.form}>
+        <View style={styles.inputContainer}>
+          <MaterialCommunityIcons name="email" size={20} color="#666" style={styles.inputIcon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        secureTextEntry
-        onChangeText={setPassword}
-      />
+        <View style={styles.inputContainer}>
+          <MaterialCommunityIcons name="lock" size={20} color="#666" style={styles.inputIcon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            value={password}
+            secureTextEntry
+            onChangeText={setPassword}
+          />
+        </View>
 
-      <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-        <Text style={styles.link}>Forgotten Password?</Text>
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
+          <Text style={styles.forgotPassword}>Forgot Password?</Text>
+        </TouchableOpacity>
 
-      <Button
-        title={loading ? "Logging in..." : "Login"}
-        onPress={handleLogin}
-        disabled={loading}
-      />
+        <TouchableOpacity 
+          style={styles.loginButton} 
+          onPress={handleLogin}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.loginButtonText}>Sign In</Text>
+          )}
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-        <Text style={styles.linkText}>Don't have an account? <Text style={styles.link}>Register</Text></Text>
-      </TouchableOpacity>
+        <View style={styles.divider}>
+          <View style={styles.line} />
+          <Text style={styles.orText}>OR</Text>
+          <View style={styles.line} />
+        </View>
+
+        <TouchableOpacity 
+          style={styles.googleButton}
+          onPress={handleGoogleSignIn}
+        >
+          <MaterialCommunityIcons name="google" size={24} color="#DB4437" />
+          <Text style={styles.googleButtonText}>Continue with Google</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+          <Text style={styles.registerText}>
+            Don't have an account? <Text style={styles.registerLink}>Sign Up</Text>
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
-// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    backgroundColor: '#fff',
     padding: 20,
   },
-  
+  header: {
+    alignItems: 'center',
+    marginTop: 60,
+    marginBottom: 40,
+  },
   title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: "center",
-  },
-
-  input: {
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-  },
-
-  linkText: {
-    textAlign: "center",
+    fontSize: 28,
+    fontWeight: 'bold',
     marginTop: 20,
-    color: "#888",
+    color: '#333',
   },
-
-  link: {
-    color: "#007BFF",
-    fontWeight: "bold",
+  subtitle: {
+    fontSize: 16,
+    color: '#666',
+    marginTop: 5,
+  },
+  form: {
+    marginTop: 20,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 10,
+    marginBottom: 15,
+    paddingHorizontal: 15,
+    height: 55,
+  },
+  inputIcon: {
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+  },
+  forgotPassword: {
+    color: '#2ecc71',
+    textAlign: 'right',
+    marginBottom: 20,
+  },
+  loginButton: {
+    backgroundColor: '#2ecc71',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  divider: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 30,
+  },
+  line: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#ddd',
+  },
+  orText: {
+    marginHorizontal: 10,
+    color: '#666',
+  },
+  googleButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 15,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    marginBottom: 20,
+  },
+  googleButtonText: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: '#333',
+  },
+  registerText: {
+    textAlign: 'center',
+    color: '#666',
+    marginTop: 20,
+  },
+  registerLink: {
+    color: '#2ecc71',
+    fontWeight: 'bold',
   },
 });
 

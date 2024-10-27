@@ -3,6 +3,7 @@ import { getDatabase } from "firebase/database";
 import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyDAAhW6kGa4oC0YJqyn_BxGJI0EiCqGlf0",
     authDomain: "bantu-health.firebaseapp.com",
