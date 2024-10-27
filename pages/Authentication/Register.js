@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { auth } from "../../firebaseConfig";
 import Toast from 'react-native-toast-message';
 
 const Register = ({ navigation }) => {
