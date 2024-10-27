@@ -1,44 +1,23 @@
-
-import React, { useState } from 'react';
+import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
-import JitsiMeet, { JitsiMeetView } from '@jitsi/react-native-sdk';
+import { WebView } from 'react-native-webview';
 
 const ConsultationRoom = ({ roomId, participantName, onEndCall }) => {
-  const [isMuted, setIsMuted] = useState(false);
-  const [isVideoEnabled, setIsVideoEnabled] = useState(true);
-
-  const jitsiMeetProps = {
-    roomName: roomId,
-    displayName: participantName,
-    audioMuted: isMuted,
-    videoMuted: !isVideoEnabled,
-    onConferenceTerminated: onEndCall,
-  };
+  const domain = 'meet.jit.si';
+  const url = `https://${domain}/${roomId}`;
 
   return (
     <View style={styles.container}>
-      <JitsiMeetView
-        style={styles.jitsiView}
-        options={jitsiMeetProps}
+      <WebView
+        source={{ uri: url }}
+        style={styles.webview}
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
+        mediaPlaybackRequiresUserAction={false}
+        allowsInlineMediaPlayback={true}
       />
       <View style={styles.controls}>
-        <TouchableOpacity 
-          style={styles.controlButton}
-          onPress={() => setIsMuted(!isMuted)}
-        >
-          <Text style={styles.controlText}>
-            {isMuted ? 'Unmute' : 'Mute'}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.controlButton}
-          onPress={() => setIsVideoEnabled(!isVideoEnabled)}
-        >
-          <Text style={styles.controlText}>
-            {isVideoEnabled ? 'Disable Video' : 'Enable Video'}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={[styles.controlButton, styles.endCall]}
           onPress={onEndCall}
         >
@@ -53,14 +32,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  jitsiView: {
+  webview: {
     flex: 1,
   },
   controls: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     padding: 16,
     backgroundColor: '#000',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   controlButton: {
     padding: 12,
@@ -69,6 +52,7 @@ const styles = StyleSheet.create({
   },
   endCall: {
     backgroundColor: '#FF3B30',
+    paddingHorizontal: 30,
   },
   controlText: {
     color: '#fff',

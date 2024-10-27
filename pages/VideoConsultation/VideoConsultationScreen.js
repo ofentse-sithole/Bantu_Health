@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { Platform, View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { WebView } from 'react-native-webview';
 import DoctorSelection from './components/DoctorSelection';
 import ConsultationList from './components/ConsultationList';
-import ConsultationRoom from './components/ConsultationRoom';
 
 const VideoConsultationScreen = ({ navigation }) => {
   const [activeConsultation, setActiveConsultation] = useState(null);
@@ -12,7 +12,7 @@ const VideoConsultationScreen = ({ navigation }) => {
     setSelectedDoctor(doctor);
     setActiveConsultation({
       id: Date.now().toString(),
-      roomId: `consultation-${Date.now()}`,
+      roomId: `bantuhealth-consultation-${Date.now()}`,
       doctorName: doctor.name,
     });
   };
@@ -24,23 +24,48 @@ const VideoConsultationScreen = ({ navigation }) => {
   };
 
   if (activeConsultation) {
+    const domain = 'meet.jit.si';
+    const url = `https://${domain}/${activeConsultation.roomId}`;
+
     return (
-      <ConsultationRoom
-        roomId={activeConsultation.roomId}
-        participantName="Patient Name"
-        onEndCall={handleEndCall}
-      />
+      <View style={styles.container}>
+        <WebView
+          source={{ uri: url }}
+          style={styles.webview}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          mediaPlaybackRequiresUserAction={false}
+          allowsInlineMediaPlayback={true}
+        />
+      </View>
     );
   }
 
   return (
     <View style={styles.container}>
       <DoctorSelection
-        doctors={[]} // Add your doctors data here
+        doctors={[
+          {
+            id: '1',
+            name: 'John Smith',
+            specialization: 'General Practitioner',
+            availableSlots: 5,
+            profileImage: 'https://example.com/doctor1.jpg'
+          },
+          // Add more doctors as needed
+        ]}
         onSelectDoctor={handleStartConsultation}
       />
       <ConsultationList
-        consultations={[]} // Add your consultations data here
+        consultations={[
+          {
+            id: '1',
+            doctorName: 'Dr. John Smith',
+            dateTime: new Date(),
+            status: 'Scheduled'
+          },
+          // Add more consultations as needed
+        ]}
         onSelectConsultation={setActiveConsultation}
       />
     </View>
@@ -52,6 +77,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
+  webview: {
+    flex: 1,
+  }
 });
 
 export default VideoConsultationScreen;
