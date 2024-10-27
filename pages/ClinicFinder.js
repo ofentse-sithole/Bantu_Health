@@ -3,8 +3,8 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 // Importing components
-import Navbar from './Navbar/Navbar';
-import MapComponent from "./Maps/MapComponent";
+import Navbar from '../components/Navbar/Navbar';
+import MapComponent from "../components/MapComponent";
 
 const ClinicFinder = () => {
     return (
