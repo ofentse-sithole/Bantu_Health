@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import Navbar from './Navbar/Navbar.js';
+import Navbar from '../components/Navbar/Navbar.js';
 
 const { width } = Dimensions.get('window');
 

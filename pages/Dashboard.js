@@ -65,8 +65,7 @@ const Dashboard = ({ navigation }) => {
             <Text style={styles.gridTitle}>Symptoms</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.gridItem}
-            onPress={() => navigation.navigate("ClinicFinder")}>
+          <TouchableOpacity style={styles.gridItem}>
             <Icon name="hospital-o" size={30} color="#007BFF" style={styles.icon} />
             <Text style={styles.gridTitle}>Medical Hotpots</Text>
           </TouchableOpacity>
