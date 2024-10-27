@@ -1,27 +1,14 @@
-// Navbar.js
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Icon from "react-native-vector-icons/FontAwesome5";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const CustomTabButton = ({ children, onPress }) => (
     <TouchableOpacity
-        style={{
-            top: -30,
-            justifyContent: 'center',
-            alignItems: 'center',
-            ...styles.shadow
-        }}
+        style={styles.customTabButton}
         onPress={onPress}
     >
-        <View style={{
-            width: 70,
-            height: 70,
-            borderRadius: 35,
-            backgroundColor: '#e32f45',
-            justifyContent: 'center',
-            alignItems: 'center'
-        }}>
+        <View style={styles.customTabButtonInner}>
             {children}
         </View>
     </TouchableOpacity>
@@ -29,36 +16,72 @@ const CustomTabButton = ({ children, onPress }) => (
 
 const Tabs = () => {
     const navigation = useNavigation();
+    const route = useRoute();
+
+    const isActiveRoute = (routeName) => {
+        return route.name === routeName;
+    };
 
     return (
-        <View style={[styles.navbarContainer, styles.shadow]}>
-            {/* Home */}
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate("Dashboard")}>
-                <Icon name="home" size={24} color="#333" />
-                <Text style={styles.tabText}>Home</Text>
+        <View style={styles.navbarContainer}>
+            <TouchableOpacity 
+                style={[styles.tab, isActiveRoute("Dashboard") && styles.activeTab]} 
+                onPress={() => navigation.navigate("Dashboard")}
+            >
+                <MaterialCommunityIcons 
+                    name="home" 
+                    size={24} 
+                    color={isActiveRoute("Dashboard") ? "#2ecc71" : "#333"} 
+                />
+                <Text style={[styles.tabText, isActiveRoute("Dashboard") && styles.activeTabText]}>
+                    Home
+                </Text>
             </TouchableOpacity>
 
-            {/* Clinic */}
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate("ClinicFinder")}>
-                <Icon name="map-marker" size={24} color="#333" />
-                <Text style={styles.tabText}>Clinic</Text>
+            <TouchableOpacity 
+                style={[styles.tab, isActiveRoute("SymptomsAnalysis") && styles.activeTab]} 
+                onPress={() => navigation.navigate("SymptomsAnalysis")}
+            >
+                <MaterialCommunityIcons 
+                    name="robot" 
+                    size={24} 
+                    color={isActiveRoute("SymptomsAnalysis") ? "#2ecc71" : "#333"} 
+                />
+                <Text style={[styles.tabText, isActiveRoute("SymptomsAnalysis") && styles.activeTabText]}>
+                    HealthAI
+                </Text>
             </TouchableOpacity>
 
-            {/* Ambulance (Central Button) */}
             <CustomTabButton onPress={() => navigation.navigate("Ambulance")}>
-                <Icon name="ambulance" size={28} color="#fff" />
+                <MaterialCommunityIcons name="ambulance" size={32} color="#fff" />
             </CustomTabButton>
 
-            {/* Alerts */}
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate("Alerts")}>
-                <Icon name="bell" size={24} color="#333" />
-                <Text style={styles.tabText}>Alerts</Text>
+            <TouchableOpacity 
+                style={[styles.tab, isActiveRoute("ClinicFinder") && styles.activeTab]} 
+                onPress={() => navigation.navigate("ClinicFinder")}
+            >
+                <MaterialCommunityIcons 
+                    name="hospital-marker" 
+                    size={24} 
+                    color={isActiveRoute("ClinicFinder") ? "#2ecc71" : "#333"} 
+                />
+                <Text style={[styles.tabText, isActiveRoute("ClinicFinder") && styles.activeTabText]}>
+                    Clinic
+                </Text>
             </TouchableOpacity>
 
-            {/* Settings */}
-            <TouchableOpacity style={styles.tab} onPress={() => navigation.navigate("Settings")}>
-                <Icon name="cogs" size={24} color="#333" />
-                <Text style={styles.tabText}>Settings</Text>
+            <TouchableOpacity 
+                style={[styles.tab, isActiveRoute("Settings") && styles.activeTab]} 
+                onPress={() => navigation.navigate("Settings")}
+            >
+                <MaterialCommunityIcons 
+                    name="cog" 
+                    size={24} 
+                    color={isActiveRoute("Settings") ? "#2ecc71" : "#333"} 
+                />
+                <Text style={[styles.tabText, isActiveRoute("Settings") && styles.activeTabText]}>
+                    Settings
+                </Text>
             </TouchableOpacity>
         </View>
     );
@@ -69,34 +92,62 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
-        height: 85,
+        height: 80,
         backgroundColor: "#fff",
-        borderRadius: 15,
+        borderRadius: 20,
         position: 'absolute',
-        bottom: 5,
+        bottom: 20,
         left: 20,
         right: 20,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 12,
+        elevation: 5,
     },
     tab: {
         alignItems: "center",
         justifyContent: "center",
         paddingHorizontal: 10,
+        height: 50,
+    },
+    activeTab: {
+        borderRadius: 12,
     },
     tabText: {
         color: "#333",
         fontSize: 12,
-        marginTop: 5,
+        marginTop: 4,
+        fontWeight: '500',
     },
-    shadow: {
-        shadowColor: '#007BFF',
+    activeTabText: {
+        color: "#2ecc71",
+        fontWeight: '600',
+    },
+    customTabButton: {
+        top: -30,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    customTabButtonInner: {
+        width: 64,
+        height: 64,
+        borderRadius: 32,
+        backgroundColor: '#E32F45',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: '#E32F45',
         shadowOffset: {
             width: 0,
-            height: 10,
+            height: 4,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.5,
-        elevation: 5,
-    },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 8,
+    }
 });
 
 export default Tabs;
