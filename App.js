@@ -15,7 +15,7 @@ import Ambulance from './pages/Ambulance.js';
 import ForgotPassword from './pages/Authentication/ForgotPassword.js';
 
 // Settings sub-pages
-import Account from "./pages/Settings/Account";
+import Account from "./pages/Settings/AccountCenter.js";
 import About from "./pages/Settings/About";
 import PrivacyPolicy from "./pages/Settings/PrivacyPolicy";
 import TermsOfUse from "./pages/Settings/TermsOfUse";
@@ -68,12 +68,12 @@ const App = () => {
           component={Settings}
           options={{ headerShown: false }}
         />
-        {/* Settings sub-pages */}
         <Stack.Screen
-          name="Account"
-          component={Account}
+          name="AccountCenter"
+          component={AccountCenter}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="About"
           component={About}

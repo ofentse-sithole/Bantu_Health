@@ -1,15 +1,10 @@
 // pages/PrivacyPolicy.js
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 const PrivacyPolicy = () => {
-    const navigation = useNavigation();
-
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {/* Back Button */}
             <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                 <Icon name="arrow-left" size={20} color="#333" />
             </TouchableOpacity>
@@ -24,7 +19,6 @@ const PrivacyPolicy = () => {
                 </Text>
             </View>
 
-            {/* Additional Sections */}
             <View style={styles.card}>
                 <Text style={styles.subTitle}>1. Information We Collect</Text>
                 <Text style={styles.content}>
@@ -37,7 +31,6 @@ const PrivacyPolicy = () => {
                 <Text style={styles.bullet}>• Usage Data: We collect information about how you use the app, including features accessed, time spent, etc.</Text>
             </View>
 
-            {/* Additional sections continue */}
             <View style={styles.card}>
                 <Text style={styles.subTitle}>2. How We Use Your Information</Text>
                 <Text style={styles.content}>
@@ -84,13 +77,6 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: '#f4f4f8',
     },
-    backButton: {
-        position: 'absolute',
-        top: 35,
-        left: 25,
-        padding: 10,
-        zIndex: 1,
-    },
     card: {
         backgroundColor: '#fff',
         borderRadius: 12,
@@ -133,6 +119,13 @@ const styles = StyleSheet.create({
         lineHeight: 24,
         marginLeft: 10,
         marginBottom: 10,
+    },
+    backButton: {
+        position: 'absolute',
+        top: 35,
+        left: 25,
+        padding: 10,
+        zIndex: 1,
     },
 });
 

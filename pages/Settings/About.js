@@ -1,10 +1,13 @@
-// pages/settings/About.js
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
 const About = () => {
     return (
         <ScrollView contentContainerStyle={styles.container}>
+            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                <Icon name="arrow-left" size={20} color="#333" />
+            </TouchableOpacity>
+
             <View style={styles.card}>
                 <Text style={styles.title}>About Us</Text>
                 <Text style={styles.content}>
@@ -63,6 +66,13 @@ const styles = StyleSheet.create({
         color: '#555',
         lineHeight: 24,
         textAlign: 'justify',
+    },
+    backButton: {
+        position: 'absolute',
+        top: 35,
+        left: 25,
+        padding: 10,
+        zIndex: 1,
     },
 });
 

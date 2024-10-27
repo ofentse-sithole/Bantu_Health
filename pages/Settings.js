@@ -7,32 +7,42 @@ import Navbar from '../components/Navbar/Navbar.js';
 const { width } = Dimensions.get('window');
 
 const Settings = () => {
-  const navigation = useNavigation();
-
-  const renderOption = (iconName, title, route) => (
-    <TouchableOpacity
-      style={styles.option}
-      onPress={() => navigation.navigate(route)}
-    >
-      <Icon name={iconName} size={width * 0.06} color="#333" />
-      <Text style={styles.optionText}>{title}</Text>
-    </TouchableOpacity>
-  );
-
+  const navigation = useNavigation(); // Hook for navigation
   return (
     <View style={styles.container}>
-      {/* Spacer Header */}
-      <View style={styles.spacer} />
+      <ScrollView style={styles.scrollContainer}>
+        <Text style={styles.header}>Settings and activity</Text>
 
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        {renderOption("user", "Profile", "Profile")}
-        {renderOption("bell", "Notifications", "Notifications")}
-        {renderOption("shield-alt", "Security", "Security")}
-        {renderOption("question-circle", "Help & Support", "Support")}
-        {renderOption("file-alt", "Privacy Policy", "PrivacyPolicy")}
-        {renderOption("file-contract", "Terms of Use", "TermsOfUse")}
+        {/* Search Bar */}
+        <View style={styles.searchContainer}>
+          <Icon name="search" size={20} color="#888" style={styles.searchIcon} />
+          <TextInput
+            placeholder="Search"
+            placeholderTextColor="#888"
+            style={styles.searchInput}
+          />
+        </View>
+
+        <TouchableOpacity
+          style={styles.option}
+          onPress={() => navigation.navigate('AccountCenter')}>
+          <Icon name="user-cog" size={20} color="#000" style={styles.optionIcon} />
+          <View style={styles.optionTextContainer}>
+            <Text style={styles.optionTitle}>Accounts Center</Text>
+            <Text style={styles.optionDescription}>Password, security, personal details, ad preferences</Text>
+          </View>
+          <Icon name="chevron-right" size={15} color="#000" />
+        </TouchableOpacity>
+
+        {/* How you use the app Section */}
+        <Text style={styles.sectionTitle}>How you use the app</Text>
+        {renderOption("info-circle", "About", "About", navigation)}
+        {renderOption("file-alt", "Privacy Policy", "PrivacyPolicy", navigation)}
+        {renderOption("file-contract", "Terms of Use", "TermsOfUse", navigation)}
       </ScrollView>
-      <Navbar />
+
+      {/* Navbar fixed at the bottom */}
+      <Navbar style={styles.navbar} />
     </View>
   );
 };
@@ -42,24 +52,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  spacer: {
-    height: width * 0.1,  // Adjust the height for desired spacing
-  },
   scrollView: {
-    padding: width * 0.05,
-    paddingBottom: width * 0.2,
+    flex: 1,
+    padding: 20,
   },
   option: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: width * 0.04,
+    padding: 15,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
   optionText: {
-    marginLeft: width * 0.04,
-    fontSize: width * 0.045,
+    marginLeft: 15,
+    fontSize: 16,
     color: '#333',
+  },
+  navbar: {
+    position: 'absolute',
+    bottom: 0,
   },
 });
 
