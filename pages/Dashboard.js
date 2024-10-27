@@ -133,12 +133,11 @@ const Dashboard = ({ navigation }) => {
         </TouchableOpacity>
 
         {/* Emergency Call View */}
-        <TouchableOpacity
-          style={styles.gridItemEmergency}
-          onPress={() => Linking.openURL("tel:112")}
+        <TouchableOpacity 
+          style={styles.consultationButton} 
+          onPress={() => navigation.navigate('VideoConsultationScreen')}
         >
-          <FontAwesome5 name="phone" size={30} color="red" style={styles.icon} />
-          <Text style={styles.gridTitle}>Call</Text>
+          <Text style={styles.buttonText}>Book Video Consultation</Text>
         </TouchableOpacity>
       </View>
 
