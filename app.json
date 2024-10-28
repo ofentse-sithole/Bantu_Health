@@ -9,7 +9,10 @@
     "scheme": "bantuhealth",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.pixelelites.bantuhealth"
+      "bundleIdentifier": "com.pixelelites.bantuhealth",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app needs access to your location to show nearby medical facilities."
+      }
     },
     "androidNavigationBar": {
       "visible": "immersive"
@@ -28,7 +31,11 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.pixelelites.bantuhealth",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -1,7 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 const TermsOfUse = () => {
+
+    const navigation = useNavigation(); // Use the hook to get navigation
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>

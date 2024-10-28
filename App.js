@@ -13,6 +13,7 @@ import MapComponent from "./components/MapComponent";
 import VideoConsultationScreen from "./pages/VideoConsultation/VideoConsultationScreen";
 import Ambulance from './pages/Ambulance.js';
 import ForgotPassword from './pages/Authentication/ForgotPassword.js';
+import AccountCenter from "./pages/Settings/AccountCenter.js";
 
 // Settings sub-pages
 import Account from "./pages/Settings/AccountCenter.js";

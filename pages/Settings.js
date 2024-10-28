@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import { TextInput, View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Navbar from '../components/Navbar/Navbar.js';
@@ -8,6 +8,20 @@ const { width } = Dimensions.get('window');
 
 const Settings = () => {
   const navigation = useNavigation(); // Hook for navigation
+
+  // Define renderOption function
+  const renderOption = (iconName, title, routeName) => (
+    <TouchableOpacity
+      style={styles.option}
+      onPress={() => navigation.navigate(routeName)}>
+      <Icon name={iconName} size={20} color="#000" style={styles.optionIcon} />
+      <View style={styles.optionTextContainer}>
+        <Text style={styles.optionTitle}>{title}</Text>
+      </View>
+      <Icon name="chevron-right" size={15} color="#000" />
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
       <ScrollView style={styles.scrollContainer}>
@@ -36,9 +50,9 @@ const Settings = () => {
 
         {/* How you use the app Section */}
         <Text style={styles.sectionTitle}>How you use the app</Text>
-        {renderOption("info-circle", "About", "About", navigation)}
-        {renderOption("file-alt", "Privacy Policy", "PrivacyPolicy", navigation)}
-        {renderOption("file-contract", "Terms of Use", "TermsOfUse", navigation)}
+        {renderOption("info-circle", "About", "About")}
+        {renderOption("file-alt", "Privacy Policy", "PrivacyPolicy")}
+        {renderOption("file-contract", "Terms of Use", "TermsOfUse")}
       </ScrollView>
 
       {/* Navbar fixed at the bottom */}
@@ -52,7 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  scrollView: {
+  scrollContainer: {
     flex: 1,
     padding: 20,
   },
@@ -63,8 +77,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
-  optionText: {
+  optionTextContainer: {
+    flex: 1,
     marginLeft: 15,
+  },
+  optionTitle: {
     fontSize: 16,
     color: '#333',
   },
