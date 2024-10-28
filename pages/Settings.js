@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TextInput, View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -7,16 +7,32 @@ import Navbar from '../components/Navbar/Navbar.js';
 const { width } = Dimensions.get('window');
 
 const Settings = () => {
-  const navigation = useNavigation(); // Hook for navigation
+  const navigation = useNavigation();
+  const [searchText, setSearchText] = useState('');
+
+  // Options available in Settings
+  const options = [
+    { icon: "user-cog", title: "Accounts Center", description: "Manage password, security, personal details", route: "AccountCenter" },
+    { icon: "info-circle", title: "About", route: "About" },
+    { icon: "file-alt", title: "Privacy Policy", route: "PrivacyPolicy" },
+    { icon: "file-contract", title: "Terms of Use", route: "TermsOfUse" },
+  ];
+
+  // Filter options based on search input
+  const filteredOptions = options.filter(option =>
+    option.title.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   // Define renderOption function
-  const renderOption = (iconName, title, routeName) => (
+  const renderOption = ({ icon, title, description, route }) => (
     <TouchableOpacity
+      key={title}
       style={styles.option}
-      onPress={() => navigation.navigate(routeName)}>
-      <Icon name={iconName} size={20} color="#4B5563" style={styles.optionIcon} />
+      onPress={() => navigation.navigate(route)}>
+      <Icon name={icon} size={20} color="#4B5563" style={styles.optionIcon} />
       <View style={styles.optionTextContainer}>
         <Text style={styles.optionTitle}>{title}</Text>
+        {description && <Text style={styles.optionDescription}>{description}</Text>}
       </View>
       <Icon name="chevron-right" size={15} color="#4B5563" />
     </TouchableOpacity>
@@ -35,25 +51,17 @@ const Settings = () => {
               placeholder="Search"
               placeholderTextColor="#9CA3AF"
               style={styles.searchInput}
+              value={searchText}
+              onChangeText={setSearchText}
             />
           </View>
 
-          <TouchableOpacity
-            style={styles.option}
-            onPress={() => navigation.navigate('AccountCenter')}>
-            <Icon name="user-cog" size={20} color="#4B5563" style={styles.optionIcon} />
-            <View style={styles.optionTextContainer}>
-              <Text style={styles.optionTitle}>Accounts Center</Text>
-              <Text style={styles.optionDescription}>Manage password, security, personal details</Text>
-            </View>
-            <Icon name="chevron-right" size={15} color="#4B5563" />
-          </TouchableOpacity>
-
-          {/* How you use the app Section */}
-          <Text style={styles.sectionTitle}>How you use the app</Text>
-          {renderOption("info-circle", "About", "About")}
-          {renderOption("file-alt", "Privacy Policy", "PrivacyPolicy")}
-          {renderOption("file-contract", "Terms of Use", "TermsOfUse")}
+          {/* Render filtered options */}
+          {filteredOptions.length > 0 ? (
+            filteredOptions.map(option => renderOption(option))
+          ) : (
+            <Text style={styles.noResultsText}>No results found</Text>
+          )}
 
           {/* Logout Button */}
           <TouchableOpacity
@@ -134,12 +142,11 @@ const styles = StyleSheet.create({
     color: '#6B7280',
     marginTop: 4,
   },
-  sectionTitle: {
-    fontSize: 20,
-    color: '#4B5563',
-    fontWeight: '600',
-    marginTop: 20,
-    marginBottom: 10,
+  noResultsText: {
+    fontSize: 16,
+    color: '#9CA3AF',
+    textAlign: 'center',
+    marginVertical: 20,
   },
   logoutButton: {
     flexDirection: 'row',
