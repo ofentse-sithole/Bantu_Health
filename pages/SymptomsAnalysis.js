@@ -60,7 +60,9 @@ const SymptomsAnalysis = () => {
       }
 
       const data = await response.json();
-      return data.analysis;
+      // Remove asterisks from the analysis response
+      const cleanedAnalysis = data.analysis.replace(/[*#]/g, '');
+      return cleanedAnalysis;
     } catch (error) {
       console.error('Error analyzing symptoms:', error);
       throw error;
@@ -69,13 +71,11 @@ const SymptomsAnalysis = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <MaterialCommunityIcons name="medical-bag" size={32} color="#007AFF" />
-          <Text style={styles.title}>BantuHealthAI</Text>
-        </View>
+      <View style={styles.header}>
+        <MaterialCommunityIcons name="medical-bag" size={32} color="#007AFF" />
+        <Text style={styles.title}>BantuHealthAI</Text>
+      </View>
       <ScrollView style={styles.scrollView} keyboardShouldPersistTaps="handled">
-       
-
         <Text style={styles.sectionTitle}>Select Your Symptoms</Text>
         <View style={styles.symptomsContainer}>
           {symptoms.map((symptom) => (
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center', // Add this line
+    justifyContent: 'center',
     marginVertical: 24,
     width: '100%',
   },
