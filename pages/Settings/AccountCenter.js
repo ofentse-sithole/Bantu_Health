@@ -15,15 +15,14 @@ const AccountCenter = () => {
     email: '',
   });
 
-  // Fetch user data from Firestore based on authenticated user ID
   useEffect(() => {
     const fetchUserData = async () => {
       const user = auth.currentUser;
-      if (!user) return; // Ensure user is logged in
+      if (!user) return;
 
       try {
-        const db = getFirestore(); // Initialize Firestore
-        const userDocRef = doc(db, 'users', user.uid); // Firestore path for the user
+        const db = getFirestore();
+        const userDocRef = doc(db, 'users', user.uid);
         const userDoc = await getDoc(userDocRef);
 
         if (userDoc.exists()) {
@@ -62,9 +61,12 @@ const AccountCenter = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
-        <Text style={styles.header}>Account Center</Text>
+        {/* Header with Back Arrow and Title */}
+        <View style={styles.headerContainer}>
+          <Icon name="arrow-left" size={24} color="#4B5563" onPress={() => navigation.goBack()} />
+          <Text style={styles.header}>Account Center</Text>
+        </View>
 
-        {/* User Details Display */}
         <View style={styles.section}>
           <Text style={styles.label}>First Name</Text>
           <TextInput
@@ -103,13 +105,9 @@ const AccountCenter = () => {
           />
         </View>
 
-        {/* Save Changes Button */}
         <TouchableOpacity style={styles.saveButton} onPress={handleSaveChanges}>
           <Text style={styles.saveButtonText}>Save Changes</Text>
         </TouchableOpacity>
-
-        {/* Footer Navigation */}
-        <Icon name="chevron-left" size={20} color="#4B5563" style={styles.backIcon} onPress={() => navigation.goBack()} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -125,12 +123,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
   },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
   header: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#1F2937',
-    marginVertical: 20,
-    textAlign: 'center',
+    marginLeft: 10,
   },
   section: {
     backgroundColor: '#FFFFFF',
@@ -170,10 +172,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
-  },
-  backIcon: {
-    marginTop: 30,
-    textAlign: 'center',
   },
 });
 
