@@ -54,6 +54,14 @@ const Settings = () => {
           {renderOption("info-circle", "About", "About")}
           {renderOption("file-alt", "Privacy Policy", "PrivacyPolicy")}
           {renderOption("file-contract", "Terms of Use", "TermsOfUse")}
+
+          {/* Logout Button */}
+          <TouchableOpacity
+            style={styles.logoutButton}
+            onPress={() => navigation.navigate('Login')}>
+            <Icon name="sign-out-alt" size={20} color="#FF6B6B" style={styles.logoutIcon} />
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
         </ScrollView>
 
         {/* Navbar fixed at the bottom */}
@@ -132,6 +140,28 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: 20,
     marginBottom: 10,
+  },
+  logoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    marginVertical: 20,
+    backgroundColor: '#FFEBEE',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  logoutIcon: {
+    marginRight: 10,
+  },
+  logoutText: {
+    fontSize: 18,
+    color: '#FF6B6B',
+    fontWeight: '600',
   },
   navbar: {
     position: 'absolute',
