@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ActivityIndicator, ScrollView, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth } from '../../firebaseConfig'; // Ensure Firestore is initialized in firebaseConfig
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -40,6 +40,21 @@ const AccountCenter = () => {
     fetchUserData();
   }, []);
 
+  const handleSaveChanges = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    try {
+      const db = getFirestore();
+      const userDocRef = doc(db, 'users', user.uid);
+      await updateDoc(userDocRef, userData);
+      Alert.alert('Success', 'Your information has been updated.');
+    } catch (error) {
+      console.error('Error updating user data:', error);
+      Alert.alert('Error', 'Failed to update your information.');
+    }
+  };
+
   if (loading) {
     return <ActivityIndicator size="large" color="#4F46E5" style={{ marginTop: 20 }} />;
   }
@@ -55,7 +70,7 @@ const AccountCenter = () => {
           <TextInput
             style={styles.input}
             value={userData.userName}
-            editable={false}
+            onChangeText={(text) => setUserData({ ...userData, userName: text })}
             placeholder="First Name"
             placeholderTextColor="#9CA3AF"
           />
@@ -64,7 +79,7 @@ const AccountCenter = () => {
           <TextInput
             style={styles.input}
             value={userData.surname}
-            editable={false}
+            onChangeText={(text) => setUserData({ ...userData, surname: text })}
             placeholder="Surname"
             placeholderTextColor="#9CA3AF"
           />
@@ -73,7 +88,7 @@ const AccountCenter = () => {
           <TextInput
             style={styles.input}
             value={userData.cellphone}
-            editable={false}
+            onChangeText={(text) => setUserData({ ...userData, cellphone: text })}
             placeholder="Phone Number"
             placeholderTextColor="#9CA3AF"
           />
@@ -82,11 +97,16 @@ const AccountCenter = () => {
           <TextInput
             style={styles.input}
             value={userData.email}
-            editable={false}
+            onChangeText={(text) => setUserData({ ...userData, email: text })}
             placeholder="Email"
             placeholderTextColor="#9CA3AF"
           />
         </View>
+
+        {/* Save Changes Button */}
+        <TouchableOpacity style={styles.saveButton} onPress={handleSaveChanges}>
+          <Text style={styles.saveButtonText}>Save Changes</Text>
+        </TouchableOpacity>
 
         {/* Footer Navigation */}
         <Icon name="chevron-left" size={20} color="#4B5563" style={styles.backIcon} onPress={() => navigation.goBack()} />
@@ -138,6 +158,18 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     borderWidth: 1,
     borderColor: '#E5E7EB',
+  },
+  saveButton: {
+    backgroundColor: '#4F46E5',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  saveButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
   backIcon: {
     marginTop: 30,
