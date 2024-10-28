@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Dimensions, Text, ActivityIndicator, TouchableOpacity, Linking, Platform, Alert } from 'react-native';
+import { View, StyleSheet, Dimensions, Text, ActivityIndicator, TouchableOpacity, Linking, Platform, Alert, SafeAreaView } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -146,6 +146,7 @@ const MapComponent = ({ onLocationSelect }) => {
     }, []);
 
     return (
+        <SafeAreaView style={styles.safeContainer}>
         <View style={styles.container}>
             <View style={styles.headerContainer}>
                 <Text style={styles.headerText}>Find Medical Facilities</Text>
@@ -202,10 +203,15 @@ const MapComponent = ({ onLocationSelect }) => {
                 </View>
             )}
         </View>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
+    safeContainer: {
+        flex: 1,
+        backgroundColor: '#F3F4F6',
+    },
     container: {
         flex: 1,
         backgroundColor: '#fff',

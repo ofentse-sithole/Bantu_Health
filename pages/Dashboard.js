@@ -1,5 +1,3 @@
-// pages/Dashboard.js
-
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -11,7 +9,6 @@ import {
   ActivityIndicator,
   Dimensions,
   StatusBar,
-  Image
 } from "react-native";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
@@ -30,12 +27,25 @@ const Dashboard = ({ navigation }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       if (user) {
-        const db = getFirestore();
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setUserName(userData.name || "User");
+        try {
+          const db = getFirestore();
+          const userDocRef = doc(db, "users", user.uid);
+          const userDoc = await getDoc(userDocRef);
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUserName(userData.userName || "User");
+          } else {
+            console.log('No user data found');
+            setUserName("User");
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          setUserName("User");
         }
+      } else {
+        console.log('No user is signed in');
+        setUserName("User");
       }
       setLoading(false);
     };
@@ -68,7 +78,7 @@ const Dashboard = ({ navigation }) => {
         <View style={styles.content}>
           <View style={styles.featuresContainer}>
             <Text style={styles.sectionTitle}>Health Services</Text>
-            
+
             <View style={styles.gridContainer}>
               <TouchableOpacity
                 style={styles.card}
@@ -94,8 +104,13 @@ const Dashboard = ({ navigation }) => {
             </View>
 
             <View style={styles.gridContainer}>
+
+              <TouchableOpacity style={styles.card}  
+              onPress={() => navigation.navigate("EducationalHealthTips")}
+
               <TouchableOpacity style={styles.card}
                 onPress={() => navigation.navigate("Health")}
+
               >
                 <View style={[styles.iconBg, { backgroundColor: '#FFF3E0' }]}>
                   <Icon name="book" size={24} color="#E65100" />

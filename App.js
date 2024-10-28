@@ -14,6 +14,7 @@ import VideoConsultationScreen from "./pages/VideoConsultation/VideoConsultation
 import Ambulance from './pages/Ambulance.js';
 import ForgotPassword from './pages/Authentication/ForgotPassword.js';
 import AccountCenter from "./pages/Settings/AccountCenter.js";
+import EducationalHealthTips from "./pages/EducationalHeathTips";
 
 // Settings sub-pages
 import Account from "./pages/Settings/AccountCenter.js";

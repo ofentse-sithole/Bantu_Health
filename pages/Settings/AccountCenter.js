@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ActivityIndicator, ScrollView, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ref, get } from 'firebase/database';
-import { auth, database } from '../../firebaseConfig'; // Import database instead of Firestore
+import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { auth } from '../../firebaseConfig'; // Ensure Firestore is initialized in firebaseConfig
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const AccountCenter = () => {
@@ -15,18 +15,18 @@ const AccountCenter = () => {
     email: '',
   });
 
-  // Fetch user data from Realtime Database based on authenticated user ID
   useEffect(() => {
     const fetchUserData = async () => {
       const user = auth.currentUser;
-      if (!user) return; // Ensure user is logged in
+      if (!user) return;
 
       try {
-        const userRef = ref(database, `users/${user.uid}`); // Realtime Database path for the user
-        const snapshot = await get(userRef);
-        
-        if (snapshot.exists()) {
-          setUserData(snapshot.val());
+        const db = getFirestore();
+        const userDocRef = doc(db, 'users', user.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          setUserData(userDoc.data());
         } else {
           console.log('No user data found');
         }
@@ -39,6 +39,21 @@ const AccountCenter = () => {
     fetchUserData();
   }, []);
 
+  const handleSaveChanges = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    try {
+      const db = getFirestore();
+      const userDocRef = doc(db, 'users', user.uid);
+      await updateDoc(userDocRef, userData);
+      Alert.alert('Success', 'Your information has been updated.');
+    } catch (error) {
+      console.error('Error updating user data:', error);
+      Alert.alert('Error', 'Failed to update your information.');
+    }
+  };
+
   if (loading) {
     return <ActivityIndicator size="large" color="#4F46E5" style={{ marginTop: 20 }} />;
   }
@@ -46,15 +61,18 @@ const AccountCenter = () => {
   return (
     <SafeAreaView style={styles.safeContainer}>
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
-        <Text style={styles.header}>Account Center</Text>
+        {/* Header with Back Arrow and Title */}
+        <View style={styles.headerContainer}>
+          <Icon name="arrow-left" size={24} color="#4B5563" onPress={() => navigation.goBack()} />
+          <Text style={styles.header}>Account Center</Text>
+        </View>
 
-        {/* User Details Display */}
         <View style={styles.section}>
           <Text style={styles.label}>First Name</Text>
           <TextInput
             style={styles.input}
             value={userData.userName}
-            editable={false}
+            onChangeText={(text) => setUserData({ ...userData, userName: text })}
             placeholder="First Name"
             placeholderTextColor="#9CA3AF"
           />
@@ -63,7 +81,7 @@ const AccountCenter = () => {
           <TextInput
             style={styles.input}
             value={userData.surname}
-            editable={false}
+            onChangeText={(text) => setUserData({ ...userData, surname: text })}
             placeholder="Surname"
             placeholderTextColor="#9CA3AF"
           />
@@ -72,7 +90,7 @@ const AccountCenter = () => {
           <TextInput
             style={styles.input}
             value={userData.cellphone}
-            editable={false}
+            onChangeText={(text) => setUserData({ ...userData, cellphone: text })}
             placeholder="Phone Number"
             placeholderTextColor="#9CA3AF"
           />
@@ -81,14 +99,15 @@ const AccountCenter = () => {
           <TextInput
             style={styles.input}
             value={userData.email}
-            editable={false}
+            onChangeText={(text) => setUserData({ ...userData, email: text })}
             placeholder="Email"
             placeholderTextColor="#9CA3AF"
           />
         </View>
 
-        {/* Footer Navigation */}
-        <Icon name="chevron-left" size={20} color="#4B5563" style={styles.backIcon} onPress={() => navigation.goBack()} />
+        <TouchableOpacity style={styles.saveButton} onPress={handleSaveChanges}>
+          <Text style={styles.saveButtonText}>Save Changes</Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -104,12 +123,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
   },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
   header: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#1F2937',
-    marginVertical: 20,
-    textAlign: 'center',
+    marginLeft: 10,
   },
   section: {
     backgroundColor: '#FFFFFF',
@@ -138,9 +161,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#E5E7EB',
   },
-  backIcon: {
-    marginTop: 30,
-    textAlign: 'center',
+  saveButton: {
+    backgroundColor: '#4F46E5',
+    padding: 15,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  saveButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
 

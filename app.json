@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Bantu_Health",
-    "slug": "Bantu_Health",
+    "slug": "bantuhealth",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/splash.png",
