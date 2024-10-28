@@ -12,6 +12,7 @@ const REGIONS = [
     { latitude: -25.7479, longitude: 28.2293 }, // Pretoria
     { latitude: -29.8587, longitude: 31.0218 }, // Durban
     { latitude: -25.6107, longitude: 27.7895 }, // Rustenburg
+    
 ];
 
 const MapComponent = ({ onLocationSelect }) => {
@@ -59,6 +60,21 @@ const MapComponent = ({ onLocationSelect }) => {
         };
 
         fetchFacilities();
+    }, []);
+
+    // Request location permissions
+    useEffect(() => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Location permission not granted');
+                return;
+            }
+
+            // Get user location
+            let location = await Location.getCurrentPositionAsync({});
+            console.log(location);
+        })();
     }, []);
 
     const handleMarkerPress = (facility) => {
