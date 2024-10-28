@@ -106,11 +106,6 @@ const App = () => {
           component={ForgotPassword}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-        name="EducationalHealthTips"
-        component={EducationalHealthTips}
-        options={{ headerShown: false }}
-        />
         
       </Stack.Navigator>
 
