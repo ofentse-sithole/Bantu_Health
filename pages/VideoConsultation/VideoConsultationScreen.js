@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Alert , ScrollView, SafeAreaView} from 'react-native';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import DoctorSelection from './components/DoctorSelection';
 import ConsultationList from './components/ConsultationList';
 
 const VideoConsultationScreen = ({ navigation }) => {
-  const [bookingPoints, setBookingPoints] = useState(5);
+  const [HealthCredits, setHealthCredits] = useState(5);
   const [userBookings, setUserBookings] = useState([]);
   const [activeConsultation, setActiveConsultation] = useState(null);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
 
   useEffect(() => {
-    checkUserBookingPoints();
+    checkUserHealthCredits();
   }, []);
 
   const handleStartConsultation = (doctor) => {
@@ -24,7 +24,7 @@ const VideoConsultationScreen = ({ navigation }) => {
     });
   };
 
-  const checkUserBookingPoints = async () => {
+  const checkUserHealthCredits = async () => {
     const auth = getAuth();
     const user = auth.currentUser;
     
@@ -35,14 +35,14 @@ const VideoConsultationScreen = ({ navigation }) => {
       
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        if (!userData.bookingPoints) {
+        if (!userData.HealthCredits) {
           await setDoc(userRef, { 
-            bookingPoints: 5,
+            HealthCredits: 5,
             bookings: [] 
           }, { merge: true });
           setBookingPoints(5);
         } else {
-          setBookingPoints(userData.bookingPoints);
+          setBookingPoints(userData.HealthCredits);
           setUserBookings(userData.bookings || []);
         }
       }
@@ -50,7 +50,7 @@ const VideoConsultationScreen = ({ navigation }) => {
   };
 
   const handleBooking = async (doctor) => {
-    if (bookingPoints <= 0) {
+    if (HealthCredits <= 0) {
       showPurchaseDialog();
       return;
     }
@@ -70,8 +70,8 @@ const VideoConsultationScreen = ({ navigation }) => {
       };
 
       await updateDoc(userRef, {
-        bookingPoints: bookingPoints - 1,
-        bookings: [...userBookings, newBooking]
+        HealthCredits: HealthCredits - 1,
+        HealthCredits: [...userBookings, newBooking]
       });
 
       setBookingPoints(prev => prev - 1);
@@ -81,9 +81,10 @@ const VideoConsultationScreen = ({ navigation }) => {
   };
 
   return (
+    <SafeAreaView style={styles.safeContainer}>
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.pointsText}>Booking Points: {bookingPoints}</Text>
+        <Text style={styles.pointsText}>Health Credits: {HealthCredits}</Text>
       </View>
       
       <DoctorSelection
@@ -104,10 +105,15 @@ const VideoConsultationScreen = ({ navigation }) => {
         onSelectConsultation={setActiveConsultation}
       />
     </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeContainer: {
+    flex: 1,
+    backgroundColor: '#F3F4F6',
+},
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
