@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Dimensions, Text, ActivityIndicator, TouchableOpacity, Linking , Platform} from 'react-native';
+import { View, StyleSheet, Dimensions, Text, ActivityIndicator, TouchableOpacity, Linking, Platform, Alert } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -43,25 +43,30 @@ const MapComponent = ({ onLocationSelect }) => {
         }
 
         const destination = `${facility.latitude},${facility.longitude}`;
-        
-        // Direct navigation URLs
-        const androidUrl = `google.navigation:q=${destination}`;
-        const iosUrl = `comgooglemaps://?daddr=${destination}&directionsmode=driving`;
-        const webUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`;
+        const label = encodeURIComponent(facility.name);
 
-        const mapsUrl = Platform.select({
-            ios: iosUrl,
-            android: androidUrl
+        const scheme = Platform.select({
+            ios: 'comgooglemaps://',
+            android: 'geo:'
         });
 
-        Linking.canOpenURL(mapsUrl).then((supported) => {
-            if (supported) {
-                return Linking.openURL(mapsUrl);
-            }
-            return Linking.openURL(webUrl);
-        }).catch(() => {
-            Linking.openURL(webUrl);
+        const url = Platform.select({
+            ios: `${scheme}?q=${label}@${destination}&directionsmode=driving`,
+            android: `${scheme}0,0?q=${destination}(${label})`
         });
+
+        const webUrl = `https://www.google.com/maps/search/?api=1&query=${destination}`;
+
+        Linking.canOpenURL(url)
+            .then((supported) => {
+                if (supported) {
+                    return Linking.openURL(url);
+                }
+                return Linking.openURL(webUrl);
+            })
+            .catch(() => {
+                Linking.openURL(webUrl);
+            });
     };
 
     useEffect(() => {
@@ -85,12 +90,11 @@ const MapComponent = ({ onLocationSelect }) => {
                     ]);
 
                     if (hospitalData.results) {
-                        hospitalData.results.forEach((place, index) => {
-                            const facilityId = `hospital_${place.place_id}_${index}_${Date.now()}`;
+                        hospitalData.results.forEach((place) => {
                             if (!processedIds.has(place.place_id)) {
                                 processedIds.add(place.place_id);
                                 allFacilities.push({
-                                    id: facilityId,
+                                    id: place.place_id,
                                     name: place.name,
                                     latitude: place.geometry.location.lat,
                                     longitude: place.geometry.location.lng,
@@ -102,12 +106,11 @@ const MapComponent = ({ onLocationSelect }) => {
                     }
 
                     if (clinicData.results) {
-                        clinicData.results.forEach((place, index) => {
-                            const facilityId = `clinic_${place.place_id}_${index}_${Date.now()}`;
+                        clinicData.results.forEach((place) => {
                             if (!processedIds.has(place.place_id)) {
                                 processedIds.add(place.place_id);
                                 allFacilities.push({
-                                    id: facilityId,
+                                    id: place.place_id,
                                     name: place.name,
                                     latitude: place.geometry.location.lat,
                                     longitude: place.geometry.location.lng,
@@ -128,19 +131,19 @@ const MapComponent = ({ onLocationSelect }) => {
             }
         };
 
+        const getUserLocation = async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status === 'granted') {
+                let location = await Location.getCurrentPositionAsync({});
+                setUserLocation(location.coords);
+            } else {
+                setErrorMsg('Location permission not granted');
+            }
+        };
+
         fetchFacilities();
         getUserLocation();
     }, []);
-
-    const getUserLocation = async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status === 'granted') {
-            let location = await Location.getCurrentPositionAsync({});
-            setUserLocation(location.coords);
-        } else {
-            setErrorMsg('Location permission not granted');
-        }
-    };
 
     return (
         <View style={styles.container}>
@@ -165,8 +168,6 @@ const MapComponent = ({ onLocationSelect }) => {
                     } : initialRegion}
                     showsUserLocation
                     showsMyLocationButton
-                    showsCompass
-                    showsScale
                 >
                     {medicalFacilities.map((facility) => (
                         <Marker
@@ -181,7 +182,7 @@ const MapComponent = ({ onLocationSelect }) => {
                                 <View style={styles.calloutContainer}>
                                     <Text style={styles.calloutTitle}>{facility.name}</Text>
                                     <Text style={styles.calloutAddress}>{facility.address}</Text>
-                                    <TouchableOpacity 
+                                    <TouchableOpacity
                                         style={styles.directionButton}
                                         onPress={() => openInGoogleMaps(facility)}
                                     >
