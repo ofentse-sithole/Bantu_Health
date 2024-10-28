@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-import { auth, firestore } from './firebaseConfig'; // Adjust the path based on your project structure
+import { auth, firestore } from '../../firebaseConfig'; // Adjust the path based on your project structure
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
+import Icon from 'react-native-vector-icons/FontAwesome5'; // Import Icon here
 
-const AccountCenter = () => {
+const AccountCenter = ({ navigation }) => { // Added navigation as a prop
     const [loading, setLoading] = useState(true);
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
@@ -78,7 +79,6 @@ const AccountCenter = () => {
     }
 
     return (
-        
         <View style={styles.container}>
             <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                 <Icon name="arrow-left" size={20} color="#333" />
