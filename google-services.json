@@ -1,14 +1,40 @@
 {
-    "type": "service_account",
+  "project_info": {
+    "project_number": "39135274804",
+    "firebase_url": "https://bantu-health-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "bantu-health",
-    "private_key_id": "1d8d64de44f93fa61ffeaa0ed3d7d588554fd371",
-    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDQ9JBbRgUUmH+Q\nDJLOa9QxRgdUC5TnxzYrnVwOdhOD4MA8K+AUA1zfcxmw34gCXDSIKRhEUE+7r0YR\n9y6O9LKlE8Ick0BAEIDogrd8CP89yMOCPKsXcTQ0z0Jq/9bdBbOwmt1p5w85xUbr\nZoyDHHFHW1ZbIf2eYk5gd7OiWKbRivU4Wa1ZopU0UZQL6BcXfK0Tbf1kFGSOifFT\nZnBh+SgKqR2R2AhMU9sh5y4G4MT/5XiaYzf4weJhM8Fz/s85in6HHJVUoXTrEuav\nYDXpM687CcFN5TgdLHYK+Fpic+uwbb0NXTtafbi2uC92wMNlF9BiLIE30wscNIgc\nHZXanRvBAgMBAAECggEADral4pNx4KMjWlqUTM45dRXEBtZA8DguF5CfTpJgaekd\nyC7juq0I8WAKt1JqIpZpCYxxPcA0+ReMtM+luuG+oZKcWMRCojA3T4gC0QxWIrzc\nDXPlrUMmpLBScjPdJpeT8VPaUu52+z+psII6UzIhxN9I26ZvVCOCdtb+8mfRKVCB\nxMVPF/Jz7AUEDK+oyCI5p8LPCCgKKx8BQT2fNDdWVsAg8orD2LmYtbnJKpKkpTBW\nCvsRKZ5AD1RyHumyaglzwysTwM54FOSilSfyp327VxvykvCZbjpLNlU6RZIqVqXy\nXnsqdE/kqqo31fVH2GcoVff/Xx+WNHQABaH0hmw6BQKBgQDo7LlX0snqinThcaF3\nMbYSwMjLNQYsCQj6HCgcH2Thj5bRzMH+/s0ZQ1H1igswwKpZZBNgra0kTYEXbMiB\n842jA0C0oZwOxbhGm/bOK9SMHuCBM2WTF7YcD94yB/EzTC7XCDay2JeiD+D4nkn3\nKzT40VTAJXjVl1lduz0NmchyLQKBgQDlp/HxvfUeTRzO6TthA9s5JYFNQdfvXqX1\nxhGiQIY8vXnbAka8LiUcvwg5kDghhYgil6Y4ayLZz0UiBuOutwKYqXARW1FZekl4\noZ5PfKrMsJu2IZ4QyizyzjaDV7LkD2jgstauexV6hB7DHczrK6uv9sk6kUsy7F+n\nRXzn0IJQZQKBgG0kh5Csd+rL6Aq/iQ5mH8/Xv/7gIL0/mpI/4VeUKlw7QUubq4eF\n86sTzXLFtYqprOjoKOBTYV8yZfwJAEdMTaEF5Cr/0zVk1n1XlaV0CkuCKGbCI6Vy\nJeYuVUqSSCZmW0htU9wn+5133U4CNdx4xYCV7iV/KYjEO57dHrWhyrgdAoGACsvn\ncu70PBVx+kQ6t2fgAYLC3mfvB+DSOoiyQYd5CBf8R5CG1MfylLRiZZpjGShW6xFo\nDhTzUXwOCvh58bfG1nh4vUgmveci1xn6AFCjEvZmi5xu+ukWTd/l7izMSy5yRsYB\nk7hTnSvi6ldXT+MAskgO08MK3vz/zjRVF+zUg4UCgYAy9pxKI9Fi/8ciwr16V/3T\n8kpb3oGIpMCcuP0R7qLsmCz/L1FY7hbBlX8Qecvn0jACS4l8JHfUYKYK9mSjyYYk\naFLmdL9rwrUj7b4XrgK496X2Ao4AmZAj2ywr5A3FoLnEeX2jTYXyxt4kFDzWTs4v\nWKoUUi+jiG3G1xvRxcvVYg==\n-----END PRIVATE KEY-----\n",
-    "client_email": "firebase-adminsdk-vh20t@bantu-health.iam.gserviceaccount.com",
-    "client_id": "101564797705245832596",
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-vh20t%40bantu-health.iam.gserviceaccount.com",
-    "universe_domain": "googleapis.com"
-  }
-  
+    "storage_bucket": "bantu-health.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39135274804:android:1ddd91f129b5e8ae0aa761",
+        "android_client_info": {
+          "package_name": "com.pixelelites.bantuhealth"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "39135274804-5gtodrsh00h1prfc6qtdlojs3ukeaa2n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCse8wkvww1UCIgk5jlHs4f80rw60fYQKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "39135274804-5gtodrsh00h1prfc6qtdlojs3ukeaa2n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
