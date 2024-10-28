@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ref, get } from 'firebase/database';
-import { auth, database } from '../../firebaseConfig'; // Import database instead of Firestore
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { auth } from '../../firebaseConfig'; // Ensure Firestore is initialized in firebaseConfig
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const AccountCenter = () => {
@@ -15,18 +15,19 @@ const AccountCenter = () => {
     email: '',
   });
 
-  // Fetch user data from Realtime Database based on authenticated user ID
+  // Fetch user data from Firestore based on authenticated user ID
   useEffect(() => {
     const fetchUserData = async () => {
       const user = auth.currentUser;
       if (!user) return; // Ensure user is logged in
 
       try {
-        const userRef = ref(database, `users/${user.uid}`); // Realtime Database path for the user
-        const snapshot = await get(userRef);
-        
-        if (snapshot.exists()) {
-          setUserData(snapshot.val());
+        const db = getFirestore(); // Initialize Firestore
+        const userDocRef = doc(db, 'users', user.uid); // Firestore path for the user
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          setUserData(userDoc.data());
         } else {
           console.log('No user data found');
         }
