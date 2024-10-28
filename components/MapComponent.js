@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Dimensions, Text, ActivityIndicator } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import { View, StyleSheet, Dimensions, Text, ActivityIndicator, TouchableOpacity, Linking , Platform} from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const GOOGLE_API_KEY = 'AIzaSyAsc-PWMl_MI5iSNk9Jt61afWlZLFQ5Dmo';
 
@@ -20,14 +21,13 @@ const REGIONS = [
     { latitude: -32.9468, longitude: 27.7013 },
     { latitude: -30.0097, longitude: 29.0097 },
     { latitude: -29.8587, longitude: 31.0218 },
-    
-    
 ];
 
 const MapComponent = ({ onLocationSelect }) => {
     const [medicalFacilities, setMedicalFacilities] = useState([]);
     const [loading, setLoading] = useState(true);
     const [errorMsg, setErrorMsg] = useState(null);
+    const [userLocation, setUserLocation] = useState(null);
 
     const initialRegion = {
         latitude: -30.5595,
@@ -36,46 +36,86 @@ const MapComponent = ({ onLocationSelect }) => {
         longitudeDelta: 10,
     };
 
+    const openInGoogleMaps = (facility) => {
+        if (!userLocation) {
+            Alert.alert('Location Required', 'Please enable location services to get directions.');
+            return;
+        }
+
+        const destination = `${facility.latitude},${facility.longitude}`;
+        
+        // Direct navigation URLs
+        const androidUrl = `google.navigation:q=${destination}`;
+        const iosUrl = `comgooglemaps://?daddr=${destination}&directionsmode=driving`;
+        const webUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`;
+
+        const mapsUrl = Platform.select({
+            ios: iosUrl,
+            android: androidUrl
+        });
+
+        Linking.canOpenURL(mapsUrl).then((supported) => {
+            if (supported) {
+                return Linking.openURL(mapsUrl);
+            }
+            return Linking.openURL(webUrl);
+        }).catch(() => {
+            Linking.openURL(webUrl);
+        });
+    };
+
     useEffect(() => {
         const fetchFacilities = async () => {
             try {
                 const allFacilities = [];
+                const processedIds = new Set();
 
                 for (const region of REGIONS) {
-                    // Fetch hospitals
                     const hospitalUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${region.latitude},${region.longitude}&radius=50000&type=hospital&key=${GOOGLE_API_KEY}`;
-                    const hospitalResponse = await fetch(hospitalUrl);
-                    const hospitalData = await hospitalResponse.json();
-
-                    // Fetch clinics
                     const clinicUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${region.latitude},${region.longitude}&radius=50000&keyword=clinic&type=health&key=${GOOGLE_API_KEY}`;
-                    const clinicResponse = await fetch(clinicUrl);
-                    const clinicData = await clinicResponse.json();
 
-                    // Process hospitals
+                    const [hospitalResponse, clinicResponse] = await Promise.all([
+                        fetch(hospitalUrl),
+                        fetch(clinicUrl)
+                    ]);
+
+                    const [hospitalData, clinicData] = await Promise.all([
+                        hospitalResponse.json(),
+                        clinicResponse.json()
+                    ]);
+
                     if (hospitalData.results) {
-                        const hospitals = hospitalData.results.map((place) => ({
-                            id: place.place_id,
-                            name: place.name,
-                            latitude: place.geometry.location.lat,
-                            longitude: place.geometry.location.lng,
-                            address: place.vicinity,
-                            type: 'hospital'
-                        }));
-                        allFacilities.push(...hospitals);
+                        hospitalData.results.forEach((place, index) => {
+                            const facilityId = `hospital_${place.place_id}_${index}_${Date.now()}`;
+                            if (!processedIds.has(place.place_id)) {
+                                processedIds.add(place.place_id);
+                                allFacilities.push({
+                                    id: facilityId,
+                                    name: place.name,
+                                    latitude: place.geometry.location.lat,
+                                    longitude: place.geometry.location.lng,
+                                    address: place.vicinity,
+                                    type: 'hospital'
+                                });
+                            }
+                        });
                     }
 
-                    // Process clinics
                     if (clinicData.results) {
-                        const clinics = clinicData.results.map((place) => ({
-                            id: place.place_id,
-                            name: place.name,
-                            latitude: place.geometry.location.lat,
-                            longitude: place.geometry.location.lng,
-                            address: place.vicinity,
-                            type: 'clinic'
-                        }));
-                        allFacilities.push(...clinics);
+                        clinicData.results.forEach((place, index) => {
+                            const facilityId = `clinic_${place.place_id}_${index}_${Date.now()}`;
+                            if (!processedIds.has(place.place_id)) {
+                                processedIds.add(place.place_id);
+                                allFacilities.push({
+                                    id: facilityId,
+                                    name: place.name,
+                                    latitude: place.geometry.location.lat,
+                                    longitude: place.geometry.location.lng,
+                                    address: place.vicinity,
+                                    type: 'clinic'
+                                });
+                            }
+                        });
                     }
                 }
 
@@ -89,35 +129,44 @@ const MapComponent = ({ onLocationSelect }) => {
         };
 
         fetchFacilities();
+        getUserLocation();
     }, []);
 
-    useEffect(() => {
-        (async () => {
-            let { status } = await Location.requestForegroundPermissionsAsync();
-            if (status !== 'granted') {
-                setErrorMsg('Location permission not granted');
-                return;
-            }
+    const getUserLocation = async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status === 'granted') {
             let location = await Location.getCurrentPositionAsync({});
-            console.log(location);
-        })();
-    }, []);
-
-    const getMarkerColor = (type) => {
-        return type === 'hospital' ? 'red' : 'blue';
+            setUserLocation(location.coords);
+        } else {
+            setErrorMsg('Location permission not granted');
+        }
     };
 
     return (
         <View style={styles.container}>
+            <View style={styles.headerContainer}>
+                <Text style={styles.headerText}>Find Medical Facilities</Text>
+                <Text style={styles.subHeaderText}>Hospitals & Clinics Near You</Text>
+            </View>
             {loading ? (
-                <ActivityIndicator size="large" color="#007BFF" />
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color="#007BFF" />
+                    <Text style={styles.loadingText}>Finding nearby medical facilities...</Text>
+                </View>
             ) : (
                 <MapView
                     provider={PROVIDER_GOOGLE}
                     style={styles.map}
-                    initialRegion={initialRegion}
+                    initialRegion={userLocation ? {
+                        latitude: userLocation.latitude,
+                        longitude: userLocation.longitude,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    } : initialRegion}
                     showsUserLocation
                     showsMyLocationButton
+                    showsCompass
+                    showsScale
                 >
                     {medicalFacilities.map((facility) => (
                         <Marker
@@ -126,15 +175,31 @@ const MapComponent = ({ onLocationSelect }) => {
                                 latitude: facility.latitude,
                                 longitude: facility.longitude,
                             }}
-                            title={facility.name}
-                            description={facility.address}
-                            pinColor={getMarkerColor(facility.type)}
-                            onPress={() => onLocationSelect && onLocationSelect(facility)}
-                        />
+                            pinColor={facility.type === 'hospital' ? '#FF4444' : '#4444FF'}
+                        >
+                            <Callout onPress={() => onLocationSelect && onLocationSelect(facility)}>
+                                <View style={styles.calloutContainer}>
+                                    <Text style={styles.calloutTitle}>{facility.name}</Text>
+                                    <Text style={styles.calloutAddress}>{facility.address}</Text>
+                                    <TouchableOpacity 
+                                        style={styles.directionButton}
+                                        onPress={() => openInGoogleMaps(facility)}
+                                    >
+                                        <MaterialIcons name="directions" size={20} color="#FFFFFF" />
+                                        <Text style={styles.directionButtonText}>Get Directions</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </Callout>
+                        </Marker>
                     ))}
                 </MapView>
             )}
-            {errorMsg && <Text style={styles.error}>{errorMsg}</Text>}
+            {errorMsg && (
+                <View style={styles.errorContainer}>
+                    <MaterialIcons name="error" size={24} color="#FF4444" />
+                    <Text style={styles.errorText}>{errorMsg}</Text>
+                </View>
+            )}
         </View>
     );
 };
@@ -142,15 +207,83 @@ const MapComponent = ({ onLocationSelect }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#fff',
+    },
+    headerContainer: {
+        backgroundColor: '#007BFF',
+        padding: 15,
+        alignItems: 'center',
+        elevation: 4,
+    },
+    headerText: {
+        color: '#FFFFFF',
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+    subHeaderText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        marginTop: 5,
+        opacity: 0.9,
     },
     map: {
         width: Dimensions.get('window').width,
         height: '100%',
     },
-    error: {
-        textAlign: 'center',
-        color: 'red',
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loadingText: {
         marginTop: 10,
+        fontSize: 16,
+        color: '#666',
+    },
+    calloutContainer: {
+        padding: 10,
+        minWidth: 200,
+    },
+    calloutTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#333',
+        marginBottom: 5,
+    },
+    calloutAddress: {
+        fontSize: 14,
+        color: '#666',
+        marginBottom: 8,
+    },
+    directionButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#007BFF',
+        padding: 8,
+        borderRadius: 5,
+        justifyContent: 'center',
+    },
+    directionButtonText: {
+        color: '#FFFFFF',
+        marginLeft: 5,
+        fontWeight: '500',
+    },
+    errorContainer: {
+        position: 'absolute',
+        bottom: 20,
+        left: 20,
+        right: 20,
+        backgroundColor: '#FFE5E5',
+        padding: 15,
+        borderRadius: 8,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    errorText: {
+        marginLeft: 10,
+        color: '#FF4444',
+        fontSize: 14,
+        flex: 1,
     },
 });
 
