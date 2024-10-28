@@ -1,6 +1,7 @@
-
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; // Import the icon set you want to use
+
 
 const DoctorSelection = ({ doctors, onSelectDoctor }) => {
   const renderDoctor = ({ item }) => (
@@ -8,7 +9,7 @@ const DoctorSelection = ({ doctors, onSelectDoctor }) => {
       style={styles.doctorCard}
       onPress={() => onSelectDoctor(item)}
     >
-      <Image source={{ uri: item.profileImage }} style={styles.profileImage} />
+      <Icon name="account-circle" size={150} color="#007AFF" style={styles.profileImage} />
       <View style={styles.doctorInfo}>
         <Text style={styles.doctorName}>Dr. {item.name}</Text>
         <Text style={styles.specialization}>{item.specialization}</Text>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 
 const ConsultationList = ({ onSelectConsultation }) => {
   const [userConsultations, setUserConsultations] = useState([]);
@@ -13,16 +13,18 @@ const ConsultationList = ({ onSelectConsultation }) => {
   const fetchUserConsultations = async () => {
     const auth = getAuth();
     const user = auth.currentUser;
-    
+
     if (user) {
       const db = getFirestore();
-      const userRef = doc(db, 'users', user.uid);
-      const userDoc = await getDoc(userRef);
-      
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        setUserConsultations(userData.bookings || []);
-      }
+      const bookingsRef = collection(db, 'users', user.uid, 'bookings');
+      const bookingsSnapshot = await getDocs(bookingsRef);
+
+      const bookings = bookingsSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+      setUserConsultations(bookings);
     }
   };
 
@@ -33,7 +35,7 @@ const ConsultationList = ({ onSelectConsultation }) => {
     >
       <Text style={styles.doctorName}>Dr. {item.doctorName}</Text>
       <Text style={styles.dateTime}>
-        {new Date(item.date.toDate()).toLocaleString()}
+        {new Date(item.date.seconds * 1000).toLocaleString()}
       </Text>
       <Text style={[
         styles.status,
@@ -51,7 +53,7 @@ const ConsultationList = ({ onSelectConsultation }) => {
         <FlatList
           data={userConsultations}
           renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={item => item.id}
         />
       ) : (
         <Text style={styles.noBookingsText}>No consultations booked yet</Text>
