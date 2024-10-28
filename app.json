@@ -11,7 +11,9 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.pixelelites.bantuhealth",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "This app needs access to your location to show nearby medical facilities."
+        "NSLocationWhenInUseUsageDescription": "This app needs access to your location to show nearby medical facilities.",
+        "NSCameraUsageDescription": "Camera access is required for video consultations",
+        "NSMicrophoneUsageDescription": "Microphone access is required for video consultations"
       }
     },
     "androidNavigationBar": {
@@ -22,9 +24,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -34,7 +33,10 @@
       "googleServicesFile": "./google-services.json",
       "permissions": [
         "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION"
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "RECORD_AUDIO",
+        "MODIFY_AUDIO_SETTINGS"
       ]
     },
     "web": {

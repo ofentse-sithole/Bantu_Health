@@ -105,9 +105,6 @@ const Dashboard = ({ navigation }) => {
 
             <View style={styles.gridContainer}>
 
-              <TouchableOpacity style={styles.card}  
-              onPress={() => navigation.navigate("EducationalHealthTips")}
-
               <TouchableOpacity style={styles.card}
                 onPress={() => navigation.navigate("Health")}
 

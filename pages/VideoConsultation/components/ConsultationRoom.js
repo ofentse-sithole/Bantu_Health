@@ -1,10 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
+import { getAuth } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
-const ConsultationRoom = ({ roomId, participantName, onEndCall }) => {
+const ConsultationRoom = ({ roomId, onEndCall }) => {
+  const [username, setUsername] = useState('User'); // Default username
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (user) {
+        try {
+          const db = getFirestore();
+          const userDocRef = doc(db, 'users', user.uid);
+          const userDoc = await getDoc(userDocRef);
+
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            setUsername(userData.userName || 'User');
+          } else {
+            console.log('No user data found');
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      } else {
+        console.log('No user is signed in');
+      }
+    };
+
+    fetchUsername();
+  }, []);
+
   const domain = 'meet.jit.si';
-  const url = `https://${domain}/${roomId}`;
+  const url = `https://${domain}/${roomId}#userInfo.displayName="${username}"&config.prejoinPageEnabled=false`;
+
+  const injectedJavaScript = `
+    const domain = '${domain}';
+    const options = {
+      roomName: '${roomId}',
+      width: '100%',
+      height: '100%',
+      parentNode: document.querySelector('body'),
+      interfaceConfigOverwrite: {
+        TOOLBAR_BUTTONS: [
+          'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+          'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+          'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+          'videoquality', 'filmstrip', 'feedback', 'stats', 'shortcuts',
+          'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone'
+        ],
+      },
+    };
+    const api = new JitsiMeetExternalAPI(domain, options);
+  `;
 
   return (
     <View style={styles.container}>
@@ -15,6 +67,7 @@ const ConsultationRoom = ({ roomId, participantName, onEndCall }) => {
         domStorageEnabled={true}
         mediaPlaybackRequiresUserAction={false}
         allowsInlineMediaPlayback={true}
+        injectedJavaScript={injectedJavaScript}
       />
       <View style={styles.controls}>
         <TouchableOpacity

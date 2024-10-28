@@ -11,17 +11,13 @@ import SplashScreen from "./pages/SplashScreen";
 import Toast from "react-native-toast-message";
 import MapComponent from "./components/MapComponent";
 import VideoConsultationScreen from "./pages/VideoConsultation/VideoConsultationScreen";
-import Ambulance from './pages/Ambulance.js';
-import ForgotPassword from './pages/Authentication/ForgotPassword.js';
-import AccountCenter from "./pages/Settings/AccountCenter.js";
-import EducationalHealthTips from "./pages/EducationalHeathTips";
-
-// Settings sub-pages
-import Account from "./pages/Settings/AccountCenter.js";
+import Ambulance from './pages/Ambulance';
+import ForgotPassword from './pages/Authentication/ForgotPassword';
+import AccountCenter from "./pages/Settings/AccountCenter";
 import About from "./pages/Settings/About";
 import PrivacyPolicy from "./pages/Settings/PrivacyPolicy";
 import TermsOfUse from "./pages/Settings/TermsOfUse";
-import Health from './pages/Health.js';
+import Health from './pages/Health';
 
 const Stack = createStackNavigator();
 
@@ -50,7 +46,6 @@ const App = () => {
           component={Dashboard}
           options={{ headerShown: false }}
         />
-
         <Stack.Screen
           name="VideoConsultationScreen"
           component={VideoConsultationScreen}
@@ -76,7 +71,6 @@ const App = () => {
           component={AccountCenter}
           options={{ headerShown: false }}
         />
-
         <Stack.Screen
           name="About"
           component={About}
@@ -94,7 +88,7 @@ const App = () => {
         />
         <Stack.Screen
           name="MapComponent"
-          component={MapComponent} // Fixed component reference
+          component={MapComponent}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -107,14 +101,12 @@ const App = () => {
           component={ForgotPassword}
           options={{ headerShown: false }}
         />
-
-
+      
         <Stack.Screen
-        name="Health"
-        component={Health}
-        options={{headerShown: false}}
+          name="Health"
+          component={Health}
+          options={{ headerShown: false }}
         />
-        
       </Stack.Navigator>
 
       {/* Toast should be placed here */}
