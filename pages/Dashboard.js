@@ -104,7 +104,9 @@ const Dashboard = ({ navigation }) => {
             </View>
 
             <View style={styles.gridContainer}>
-              <TouchableOpacity style={styles.card}>
+              <TouchableOpacity style={styles.card}  
+              onPress={() => navigation.navigate("EducationalHealthTips")}
+              >
                 <View style={[styles.iconBg, { backgroundColor: '#FFF3E0' }]}>
                   <Icon name="book" size={24} color="#E65100" />
                 </View>
