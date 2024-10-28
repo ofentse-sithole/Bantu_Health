@@ -4,7 +4,7 @@
     "slug": "bantuhealth",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/splash.png",
+    "icon": "./assets/icon.png",  // Ensure this path points to a valid icon file
     "userInterfaceStyle": "light",
     "scheme": "bantuhealth",
     "ios": {
