@@ -20,6 +20,7 @@ import Account from "./pages/Settings/AccountCenter.js";
 import About from "./pages/Settings/About";
 import PrivacyPolicy from "./pages/Settings/PrivacyPolicy";
 import TermsOfUse from "./pages/Settings/TermsOfUse";
+import Health from './pages/Health.js';
 
 const Stack = createStackNavigator();
 
@@ -104,6 +105,13 @@ const App = () => {
           name="ForgotPassword"
           component={ForgotPassword}
           options={{ headerShown: false }}
+        />
+
+
+        <Stack.Screen
+        name="Health"
+        component={Health}
+        options={{headerShown: false}}
         />
         
       </Stack.Navigator>
