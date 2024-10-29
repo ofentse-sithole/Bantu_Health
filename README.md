@@ -36,6 +36,8 @@ Bantu Health is a mobile application designed to provide accessible healthcare r
 *   **Symptom Analysis:** Allows users to enter symptoms and receive insights on potential health concerns.
     
 *   **Telemedicine:** Utilizes Jitsi Meet to connect users with healthcare professionals for secure virtual consultations, enhancing access to care from the comfort of home.
+
+*   **Emergency:** Allows users to press the emergency button to request an ambulance to their current location and while in the process they have an option to call the Emergency free toll number.
     
 *   **Account Management and Settings:** Provides a personalized experience where users can manage their information and access privacy settings.
     
@@ -112,6 +114,10 @@ Select Symptom Analysis to analyze symptoms by entering specific details. The an
 ### Accessing Telemedicine
 
 Navigate to the Telemedicine section to connect with healthcare professionals using Jitsi Meet for secure virtual consultations. Users can schedule and join appointments directly within the app.
+
+### Accessing Emergency
+
+Navigate to the Emergency button it will request for an ambulance to come at the location of the user and the user will have an option to call the toll free emergency number
 
 ### Managing Account Settings
 
