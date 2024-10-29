@@ -144,14 +144,6 @@ App Structure
 *   **App.js:** The main entry point of the app, responsible for loading components and handling navigation.
     
 *   **README.md:** Contains basic project information and setup instructions.
-    
-
-File Structure
---------------
-
-The complete file structure of the Bantu Health app is as follows:
-
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   luaCopy codeBantu_Health  ├── .vscode/  │   └── settings.json  ├── assets/  │   ├── images/  │   │   ├── logo-preview.png  │   │   └── logo.png  │   ├── adaptive-icon.png  │   ├── favicon.png  │   ├── icon.png  │   └── splash.png  ├── pages/  │   ├── Navbar/  │   │   ├── DashboardNavbar.js  │   │   └── Navbar.js  │   ├── Settings/  │   │   ├── About.js  │   │   ├── Account.js  │   │   ├── PrivacyPolicy.js  │   │   └── TermsOfUse.js  │   ├── Account.js  │   ├── ClinicFinder.js  │   ├── Dashboard.js  │   ├── Login.js  │   ├── Register.js  │   ├── Settings.js  │   ├── SlashScreen.js  │   ├── SymptomsAnalysis.js  │   └── Telemedicine.js  ├── .gitignore  ├── App.js  ├── app.json  ├── babel.config.js  ├── firebaseConfig.js  ├── package-lock.json  ├── package.json  └── README.md   `
 
 Main Features
 -------------
