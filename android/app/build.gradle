@@ -109,7 +109,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.bantuhealth"
+    namespace "com.pixelelites.bantuhealth"
     defaultConfig {
         applicationId 'com.pixelelites.bantuhealth'
         minSdkVersion rootProject.ext.minSdkVersion
