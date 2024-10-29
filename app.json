@@ -17,7 +17,7 @@
         "NSPhotoLibraryUsageDescription": "Photo library access is required to upload images."
       },
       "config": {
-        "googleMapsApiKey": "AIzaSyDLoG0-Xvgtc9_EUCpRXrx2VJ3c1NPjR3w"
+        "googleMapsApiKey": "AIzaSyAsc-PWMl_MI5iSNk9Jt61afWlZLFQ5Dmo"
       }
     },
     "androidNavigationBar": {
@@ -35,7 +35,7 @@
       },
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyDLoG0-Xvgtc9_EUCpRXrx2VJ3c1NPjR3w"
+          "apiKey": "AIzaSyAsc-PWMl_MI5iSNk9Jt61afWlZLFQ5Dmo"
         },
         "package": "com.pixelelites.bantuhealth",
         "googleServicesFile": "./google-services.json",
@@ -46,15 +46,13 @@
           "RECORD_AUDIO",
           "MODIFY_AUDIO_SETTINGS"
         ]
-      }
+      },
+      "package": "com.pixelelites.bantuhealth"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "googleMaps": {
-        "apiKey": "AIzaSyDLoG0-Xvgtc9_EUCpRXrx2VJ3c1NPjR3w"
-      },
       "eas": {
         "projectId": "84da1bb7-b78b-4a92-bcf3-d54f0bc0a343"
       }
