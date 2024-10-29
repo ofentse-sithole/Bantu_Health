@@ -4,7 +4,7 @@
     "slug": "bantuhealth",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",  // Ensure this path points to a valid icon file
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "scheme": "bantuhealth",
     "ios": {
@@ -13,7 +13,11 @@
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "This app needs access to your location to show nearby medical facilities.",
         "NSCameraUsageDescription": "Camera access is required for video consultations",
-        "NSMicrophoneUsageDescription": "Microphone access is required for video consultations"
+        "NSMicrophoneUsageDescription": "Microphone access is required for video consultations",
+        "NSPhotoLibraryUsageDescription": "Photo library access is required to upload images."
+      },
+      "config": {
+        "googleMapsApiKey": "AIzaSyDLoG0-Xvgtc9_EUCpRXrx2VJ3c1NPjR3w"
       }
     },
     "androidNavigationBar": {
@@ -29,15 +33,20 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.pixelelites.bantuhealth",
-      "googleServicesFile": "./google-services.json",
-      "permissions": [
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION",
-        "CAMERA",
-        "RECORD_AUDIO",
-        "MODIFY_AUDIO_SETTINGS"
-      ]
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDLoG0-Xvgtc9_EUCpRXrx2VJ3c1NPjR3w"
+        },
+        "package": "com.pixelelites.bantuhealth",
+        "googleServicesFile": "./google-services.json",
+        "permissions": [
+          "ACCESS_FINE_LOCATION",
+          "ACCESS_COARSE_LOCATION",
+          "CAMERA",
+          "RECORD_AUDIO",
+          "MODIFY_AUDIO_SETTINGS"
+        ]
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

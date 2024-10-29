@@ -1,150 +1,171 @@
-#Bantu-Health
+Bantu Health
+============
 
-#Description
+Description
+-----------
+
 Bantu Health is a revolutionary health app that empowers users by providing instant medical diagnosis using cutting-edge AI technology. Our app is designed to offer quick and accurate insights based on symptoms you input, allowing you to make informed decisions about your health.
 
-#Table of Contents
-1. Project Overview
-2. Technology Stack
-3. Installation and Setup
-4. App Usage
-5. App Structure
-6. File Structure
-7. Main Features
-8. Customisation
+Table of Contents
+-----------------
 
-1. Project Overview <a name="project-overview"></a>
-Bantu_Health is a mobile application designed to provide accessible and useful healthcare resources to users. Built with the user’s health in mind, the app offers several key functionalities:
+*   Project Overview
+    
+*   Technology Stack
+    
+*   Installation and Setup
+    
+*   App Usage
+    
+*   App Structure
+    
+*   File Structure
+    
+*   Main Features
+    
+*   Customization
+    
 
-Clinic Finder: Helps users locate clinics and healthcare providers nearby, ensuring easier access to medical care.
-Symptom Analysis: Allows users to enter symptoms and get insights on potential health concerns.
-Account Management and Settings: Provides a personalized experience where users can manage their information and access privacy settings.
-The app is structured for flexibility, enabling users to navigate intuitively through a set of well-organized pages and components. Bantu_Health is developed using React Native and integrates Firebase for backend support, ensuring data reliability and scalability.
+Project Overview
+----------------
 
-2. Technology Stack
-- The portfolio is built with the following tools and technologies:
+Bantu Health is a mobile application designed to provide accessible healthcare resources to users. Built with the user’s health in mind, the app offers several key functionalities:
 
-* React Native: For structuring content.
-* CSS3: For styling and layout.
-* Visual Studio Code and Note.js: For development.
+*   **Clinic Finder:** Helps users locate nearby clinics and healthcare providers for easier access to medical care.
+    
+*   **Symptom Analysis:** Allows users to enter symptoms and receive insights on potential health concerns.
+    
+*   **Telemedicine:** Utilizes Jitsi Meet to connect users with healthcare professionals for secure virtual consultations, enhancing access to care from the comfort of home.
+    
+*   **Account Management and Settings:** Provides a personalized experience where users can manage their information and access privacy settings.
+    
 
-3.1. Setup
--Prerequisites
-* A text editor like VS Code for editing and testing the project.
+The app is structured for flexibility, enabling intuitive navigation through a set of well-organized pages and components. Bantu Health is developed using React Native and integrates several technologies for enhanced functionality.
 
-3.2. Installation
-1. Clone this repository to your local machine:
-git clone https://github.com/ofentse-sithole/Bantu_Health.git
+Technology Stack
+----------------
 
-2. Navigate to the project directory:
-cd Bantu_Health
+The project is built with the following tools and technologies:
 
-#Running the project locally
+*   **React Native:** For structuring content.
+    
+*   **Expo:** For building and deploying the app.
+    
+*   **Gemini API:** For AI-driven symptom analysis and diagnosis.
+    
+*   **Google Maps API:** For the Clinic Finder feature to locate nearby healthcare providers.
+    
+*   **Firestore:** For backend database support, ensuring data reliability and scalability.
+    
+*   **Jitsi Meet:** For secure video conferencing during telemedicine consultations.
+    
+*   **CSS3:** For styling and layout.
+    
+*   **Visual Studio Code and Node.js:** For development.
+    
+
+### Setup - Prerequisites
+
+*   A text editor like VS Code for editing and testing the project.
+    
+
+### Installation
+
+1.  bashCopy codegit clone https://github.com/ofentse-sithole/Bantu\_Health.git
+    
+2.  bashCopy codecd Bantu\_Health
+    
+
+Running the Project Locally
+---------------------------
+
 After installation, you can run the project with:
-npx expo start/npx expo start --tunnel 
 
-This will start a local development server at http://localhost:3000/.
+Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   bashCopy codenpx expo start  # or  npx expo start --tunnel   `
 
-4. App Usage <a name="app-usage"></a>
-Here is a basic overview of how to navigate and use the Bantu_Health app:
+This will start a local development server at [http://localhost:3000/](http://localhost:3000/).
 
-Registration and Login
+App Usage
+---------
 
-Upon opening the app, new users can sign up using the Register page.
-Returning users can access their accounts via the Login page.
-Navigating the Dashboard
+Here is a basic overview of how to navigate and use the Bantu Health app:
 
-After logging in, users are directed to the Dashboard. Here, they can access core features like Clinic Finder, Symptom Analysis, and Account Management.
-Using the Clinic Finder
+### Registration and Login
 
-From the Dashboard, select Clinic Finder to locate nearby clinics.
-This feature may use location services to suggest clinics based on user proximity.
-Analyzing Symptoms
+*   New users can sign up using the Register page.
+    
+*   Returning users can log in via the Login page.
+    
 
-Select Symptom Analysis to analyze symptoms by entering specific details.
-The analysis may provide general health insights based on the entered information.
-Managing Account Settings
+### Navigating the Dashboard
 
-Access Settings to manage account preferences and view legal documents like Privacy Policy and Terms of Use.
-Use the Account page to update personal information, such as contact details.
-Logging Out
+After logging in, users are directed to the Dashboard, where they can access core features like Clinic Finder, Symptom Analysis, Telemedicine, and Account Management.
+
+### Using the Clinic Finder
+
+From the Dashboard, select Clinic Finder to locate nearby clinics. This feature utilizes the Google Maps API to suggest clinics based on user proximity.
+
+### Analyzing Symptoms
+
+Select Symptom Analysis to analyze symptoms by entering specific details. The analysis leverages the Gemini API to provide general health insights based on the entered information.
+
+### Accessing Telemedicine
+
+Navigate to the Telemedicine section to connect with healthcare professionals using Jitsi Meet for secure virtual consultations. Users can schedule and join appointments directly within the app.
+
+### Managing Account Settings
+
+Access Settings to manage account preferences and view legal documents like the Privacy Policy and Terms of Use. Use the Account page to update personal information, such as contact details.
+
+### Logging Out
 
 Users can log out of the app from the Settings or Account page.
 
-5. App Structure <a name="app-structure"></a>
-Main Directories and Files:
+App Structure
+-------------
 
-assets: Contains images, icons, and splash screens used throughout the app.
-pages: Contains all the main app pages and components.
-Navbar: Includes navigation components like DashboardNavbar.js and Navbar.js for different screens.
-Settings: Includes components for app settings and legal information, such as About.js, Account.js, PrivacyPolicy.js, and TermsOfUse.js.
-Other pages include Dashboard.js, Login.js, Register.js, ClinicFinder.js, and SymptomsAnalysis.js, which implement core app functionalities.
-firebaseConfig.js: Stores Firebase configuration settings for connecting to Firebase services.
-Root Files:
+### Main Directories and Files
 
-App.js: The main entry point of the app, responsible for loading components and handling navigation.
-README.md: Contains basic project information and setup instructions.
+*   **assets:** Contains images, icons, and splash screens used throughout the app.
+    
+*   **pages:** Contains all the main app pages and components.
+    
+    *   **Navbar:** Includes navigation components like DashboardNavbar.js and Navbar.js for different screens.
+        
+    *   **Settings:** Includes components for app settings and legal information, such as About.js, Account.js, PrivacyPolicy.js, and TermsOfUse.js.
+        
+    *   Other pages include Dashboard.js, Login.js, Register.js, ClinicFinder.js, SymptomsAnalysis.js, and Telemedicine.js, which implement core app functionalities.
+        
+*   **firebaseConfig.js:** Stores Firebase configuration settings for connecting to Firebase services.
+    
 
-6. File Structure <a name="file-structure"></a>
-The complete file structure of the Bantu_Health app is as follows:
+### Root Files
 
-Bantu_Health
-│
-├── .vscode/          
-│   └── settings.json   
-├── assets/     
-│   ├── images/
-│   │   ├── logo-preview.png
-│   │   └── logo.png 
-│   ├── adaptive-icon.png
-│   ├── favicon.png
-│   ├── icon.png
-│   └── splash.png
-├── pages/
-│   ├── Navbar/
-│   │   ├── DashboardNavbar.js
-│   │   └── Navbar.js
-│   ├── Settings/
-│   │   ├── About.js
-│   │   ├── Account.js
-│   │   ├── PrivacyPolicy.js
-│   │   └── TermsOfUse.js
-│   ├── Account.js
-│   ├── ClinicFinder.js
-│   ├── Dashboard.js
-│   ├── Login.js
-│   ├── Register.js
-│   ├── Settings.js
-│   ├── SlashScreen.js
-│   └── SymptomsAnalysis.js
-├── .gitignore
-├── App.js
-├── app.json
-├── babel.config.js
-├── firebaseConfig.js
-├── package-lock.json
-├── package.json
-└── README.md
+*   **App.js:** The main entry point of the app, responsible for loading components and handling navigation.
+    
+*   **README.md:** Contains basic project information and setup instructions.
 
-7. Main Features <a name="main-features"></a>
-Dashboard
-Access various features, such as finding clinics or analyzing symptoms.
+Main Features
+-------------
 
-Clinic Finder
-Locate nearby clinics with the ClinicFinder.js component.
+*   **Dashboard:** Access various features, such as finding clinics or analyzing symptoms.
+    
+*   **Clinic Finder:** Locate nearby clinics with the ClinicFinder.js component, using the Google Maps API.
+    
+*   **Symptom Analysis:** Use the SymptomsAnalysis.js component to analyze symptoms and receive insights via the Gemini API.
+    
+*   **Telemedicine:** Connect with healthcare professionals through the Telemedicine.js component using Jitsi Meet for secure virtual consultations.
+    
+*   **Account Management:** Manage personal information in the Account section and access privacy and terms pages within Settings.
+    
+*   **Settings:** Navigate to About, Privacy Policy, Terms of Use, and Account pages from the Settings page.
+    
 
-Symptom Analysis
-Use the SymptomsAnalysis.js component to analyze symptoms and receive insights.
+Customization
+-------------
 
-Account Management
-Manage personal information in the Account section and access privacy and terms pages within Settings.
-
-Settings
-Navigate to About, Privacy Policy, Terms of Use, and Account pages from the Settings page.
-
-
-
-8. Customization <a name="customization"></a>
-* Logo and Splash Screen: Update images in assets/images/ for branding.
-* Firebase Configuration: Ensure firebaseConfig.js is configured with your Firebase project details.
-* Navbar: Modify DashboardNavbar.js and Navbar.js in pages/Navbar/ to customize the navigation setup.
+*   **Logo and Splash Screen:** Update images in assets/images/ for branding.
+    
+*   **Firebase Configuration:** Ensure firebaseConfig.js is configured with your Firebase project details.
+    
+*   **Navbar:** Modify DashboardNavbar.js and Navbar.js in pages/Navbar/ to customize the navigation setup.
