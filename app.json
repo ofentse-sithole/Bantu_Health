@@ -4,7 +4,7 @@
     "slug": "bantuhealth",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/splash.png",
+    "icon": "./assets/icon.png",  // Ensure this path points to a valid icon file
     "userInterfaceStyle": "light",
     "scheme": "bantuhealth",
     "ios": {
@@ -45,6 +45,9 @@
     "extra": {
       "googleMaps": {
         "apiKey": "AIzaSyDLoG0-Xvgtc9_EUCpRXrx2VJ3c1NPjR3w"
+      },
+      "eas": {
+        "projectId": "84da1bb7-b78b-4a92-bcf3-d54f0bc0a343"
       }
     }
   }
