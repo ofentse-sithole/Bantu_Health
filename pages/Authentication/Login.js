@@ -11,6 +11,7 @@ const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     clientId: 'YOUR_GOOGLE_CLIENT_ID',
@@ -57,6 +58,17 @@ const Login = ({ navigation }) => {
     }
   };
 
+  const showToast = (message) => {
+    Toast.show({
+      text1: message,
+      position: "bottom",
+      type: "success",
+      visibilityTime: 4000,
+      autoHide: true,
+      topOffset: 30,
+    });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -78,15 +90,25 @@ const Login = ({ navigation }) => {
           />
         </View>
 
-        <View style={styles.inputContainer}>
+        <View style={styles.passwordContainer}>
           <MaterialCommunityIcons name="lock" size={20} color="#666" style={styles.inputIcon} />
           <TextInput
-            style={styles.input}
+            style={styles.passwordInput}
             placeholder="Password"
             value={password}
-            secureTextEntry
+            secureTextEntry={!showPassword}
             onChangeText={setPassword}
           />
+          <TouchableOpacity 
+            style={styles.eyeIcon} 
+            onPress={() => setShowPassword(!showPassword)}
+          >
+            <MaterialCommunityIcons 
+              name={showPassword ? "eye-off" : "eye"} 
+              size={24} 
+              color="#666"
+            />
+          </TouchableOpacity>
         </View>
 
         <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
@@ -225,6 +247,25 @@ const styles = StyleSheet.create({
     color: '#007BFF',
     fontWeight: 'bold',
   },
+
+  passwordContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: '#ddd',
+      borderRadius: 10,
+      marginBottom: 15,
+      paddingHorizontal: 15,
+      height: 55,
+  },
+  passwordInput: {
+    flex: 1,
+    paddingHorizontal: 15,
+    fontSize: 16,
+  },
+  eyeIcon: {
+    padding: 10,
+  }
 });
 
 export default Login;
