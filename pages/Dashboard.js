@@ -235,6 +235,54 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
   },
+  content: {
+    flex: 1,
+    backgroundColor: "#f5f6fa",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    marginTop: 20,
+    paddingBottom: 80, // Add padding to ensure content is visible
+  },
+
+  featuresContainer: {
+    padding: 20,
+    paddingBottom: 100, // Extra padding for bottom content
+  },
+
+  gridContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 15,
+    flexWrap: 'wrap', // Allow items to wrap on smaller screens
+  },
+
+  card: {
+    backgroundColor: "#ffffff",
+    padding: 15, // Slightly reduced padding
+    borderRadius: 16,
+    width: width * 0.43,
+    minHeight: 120, // Minimum height to maintain consistency
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    marginBottom: 10, // Add margin bottom for wrapped items
+  },
+
+  consultButton: {
+    backgroundColor: "#007BFF",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 16,
+    borderRadius: 12,
+    marginTop: 20,
+    marginBottom: 20, // Add margin bottom
+    position: 'relative', // Ensure button stays in flow
+    zIndex: 1, // Maintain button visibility
+  }
+
 });
 
 export default Dashboard;
