@@ -1,14 +1,21 @@
 // pages/PrivacyPolicy.js
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import { Platform } from 'react-native';
 
 const PrivacyPolicy = () => {
     const navigation = useNavigation(); // Use the hook to get navigation
 
     return (
         <SafeAreaView style={styles.safeArea}>
+            <StatusBar 
+            barStyle="dark-content" 
+            backgroundColor="#FFFFFF"
+            translucent={Platform.OS === 'android'}
+            />
+
             <ScrollView contentContainerStyle={styles.container}>
                 <View style={styles.headerContainer}>
                     <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
@@ -84,6 +91,8 @@ const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
         backgroundColor: '#f4f4f8',
+        paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+
     },
     container: {
         flexGrow: 1,

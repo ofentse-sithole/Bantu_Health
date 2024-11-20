@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Animated, Easing, SafeAreaView, TouchableOpacity, Platform, Linking } from 'react-native';
+import { StatusBar,View, Text, StyleSheet, Animated, Easing, SafeAreaView, TouchableOpacity, Platform, Linking } from 'react-native';
 import * as Location from 'expo-location';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, addDoc, doc, setDoc } from 'firebase/firestore';
+import { Platform } from 'react-native';
+
 
 const Ambulance = () => {
   const navigation = useNavigation();
@@ -155,6 +157,12 @@ const Ambulance = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+    <StatusBar 
+      barStyle="dark-content" 
+      backgroundColor="#FFFFFF"
+      translucent={Platform.OS === 'android'}
+    />
+
       <View style={styles.header}>
         <Text style={styles.headerText}>Emergency Response</Text>
       </View>
@@ -212,6 +220,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#1A1A1A',
     paddingTop: Platform.OS === 'ios' ? 50 : 30,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   header: {
     padding: 20,

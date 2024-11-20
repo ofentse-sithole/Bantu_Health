@@ -35,12 +35,12 @@
       }
     },
     "androidNavigationBar": {
-      "visible": "false"
+      
     },
     "androidStatusBar": {
-      "backgroundColor": "#000000",
+      "backgroundColor": "#FFFFFF",
       "translucent": true,
-      "barStyle": "light-content"
+      "barStyle": "dark-content"
     },
     "splash": {
       "image": "./assets/splash.png",

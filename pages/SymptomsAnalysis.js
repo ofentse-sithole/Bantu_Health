@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
+  StatusBar,
   View, 
   Text, 
   StyleSheet, 
@@ -16,6 +17,7 @@ import {
 import { Picker } from '@react-native-picker/picker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Navbar from '../components/Navbar/Navbar';
+import { Platform } from 'react-native';
 import { VULAVULA_TOKEN } from '@env';
 
 const SymptomsAnalysis = () => {
@@ -183,6 +185,12 @@ const SymptomsAnalysis = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar 
+        barStyle="dark-content" 
+        backgroundColor="#FFFFFF"
+        translucent={Platform.OS === 'android'}
+      />
+
       <View style={styles.header}>
         <MaterialCommunityIcons name="medical-bag" size={32} color="#007AFF" />
         <Text style={styles.title}>BantuHealthAI</Text>
@@ -314,6 +322,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F8F9FA',
     paddingBottom: 10,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   scrollView: {
     paddingHorizontal: 20,

@@ -6,6 +6,7 @@ import DoctorSelection from './components/DoctorSelection';
 import ConsultationList from './components/ConsultationList';
 import ConsultationRoom from './components/ConsultationRoom';
 import { Ionicons } from '@expo/vector-icons';
+import { Platform } from 'react-native';
 
 const VideoConsultationScreen = ({ navigation }) => {
   const [healthCredits, setHealthCredits] = useState(null);
@@ -140,8 +141,12 @@ const VideoConsultationScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
-      
+     <StatusBar 
+      barStyle="dark-content" 
+      backgroundColor="#FFFFFF"
+      translucent={Platform.OS === 'android'}
+    />
+
       <View style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity 
@@ -195,8 +200,9 @@ const VideoConsultationScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   safeContainer: {
-    flex: 1,
+   flex: 1,
     backgroundColor: '#FFFFFF',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   container: {
     flex: 1,
