@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ConsultationList = ({ onSelectConsultation }) => {
+const ConsultationList = () => {
   const [userConsultations, setUserConsultations] = useState([]);
 
   useEffect(() => {
@@ -28,35 +29,71 @@ const ConsultationList = ({ onSelectConsultation }) => {
     }
   };
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity
-      style={styles.consultationItem}
-      onPress={() => onSelectConsultation(item)}
-    >
-      <Text style={styles.doctorName}>Dr. {item.doctorName}</Text>
-      <Text style={styles.dateTime}>
-        {new Date(item.date.seconds * 1000).toLocaleString()}
-      </Text>
-      <Text style={[
-        styles.status,
-        { color: item.status === 'completed' ? '#4CAF50' : '#007AFF' }
-      ]}>
-        {item.status.toUpperCase()}
-      </Text>
-    </TouchableOpacity>
-  );
+  const getStatusIcon = (status) => {
+    switch(status.toLowerCase()) {
+      case 'completed':
+        return { name: 'check-circle', color: '#48BB78' };
+      case 'scheduled':
+        return { name: 'calendar-clock', color: '#4299E1' };
+      case 'cancelled':
+        return { name: 'close-circle', color: '#F56565' };
+      default:
+        return { name: 'information', color: '#718096' };
+    }
+  };
+
+  const renderItem = ({ item }) => {
+    const statusIcon = getStatusIcon(item.status);
+    
+    return (
+      <View style={styles.consultationItem}>
+        <View style={styles.headerRow}>
+          <View style={styles.doctorInfo}>
+            <Icon name="doctor" size={24} color="#2D3748" />
+            <Text style={styles.doctorName}>Dr. {item.doctorName}</Text>
+          </View>
+          <View style={styles.statusContainer}>
+            <Icon name={statusIcon.name} size={20} color={statusIcon.color} />
+            <Text style={[styles.status, { color: statusIcon.color }]}>
+              {item.status.toUpperCase()}
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.detailsContainer}>
+          <View style={styles.detailRow}>
+            <Icon name="calendar" size={20} color="#718096" />
+            <Text style={styles.dateTime}>
+              {new Date(item.date.seconds * 1000).toLocaleDateString()}
+            </Text>
+          </View>
+          <View style={styles.detailRow}>
+            <Icon name="clock-outline" size={20} color="#718096" />
+            <Text style={styles.dateTime}>
+              {new Date(item.date.seconds * 1000).toLocaleTimeString()}
+            </Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Your Consultations</Text>
+      <Text style={styles.title}>Consultation History</Text>
       {userConsultations.length > 0 ? (
         <FlatList
           data={userConsultations}
           renderItem={renderItem}
           keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.listContainer}
         />
       ) : (
-        <Text style={styles.noBookingsText}>No consultations booked yet</Text>
+        <View style={styles.emptyStateContainer}>
+          <Icon name="calendar-blank" size={64} color="#CBD5E0" />
+          <Text style={styles.noBookingsText}>No consultations booked yet</Text>
+        </View>
       )}
     </View>
   );
@@ -65,43 +102,80 @@ const ConsultationList = ({ onSelectConsultation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F7FAFC',
     padding: 16,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#1A202C',
+    marginBottom: 24,
+  },
+  listContainer: {
+    paddingBottom: 16,
   },
   consultationItem: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
     padding: 16,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    marginBottom: 8,
-    elevation: 2,
+    marginBottom: 16,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  doctorInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   doctorName: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '600',
+    color: '#2D3748',
+    marginLeft: 8,
   },
-  dateTime: {
-    fontSize: 16,
-    color: '#666',
-    marginTop: 4,
+  statusContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   status: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '600',
-    marginTop: 8,
+    marginLeft: 4,
+  },
+  detailsContainer: {
+    backgroundColor: '#F7FAFC',
+    borderRadius: 8,
+    padding: 12,
+  },
+  detailRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  dateTime: {
+    fontSize: 14,
+    color: '#4A5568',
+    marginLeft: 8,
+  },
+  emptyStateContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 32,
   },
   noBookingsText: {
-    textAlign: 'center',
-    color: '#666',
+    marginTop: 16,
     fontSize: 16,
-    marginTop: 20,
+    color: '#718096',
+    textAlign: 'center',
   }
 });
 

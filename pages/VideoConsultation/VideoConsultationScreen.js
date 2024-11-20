@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, SafeAreaView, Alert, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, SafeAreaView, Alert, TouchableOpacity, StatusBar } from 'react-native';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, addDoc, getDocs } from 'firebase/firestore';
 import DoctorSelection from './components/DoctorSelection';
 import ConsultationList from './components/ConsultationList';
 import ConsultationRoom from './components/ConsultationRoom';
-import { Ionicons } from '@expo/vector-icons'; // Assuming you're using Expo for icons
+import { Ionicons } from '@expo/vector-icons';
 
 const VideoConsultationScreen = ({ navigation }) => {
   const [healthCredits, setHealthCredits] = useState(null);
   const [userBookings, setUserBookings] = useState([]);
   const [activeConsultation, setActiveConsultation] = useState(null);
+  const [activeTab, setActiveTab] = useState('doctors'); // 'doctors' or 'consultations'
 
   useEffect(() => {
     initializeUserData();
@@ -116,6 +117,18 @@ const VideoConsultationScreen = ({ navigation }) => {
     });
   };
 
+  const renderTabButton = (tabName, label, icon) => (
+    <TouchableOpacity 
+      style={[styles.tabButton, activeTab === tabName && styles.activeTabButton]}
+      onPress={() => setActiveTab(tabName)}
+    >
+      <Ionicons name={icon} size={24} color={activeTab === tabName ? '#007AFF' : '#666'} />
+      <Text style={[styles.tabText, activeTab === tabName && styles.activeTabText]}>
+        {label}
+      </Text>
+    </TouchableOpacity>
+  );
+
   if (activeConsultation) {
     return (
       <ConsultationRoom
@@ -127,33 +140,54 @@ const VideoConsultationScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
+      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <Ionicons name="arrow-back" size={24} color="#007AFF" />
+          <TouchableOpacity 
+            onPress={() => navigation.goBack()} 
+            style={styles.backButton}
+          >
+            <Ionicons name="arrow-back" size={24} color="#2D3748" />
           </TouchableOpacity>
-          <Text style={styles.pointsText}>
-            Health Credits: {healthCredits !== null ? healthCredits : 'Loading...'}
-          </Text>
+          
+          <Text style={styles.headerTitle}>Video Consultation</Text>
+
+          <View style={styles.creditsContainer}>
+            <Ionicons name="medical" size={20} color="#4299E1" />
+            <Text style={styles.creditsText}>
+            {healthCredits !== null ? Math.max(0, healthCredits) : '...'} Credits
+            </Text>
+          </View>
         </View>
 
-        <DoctorSelection
-          doctors={[
-            {
-              id: '1',
-              name: 'John Smith',
-              specialization: 'General Practitioner',
-              availableSlots: 5,
-              profileImage: 'https://via.placeholder.com/150',
-            },
-          ]}
-          onSelectDoctor={handleBooking}
-        />
+        <View style={styles.tabContainer}>
+          {renderTabButton('doctors', 'Find Doctor', 'people')}
+          {renderTabButton('consultations', 'My Consultations', 'calendar')}
+        </View>
 
-        <ConsultationList
-          consultations={userBookings}
-          onSelectConsultation={setActiveConsultation}
-        />
+        <View style={styles.content}>
+          {activeTab === 'doctors' ? (
+            <DoctorSelection
+              doctors={[
+                {
+                  id: '1',
+                  name: 'John Smith',
+                  specialization: 'General Practitioner',
+                  availableSlots: 5,
+                  rating: 4.8,
+                  experience: '15 years',
+                },
+              ]}
+              onSelectDoctor={handleBooking}
+            />
+          ) : (
+            <ConsultationList
+              consultations={userBookings}
+              onSelectConsultation={setActiveConsultation}
+            />
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -162,28 +196,76 @@ const VideoConsultationScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#FFFFFF',
   },
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 15,
-    backgroundColor: '#fff',
+    justifyContent: 'space-between',
+    padding: 16,
+    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: '#E2E8F0',
   },
   backButton: {
-    marginRight: 10,
+    padding: 8,
   },
-  pointsText: {
-    fontSize: 16,
-    fontWeight: 'bold',
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#2D3748',
+  },
+  creditsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#EBF8FF',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+  creditsText: {
+    marginLeft: 6,
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#4299E1',
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderBottomWidth: 1,
+    borderBottomColor: '#E2E8F0',
+  },
+  tabButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    marginHorizontal: 4,
+    borderRadius: 8,
+  },
+  activeTabButton: {
+    backgroundColor: '#EBF8FF',
+  },
+  tabText: {
+    marginLeft: 8,
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#666',
+  },
+  activeTabText: {
     color: '#007AFF',
-  }
+    fontWeight: '600',
+  },
+  content: {
+    flex: 1,
+    backgroundColor: '#F7FAFC',
+  },
 });
 
 export default VideoConsultationScreen;
