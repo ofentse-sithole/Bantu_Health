@@ -21,6 +21,7 @@
     "expo-location": "~18.0.2",
     "expo-random": "~14.0.1",
     "expo-status-bar": "~2.0.0",
+    "expo-system-ui": "~4.0.3",
     "expo-updates": "~0.26.7",
     "expo-web-browser": "~14.0.1",
     "firebase": "^11.0.2",
@@ -38,8 +39,7 @@
     "react-native-splash-screen": "^3.3.0",
     "react-native-toast-message": "^2.2.1",
     "react-native-vector-icons": "^10.2.0",
-    "react-native-webview": "13.12.4",
-    "expo-system-ui": "~4.0.3"
+    "react-native-webview": "13.12.4"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0"
