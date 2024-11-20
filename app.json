@@ -22,6 +22,7 @@
     ],
     "ios": {
       "supportsTablet": true,
+      "newArchEnabled": true,
       "bundleIdentifier": "com.pixelelites.bantuhealth",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "This app needs access to your location to show nearby medical facilities.",
@@ -42,6 +43,7 @@
       "backgroundColor": "#ffffff"
     },
     "android": {
+      "newArchEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

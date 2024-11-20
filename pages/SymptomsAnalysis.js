@@ -57,7 +57,16 @@ const SymptomsAnalysis = () => {
           duration: 250,
           useNativeDriver: false,
         }).start();
+      },
+      Platform.OS === 'android' ? 'keyboardDidHide' : 'keyboardWillHide',
+      () => {
+        Animated.timing(keyboardHeight, {
+          toValue: 0,
+          duration: 250,
+          useNativeDriver: false,
+        }).start();
       }
+
     );
 
     return () => {
