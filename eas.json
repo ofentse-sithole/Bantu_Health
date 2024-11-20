@@ -15,9 +15,7 @@
       "android": {
         "buildType": "apk"
       },
-      "ios": {
-        "buildType": "ipa"
-      },
+      
       "autoIncrement": true
     }
   },

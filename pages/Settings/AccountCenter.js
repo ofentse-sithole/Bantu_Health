@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, ActivityIndicator, ScrollView, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, ActivityIndicator, ScrollView, SafeAreaView, TouchableOpacity, Alert, StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { getFirestore, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth } from '../../firebaseConfig'; // Ensure Firestore is initialized in firebaseConfig
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Platform } from 'react-native';
+
 
 const AccountCenter = () => {
   const navigation = useNavigation();
@@ -60,6 +62,12 @@ const AccountCenter = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
+      <StatusBar 
+        barStyle="dark-content" 
+        backgroundColor="#FFFFFF"
+        translucent={Platform.OS === 'android'}
+      />
+
       <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
         {/* Header with Back Arrow and Title */}
         <View style={styles.headerContainer}>
@@ -117,6 +125,7 @@ const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
     backgroundColor: '#F3F4F6',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   container: {
     flex: 1,

@@ -1,9 +1,10 @@
 // src/pages/Health.js
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
+import { StatusBar,View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Icon2 from 'react-native-vector-icons/FontAwesome5';
 import Navbar from '../components/Navbar/Navbar';
+import { Platform } from 'react-native';
 
 const HealthSection = ({ title, children, color }) => {
   const [expanded, setExpanded] = useState(false);
@@ -25,6 +26,12 @@ const HealthSection = ({ title, children, color }) => {
 const Health = ({ navigation }) => {
   return (
     <View style={styles.container}>
+      <StatusBar 
+        barStyle="dark-content" 
+        backgroundColor="#FFFFFF"
+        translucent={Platform.OS === 'android'}
+      />
+
       <View style={styles.headerContainer}>
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Icon2 name="arrow-left" size={20} color="#333" />
@@ -110,6 +117,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   headerContainer: {
     flexDirection: 'row',

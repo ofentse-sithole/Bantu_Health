@@ -7,6 +7,17 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "scheme": "bantuhealth",
+    "newArchEnabled": true,
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {},
+          "android": {}
+        }
+      ],
+      "expo-system-ui"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.pixelelites.bantuhealth",
@@ -21,7 +32,12 @@
       }
     },
     "androidNavigationBar": {
-      "visible": "immersive"
+      
+    },
+    "androidStatusBar": {
+      "backgroundColor": "#FFFFFF",
+      "translucent": true,
+      "barStyle": "dark-content"
     },
     "splash": {
       "image": "./assets/splash.png",
@@ -36,18 +52,17 @@
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyAsc-PWMl_MI5iSNk9Jt61afWlZLFQ5Dmo"
-        },
-        "package": "com.pixelelites.bantuhealth",
-        "googleServicesFile": "./google-services.json",
-        "permissions": [
-          "ACCESS_FINE_LOCATION",
-          "ACCESS_COARSE_LOCATION",
-          "CAMERA",
-          "RECORD_AUDIO",
-          "MODIFY_AUDIO_SETTINGS"
-        ]
+        }
       },
-      "package": "com.pixelelites.bantuhealth"
+      "package": "com.pixelelites.bantuhealth",
+      "googleServicesFile": "./google-services.json",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "RECORD_AUDIO",
+        "MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

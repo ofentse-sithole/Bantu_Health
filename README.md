@@ -1,177 +1,142 @@
-Bantu Health
-============
+<div align="center">
+  <h1>🌟 Bantu Health Project Documentation</h1>
+  <p><em>Last Updated: 2024-11-20</em></p>
+  <p>Author: <strong>Pixelelites</strong></p>
+</div>
 
-Description
------------
+<div align="center">
+  <img src="./assets/icon.png" alt="Bantu Health Logo" width="200"/>
+</div>
 
-Bantu Health is a revolutionary health app that empowers users by providing instant medical diagnosis using cutting-edge AI technology. Our app is designed to offer quick and accurate insights based on symptoms you input, allowing you to make informed decisions about your health.
+# 📱 Bantu Health
 
-Table of Contents
------------------
+## 📖 Description
+Bantu Health is a revolutionary mobile healthcare application designed to bridge the gap between patients and medical services in South Africa. Our platform leverages cutting-edge AI technology to provide instant medical diagnosis and connect users with healthcare providers.
 
-*   Project Overview
-    
-*   Technology Stack
-    
-*   Installation and Setup
-    
-*   App Usage
-    
-*   App Structure
-    
-*   File Structure
-    
-*   Main Features
-    
-*   Customization
-    
+## ⚡ Quick Links
+- [Installation Guide](#installation)
+- [Features](#features)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [Support](#support)
 
-Project Overview
-----------------
+## 🎯 Key Features
 
-Bantu Health is a mobile application designed to provide accessible healthcare resources to users. Built with the user’s health in mind, the app offers several key functionalities:
+### 🏥 Clinic Finder
+- Real-time location-based clinic search
+- Detailed facility information
+- Distance and availability indicators
 
-*   **Clinic Finder:** Helps users locate nearby clinics and healthcare providers for easier access to medical care.
-    
-*   **Symptom Analysis:** Allows users to enter symptoms and receive insights on potential health concerns.
-    
-*   **Telemedicine:** Utilizes Jitsi Meet to connect users with healthcare professionals for secure virtual consultations, enhancing access to care from the comfort of home.
+### 🔍 Symptom Analysis
+- AI-powered symptom checker
+- Instant health insights
+- Personalized health recommendations
 
-*   **Emergency:** Allows users to press the emergency button to request an ambulance to their current location and while in the process they have an option to call the Emergency free toll number.
-    
-*   **Account Management and Settings:** Provides a personalized experience where users can manage their information and access privacy settings.
-    
+### 👨‍⚕️ Telemedicine
+- Virtual consultations
+- Secure video conferencing
+- Digital prescription services
 
-The app is structured for flexibility, enabling intuitive navigation through a set of well-organized pages and components. Bantu Health is developed using React Native and integrates several technologies for enhanced functionality.
+### 🚑 Emergency Services
+- One-tap emergency assistance
+- Real-time ambulance tracking
+- Emergency contact integration
 
-Technology Stack
-----------------
+## 🛠️ Technology Stack
 
-The project is built with the following tools and technologies:
+### Frontend
+- React Native
+- Expo Framework
+- Native Base UI
 
-*   **React Native:** For structuring content.
-    
-*   **Expo:** For building and deploying the app.
-    
-*   **Gemini API:** For AI-driven symptom analysis and diagnosis.
-    
-*   **Google Maps API:** For the Clinic Finder feature to locate nearby healthcare providers.
-    
-*   **Firestore:** For backend database support, ensuring data reliability and scalability.
-    
-*   **Jitsi Meet:** For secure video conferencing during telemedicine consultations.
-    
-*   **CSS3:** For styling and layout.
-    
-*   **Visual Studio Code and Node.js:** For development.
-    
+### Backend
+- Firebase
+- Cloud Firestore
+- Google Cloud Platform
 
-### Setup - Prerequisites
+### APIs
+- Google Maps API
+- Gemini AI API
+- Jitsi Meet API
 
-*   A text editor like VS Code for editing and testing the project.
-    
+## ⚙️ Installation
 
-### Installation
+```bash
+# Clone the repository
+git clone https://github.com/ofentse-sithole/Bantu_Health.git
 
-1.  bashCopy codegit clone https://github.com/ofentse-sithole/Bantu\_Health.git
-    
-2.  bashCopy codecd Bantu\_Health
-    
+# Navigate to project directory
+cd Bantu_Health
 
-Running the Project Locally
----------------------------
+# Install dependencies
+npm install
 
-After installation, you can run the project with:
+# Start the development server
+npx expo start
+```
 
-Plain textANTLR4BashCC#CSSCoffeeScriptCMakeDartDjangoDockerEJSErlangGitGoGraphQLGroovyHTMLJavaJavaScriptJSONJSXKotlinLaTeXLessLuaMakefileMarkdownMATLABMarkupObjective-CPerlPHPPowerShell.propertiesProtocol BuffersPythonRRubySass (Sass)Sass (Scss)SchemeSQLShellSwiftSVGTSXTypeScriptWebAssemblyYAMLXML`   bashCopy codenpx expo start  # or  npx expo start --tunnel   `
+## 📚 Documentation
 
-This will start a local development server at [http://localhost:3000/](http://localhost:3000/).
+### Project Structure
+```
+bantu-health/
+├── assets/
+│   ├── images/
+│   └── icons/
+├── components/
+│   ├── NavBar/
+│   ├── MapComponent.js
+│   └── WelcomeSection.js
+├── pages/
+│   ├── Authentication/
+│   ├── Educational_Health_Tips/
+│   ├── Settings/
+│   ├── VideoConsultation/
+│   ├── Ambulance.js
+│   ├── ClinicFinder.js
+│   ├── Dashboard.js
+│   ├── Health.js
+│   ├── Settings.js
+│   ├── SplashScreen.js
+│   └── SymptomsAnalysis.js
+├── App.js
+├── app.json
+├── babel.config.js
+├── eas.json
+├── firebaseConfig.js
+├── google-services.json
+├── index.js
+├── metro.config.js
+├── package.json
+├── package-lock.json
+└── README.md
+```
 
-App Usage
----------
 
-Here is a basic overview of how to navigate and use the Bantu Health app:
+## 🤝 Contributing
 
-### Registration and Login
+We welcome contributions to Bantu Health! Please follow these steps:
 
-*   New users can sign up using the Register page.
-    
-*   Returning users can log in via the Login page.
-    
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-### Navigating the Dashboard
+## 📞 Support
 
-After logging in, users are directed to the Dashboard, where they can access core features like Clinic Finder, Symptom Analysis, Telemedicine, and Account Management.
+For support, please:
+- 📧 Email: support@bantuhealth.com
+- 💬 Discord: [Join our community](https://discord.gg/bantuhealth)
+- 📱 x : [@BantuHealth](https://twitter.com/bantuhealth)
 
-### Using the Clinic Finder
+## 📝 License
 
-From the Dashboard, select Clinic Finder to locate nearby clinics. This feature utilizes the Google Maps API to suggest clinics based on user proximity.
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-### Analyzing Symptoms
+---
 
-Select Symptom Analysis to analyze symptoms by entering specific details. The analysis leverages the Gemini API to provide general health insights based on the entered information.
-
-### Accessing Telemedicine
-
-Navigate to the Telemedicine section to connect with healthcare professionals using Jitsi Meet for secure virtual consultations. Users can schedule and join appointments directly within the app.
-
-### Accessing Emergency
-
-Navigate to the Emergency button it will request for an ambulance to come at the location of the user and the user will have an option to call the toll free emergency number
-
-### Managing Account Settings
-
-Access Settings to manage account preferences and view legal documents like the Privacy Policy and Terms of Use. Use the Account page to update personal information, such as contact details.
-
-### Logging Out
-
-Users can log out of the app from the Settings or Account page.
-
-App Structure
--------------
-
-### Main Directories and Files
-
-*   **assets:** Contains images, icons, and splash screens used throughout the app.
-    
-*   **pages:** Contains all the main app pages and components.
-    
-    *   **Navbar:** Includes navigation components like DashboardNavbar.js and Navbar.js for different screens.
-        
-    *   **Settings:** Includes components for app settings and legal information, such as About.js, Account.js, PrivacyPolicy.js, and TermsOfUse.js.
-        
-    *   Other pages include Dashboard.js, Login.js, Register.js, ClinicFinder.js, SymptomsAnalysis.js, and Telemedicine.js, which implement core app functionalities.
-        
-*   **firebaseConfig.js:** Stores Firebase configuration settings for connecting to Firebase services.
-    
-
-### Root Files
-
-*   **App.js:** The main entry point of the app, responsible for loading components and handling navigation.
-    
-*   **README.md:** Contains basic project information and setup instructions.
-
-Main Features
--------------
-
-*   **Dashboard:** Access various features, such as finding clinics or analyzing symptoms.
-    
-*   **Clinic Finder:** Locate nearby clinics with the ClinicFinder.js component, using the Google Maps API.
-    
-*   **Symptom Analysis:** Use the SymptomsAnalysis.js component to analyze symptoms and receive insights via the Gemini API.
-    
-*   **Telemedicine:** Connect with healthcare professionals through the Telemedicine.js component using Jitsi Meet for secure virtual consultations.
-    
-*   **Account Management:** Manage personal information in the Account section and access privacy and terms pages within Settings.
-    
-*   **Settings:** Navigate to About, Privacy Policy, Terms of Use, and Account pages from the Settings page.
-    
-
-Customization
--------------
-
-*   **Logo and Splash Screen:** Update images in assets/images/ for branding.
-    
-*   **Firebase Configuration:** Ensure firebaseConfig.js is configured with your Firebase project details.
-    
-*   **Navbar:** Modify DashboardNavbar.js and Navbar.js in pages/Navbar/ to customize the navigation setup.
+<div align="center">
+  <p>Made with ❤️ by Bantu Health Team</p>
+  <p>© 2024 Bantu Health. All rights reserved.</p>
+</div>

@@ -18,12 +18,14 @@ import About from "./pages/Settings/About";
 import PrivacyPolicy from "./pages/Settings/PrivacyPolicy";
 import TermsOfUse from "./pages/Settings/TermsOfUse";
 import Health from './pages/Health';
+import { StatusBar } from 'react-native';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
+      <StatusBar barStyle="light-content" backgroundColor="#000000" translucent={true} />
       {/* SplashScreen as the initial route */}
       <Stack.Navigator initialRouteName="SplashScreen">
         <Stack.Screen

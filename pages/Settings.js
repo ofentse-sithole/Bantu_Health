@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { TextInput, View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions, SafeAreaView } from 'react-native';
+import { StatusBar, TextInput, View, Text, TouchableOpacity, StyleSheet, ScrollView, Dimensions, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Navbar from '../components/Navbar/Navbar.js';
+import { Platform } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -40,6 +41,12 @@ const Settings = () => {
 
   return (
     <SafeAreaView style={styles.safeContainer}>
+      <StatusBar 
+        barStyle="dark-content" 
+        backgroundColor="#FFFFFF"
+        translucent={Platform.OS === 'android'}
+      />
+
       <View style={styles.container}>
         <ScrollView style={styles.scrollContainer} contentContainerStyle={{ paddingBottom: 80 }}>
           <Text style={styles.header}>Settings</Text>
@@ -83,6 +90,7 @@ const styles = StyleSheet.create({
   safeContainer: {
     flex: 1,
     backgroundColor: '#F3F4F6',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   container: {
     flex: 1,
