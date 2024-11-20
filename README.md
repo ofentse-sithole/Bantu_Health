@@ -11,7 +11,7 @@
 # 📱 Bantu Health
 
 ## 📖 Description
-Bantu Health is a revolutionary mobile healthcare application designed to bridge the gap between patients and medical services in Africa. Our platform leverages cutting-edge AI technology to provide instant medical diagnosis and connect users with healthcare providers.
+Bantu Health is a revolutionary mobile healthcare application designed to bridge the gap between patients and medical services in South Africa. Our platform leverages cutting-edge AI technology to provide instant medical diagnosis and connect users with healthcare providers.
 
 ## ⚡ Quick Links
 - [Installation Guide](#installation)
