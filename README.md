@@ -1,6 +1,6 @@
 <div align="center">
   <h1>🌟 Bantu Health Project Documentation</h1>
-  <p><em>Last Updated: 2024-11-20 06:15:10 UTC</em></p>
+  <p><em>Last Updated: 2024-11-20</em></p>
   <p>Author: <strong>Pixelelites</strong></p>
 </div>
 
@@ -63,10 +63,10 @@ Bantu Health is a revolutionary mobile healthcare application designed to bridge
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/bantu-health.git
+git clone https://github.com/ofentse-sithole/Bantu_Health.git
 
 # Navigate to project directory
-cd bantu-health
+cd Bantu_Health
 
 # Install dependencies
 npm install
