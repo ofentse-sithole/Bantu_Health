@@ -5,7 +5,7 @@
 </div>
 
 <div align="center">
-  <img src="../Bantu_Health/assets/icon.png" alt="Bantu Health Logo" width="200"/>
+  <img src="./assets/icon.png" alt="Bantu Health Logo" width="200"/>
 </div>
 
 # 📱 Bantu Health
