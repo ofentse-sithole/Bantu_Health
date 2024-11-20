@@ -83,14 +83,35 @@ bantu-health/
 ├── assets/
 │   ├── images/
 │   └── icons/
-├── src/
-│   ├── components/
-│   ├── screens/
-│   ├── navigation/
-│   └── services/
+├── components/
+│   ├── NavBar/
+│   ├── MapComponent.js
+│   └── WelcomeSection.js
+├── pages/
+│   ├── Authentication/
+│   ├── Educational_Health_Tips/
+│   ├── Settings/
+│   ├── VideoConsultation/
+│   ├── Ambulance.js
+│   ├── ClinicFinder.js
+│   ├── Dashboard.js
+│   ├── Health.js
+│   ├── Settings.js
+│   ├── SplashScreen.js
+│   └── SymptomsAnalysis.js
 ├── App.js
+├── app.json
+├── babel.config.js
+├── eas.json
+├── firebaseConfig.js
+├── google-services.json
+├── index.js
+├── metro.config.js
+├── package.json
+├── package-lock.json
 └── README.md
 ```
+
 
 ## 🤝 Contributing
 
@@ -107,7 +128,7 @@ We welcome contributions to Bantu Health! Please follow these steps:
 For support, please:
 - 📧 Email: support@bantuhealth.com
 - 💬 Discord: [Join our community](https://discord.gg/bantuhealth)
-- 📱 Twitter: [@BantuHealth](https://twitter.com/bantuhealth)
+- 📱 x : [@BantuHealth](https://twitter.com/bantuhealth)
 
 ## 📝 License
 
