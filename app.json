@@ -7,6 +7,19 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "scheme": "bantuhealth",
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "newArchEnabled": true
+          },
+          "android": {
+            "newArchEnabled": true
+          }
+        }
+      ]
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.pixelelites.bantuhealth",
@@ -15,6 +28,9 @@
         "NSCameraUsageDescription": "Camera access is required for video consultations",
         "NSMicrophoneUsageDescription": "Microphone access is required for video consultations",
         "NSPhotoLibraryUsageDescription": "Photo library access is required to upload images."
+      },
+      "config": {
+        "googleMapsApiKey": "AIzaSyAsc-PWMl_MI5iSNk9Jt61afWlZLFQ5Dmo"
       }
     },
     "androidNavigationBar": {
@@ -30,7 +46,20 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.pixelelites.bantuhealth"
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyAsc-PWMl_MI5iSNk9Jt61afWlZLFQ5Dmo"
+        }
+      },
+      "package": "com.pixelelites.bantuhealth",
+      "googleServicesFile": "./google-services.json",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "RECORD_AUDIO",
+        "MODIFY_AUDIO_SETTINGS"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,12 +68,6 @@
       "eas": {
         "projectId": "84da1bb7-b78b-4a92-bcf3-d54f0bc0a343"
       }
-    },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/84da1bb7-b78b-4a92-bcf3-d54f0bc0a343"
     }
   }
 }
