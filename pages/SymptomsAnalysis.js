@@ -104,22 +104,27 @@ const SymptomsAnalysis = () => {
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.error('Translation error:', errorData); // Debugging log
       throw new Error(errorData.message || 'Translation failed');
     }
 
     const data = await response.json();
-    return data.translation[0].translation_text;
+    console.log('Translation Response:', data); // Debugging log
+    return data.translation[0].translated_text;
   };
 
   const handleTranslate = async () => {
     if (!result) return;
+  
     setLoading(true);
     setShowTranslation(false);
+  
     try {
       const translated = await translateText(result, selectedLanguage);
+      console.log('Translated Text:', translated); // Debugging log
       setTranslatedText(translated);
       setShowTranslation(true);
-      
+  
       setTimeout(() => {
         if (resultRef.current) {
           resultRef.current.measure((x, y, width, height, pageX, pageY) => {
@@ -131,12 +136,13 @@ const SymptomsAnalysis = () => {
         }
       }, 100);
     } catch (error) {
+      console.error('Translation Error:', error); // Debugging log
       Alert.alert('Translation Error', 'Failed to translate the text. Please try again.');
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -231,7 +237,6 @@ const SymptomsAnalysis = () => {
               <Picker.Item label="Xhosa" value="xho_Latn" />
               <Picker.Item label="Zulu" value="zul_Latn" />
               <Picker.Item label="English" value="eng_Latn" />
-              <Picker.Item label="Swahili" value="swh_Latn" />
             </Picker>
             <TouchableOpacity
               style={[styles.translateButton, styles.elevation]}
