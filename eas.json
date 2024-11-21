@@ -9,16 +9,12 @@
       "distribution": "internal"
     },
     "preview": {
-     "distribution": "internal",
-      "env": {
-        "VULAVULA_TOKEN": "your-preview-token-here"
-      }
+      "distribution": "internal"
     },
     "production": {
       "android": {
         "buildType": "apk"
       },
-      "env":
       
       "autoIncrement": true
     }
