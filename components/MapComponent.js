@@ -147,62 +147,62 @@ const MapComponent = ({ onLocationSelect }) => {
 
     return (
         <SafeAreaView style={styles.safeContainer}>
-        <View style={styles.container}>
-            <View style={styles.headerContainer}>
-                <Text style={styles.headerText}>Find Medical Facilities</Text>
-                <Text style={styles.subHeaderText}>Hospitals & Clinics Near You</Text>
+            <View style={styles.container}>
+                <View style={styles.headerContainer}>
+                    <Text style={styles.headerText}>Find Medical Facilities</Text>
+                    <Text style={styles.subHeaderText}>Hospitals & Clinics Near You</Text>
+                </View>
+                {loading ? (
+                    <View style={styles.loadingContainer}>
+                        <ActivityIndicator size="large" color="#007BFF" />
+                        <Text style={styles.loadingText}>Finding nearby medical facilities...</Text>
+                    </View>
+                ) : (
+                    <MapView
+                        provider={PROVIDER_GOOGLE}
+                        style={styles.map}
+                        initialRegion={userLocation ? {
+                            latitude: userLocation.latitude,
+                            longitude: userLocation.longitude,
+                            latitudeDelta: 0.0922,
+                            longitudeDelta: 0.0421,
+                        } : initialRegion}
+                        showsUserLocation
+                        showsMyLocationButton
+                    >
+                        {medicalFacilities.map((facility) => (
+                            <Marker
+                                key={facility.id}
+                                coordinate={{
+                                    latitude: facility.latitude,
+                                    longitude: facility.longitude,
+                                }}
+                                pinColor={facility.type === 'hospital' ? '#FF4444' : '#4444FF'}
+                            >
+                                <Callout onPress={() => onLocationSelect && onLocationSelect(facility)}>
+                                    <View style={styles.calloutContainer}>
+                                        <Text style={styles.calloutTitle}>{facility.name}</Text>
+                                        <Text style={styles.calloutAddress}>{facility.address}</Text>
+                                        <TouchableOpacity
+                                            style={styles.directionButton}
+                                            onPress={() => openInGoogleMaps(facility)}
+                                        >
+                                            <MaterialIcons name="directions" size={20} color="#FFFFFF" />
+                                            <Text style={styles.directionButtonText}>Get Directions</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </Callout>
+                            </Marker>
+                        ))}
+                    </MapView>
+                )}
+                {errorMsg && (
+                    <View style={styles.errorContainer}>
+                        <MaterialIcons name="error" size={24} color="#FF4444" />
+                        <Text style={styles.errorText}>{errorMsg}</Text>
+                    </View>
+                )}
             </View>
-            {loading ? (
-                <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color="#007BFF" />
-                    <Text style={styles.loadingText}>Finding nearby medical facilities...</Text>
-                </View>
-            ) : (
-                <MapView
-                    provider={PROVIDER_GOOGLE}
-                    style={styles.map}
-                    initialRegion={userLocation ? {
-                        latitude: userLocation.latitude,
-                        longitude: userLocation.longitude,
-                        latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
-                    } : initialRegion}
-                    showsUserLocation
-                    showsMyLocationButton
-                >
-                    {medicalFacilities.map((facility) => (
-                        <Marker
-                            key={facility.id}
-                            coordinate={{
-                                latitude: facility.latitude,
-                                longitude: facility.longitude,
-                            }}
-                            pinColor={facility.type === 'hospital' ? '#FF4444' : '#4444FF'}
-                        >
-                            <Callout onPress={() => onLocationSelect && onLocationSelect(facility)}>
-                                <View style={styles.calloutContainer}>
-                                    <Text style={styles.calloutTitle}>{facility.name}</Text>
-                                    <Text style={styles.calloutAddress}>{facility.address}</Text>
-                                    <TouchableOpacity
-                                        style={styles.directionButton}
-                                        onPress={() => openInGoogleMaps(facility)}
-                                    >
-                                        <MaterialIcons name="directions" size={20} color="#FFFFFF" />
-                                        <Text style={styles.directionButtonText}>Get Directions</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </Callout>
-                        </Marker>
-                    ))}
-                </MapView>
-            )}
-            {errorMsg && (
-                <View style={styles.errorContainer}>
-                    <MaterialIcons name="error" size={24} color="#FF4444" />
-                    <Text style={styles.errorText}>{errorMsg}</Text>
-                </View>
-            )}
-        </View>
         </SafeAreaView>
     );
 };

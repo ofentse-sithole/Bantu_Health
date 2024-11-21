@@ -9,14 +9,10 @@
     "scheme": "bantuhealth",
     "newArchEnabled": true,
     "plugins": [
-      [
-        "expo-build-properties",
-        {
-          "ios": {},
-          "android": {}
-        }
-      ],
-      "expo-system-ui"
+      ["expo-build-properties", {
+        "ios": {},
+        "android": {}
+      }]
     ],
     "ios": {
       "supportsTablet": true,
@@ -32,7 +28,8 @@
       }
     },
     "androidNavigationBar": {
-      
+      "backgroundColor": "#FFFFFF",
+      "barStyle": "dark-content"
     },
     "androidStatusBar": {
       "backgroundColor": "#FFFFFF",
