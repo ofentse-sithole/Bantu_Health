@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Dimensions, Text, ActivityIndicator, TouchableOpacity, Linking, Platform, Alert, SafeAreaView } from 'react-native';
+import {
+    View,
+    StyleSheet,
+    Dimensions,
+    Text,
+    ActivityIndicator,
+    TouchableOpacity,
+    Linking,
+    Platform,
+    Alert,
+    SafeAreaView
+} from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -43,7 +54,7 @@ const MapComponent = ({ onLocationSelect }) => {
         }
 
         const destination = `${facility.latitude},${facility.longitude}`;
-        const label = encodeURIComponent(facility.name);
+        const label = encodeURIComponent(facility.name || 'Medical Facility');
 
         const scheme = Platform.select({
             ios: 'comgooglemaps://',
@@ -95,10 +106,10 @@ const MapComponent = ({ onLocationSelect }) => {
                                 processedIds.add(place.place_id);
                                 allFacilities.push({
                                     id: place.place_id,
-                                    name: place.name,
+                                    name: place.name || 'Unnamed Facility',
                                     latitude: place.geometry.location.lat,
                                     longitude: place.geometry.location.lng,
-                                    address: place.vicinity,
+                                    address: place.vicinity || 'Address not available',
                                     type: 'hospital'
                                 });
                             }
@@ -111,10 +122,10 @@ const MapComponent = ({ onLocationSelect }) => {
                                 processedIds.add(place.place_id);
                                 allFacilities.push({
                                     id: place.place_id,
-                                    name: place.name,
+                                    name: place.name || 'Unnamed Facility',
                                     latitude: place.geometry.location.lat,
                                     longitude: place.geometry.location.lng,
-                                    address: place.vicinity,
+                                    address: place.vicinity || 'Address not available',
                                     type: 'clinic'
                                 });
                             }

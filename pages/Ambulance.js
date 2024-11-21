@@ -20,7 +20,23 @@ const Ambulance = () => {
     handleCountdown();
     getLocation();
     saveEmergencyData();
+    playSound();
+
+    // Cleanup the sound
+    return () => {
+      if (sound) {
+        sound.unloadAsync();
+      }
+    };
   }, []);
+
+  const playSound = async () => {
+    const { sound } = await Audio.Sound.createAsync(
+      require('./sound/alert.mp3') // Replace with the path to your audio file
+    );
+    setSound(sound);
+    await sound.playAsync();
+  };
 
   // Add this function to save emergency data
   const saveEmergencyData = async () => {
