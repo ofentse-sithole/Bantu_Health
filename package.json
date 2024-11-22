@@ -39,7 +39,7 @@
     "react-native-toast-message": "^2.2.1",
     "react-native-vector-icons": "^10.2.0",
     "react-native-webview": "13.12.4",
-    "expo-av": "~14.0.7"
+    "expo-av": "~15.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0"
