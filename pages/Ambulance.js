@@ -5,6 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useNavigation } from '@react-navigation/native';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, addDoc, doc, setDoc } from 'firebase/firestore';
+import { Audio } from 'expo-av';
 
 
 const Ambulance = () => {
@@ -14,6 +15,7 @@ const Ambulance = () => {
   const [location, setLocation] = useState(null);
   const [showArrivalButton, setShowArrivalButton] = useState(false);
   const pulseAnim = new Animated.Value(1);
+  const [sound, setSound] = useState(null);
 
   useEffect(() => {
     startPulseAnimation();
@@ -22,13 +24,12 @@ const Ambulance = () => {
     saveEmergencyData();
     playSound();
 
-    // Cleanup the sound
     return () => {
       if (sound) {
         sound.unloadAsync();
       }
     };
-  }, []);
+  }, [sound]);
 
   const playSound = async () => {
     const { sound } = await Audio.Sound.createAsync(
